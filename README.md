@@ -138,20 +138,4 @@ GPL v2 or later
 
 ## Changelog
 
-### 1.0.2
-- Added protection mode selection: protect all (with exclusions) or protect only selected posts
-- Improved settings page wording for clarity
-- Updated Norwegian Bokmål translations
-
-### 1.0.1
-- Added password visibility toggle on settings page
-- Added cache busting for assets when WP_DEBUG is enabled
-- Improved PHP 8.3 compatibility with strict types
-
-### 1.0.0
-- Initial release
-- Password protection for all pages/posts except front page
-- Remember me functionality
-- Logged-in user bypass
-- Select2-powered post/page exclusion
-- Norwegian Bokmål translation
+See [CHANGELOG.md](CHANGELOG.md) for a detailed list of changes.
