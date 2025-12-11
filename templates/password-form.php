@@ -31,7 +31,9 @@ $error_message = isset( $error_messages[ $error ] ) ? $error_messages[ $error ] 
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo esc_html( sprintf( /* translators: %s is the site name. */ __( 'Password Required - %s', 'passwp-posts' ), $site_name ) ); ?></title>
+	<title>
+		<?php echo esc_html( sprintf( /* translators: %s is the site name. */ __( 'Password Required - %s', 'passwp-posts' ), $site_name ) ); ?>
+	</title>
 	<link rel="stylesheet"
 		href="<?php echo esc_url( PASSWP_POSTS_URL . 'assets/css/password-form.css?ver=' . PASSWP_POSTS_VERSION ); ?>">
 	<?php wp_site_icon(); ?>
