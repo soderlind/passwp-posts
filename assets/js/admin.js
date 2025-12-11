@@ -1,7 +1,7 @@
 /**
  * Admin JavaScript for PassWP Posts.
  *
- * Initializes Select2 for the excluded posts/pages field.
+ * Initializes Select2 for the post/page selection fields.
  *
  * @package PassWP_Posts
  */
@@ -12,43 +12,45 @@
 	'use strict';
 
 	/**
-	 * Initialize Select2 on the excluded posts field.
+	 * Initialize Select2 on all select fields with the passwp-posts-select2 class.
 	 */
 	function initSelect2() {
-		var $select = $('#passwp_posts_excluded');
+		$('.passwp-posts-select2').each(function () {
+			var $select = $(this);
 
-		if (!$select.length) {
-			return;
-		}
+			if ($select.data('select2')) {
+				return; // Already initialized
+			}
 
-		$select.select2({
-			ajax: {
-				url: passwpPostsAdmin.ajaxUrl,
-				dataType: 'json',
-				delay: 250,
-				data: function (params) {
-					return {
-						action: 'passwp_posts_search',
-						nonce: passwpPostsAdmin.nonce,
-						search: params.term || '',
-						page: params.page || 1
-					};
+			$select.select2({
+				ajax: {
+					url: passwpPostsAdmin.ajaxUrl,
+					dataType: 'json',
+					delay: 250,
+					data: function (params) {
+						return {
+							action: 'passwp_posts_search',
+							nonce: passwpPostsAdmin.nonce,
+							search: params.term || '',
+							page: params.page || 1
+						};
+					},
+					processResults: function (data, params) {
+						params.page = params.page || 1;
+						return {
+							results: data.results,
+							pagination: {
+								more: data.more
+							}
+						};
+					},
+					cache: true
 				},
-				processResults: function (data, params) {
-					params.page = params.page || 1;
-					return {
-						results: data.results,
-						pagination: {
-							more: data.more
-						}
-					};
-				},
-				cache: true
-			},
-			minimumInputLength: 2,
-			placeholder: passwpPostsAdmin.placeholder,
-			allowClear: true,
-			width: '100%'
+				minimumInputLength: 2,
+				placeholder: passwpPostsAdmin.placeholder,
+				allowClear: true,
+				width: '100%'
+			});
 		});
 	}
 
@@ -82,10 +84,48 @@
 	}
 
 	/**
+	 * Initialize protection mode toggle.
+	 */
+	function initProtectionModeToggle() {
+		var $modeRadios = $('.passwp-protection-mode');
+		var $excludedWrapper = $('#passwp-excluded-posts-wrapper');
+		var $protectedWrapper = $('#passwp-protected-posts-wrapper');
+
+		if (!$modeRadios.length) {
+			return;
+		}
+
+		// Get the parent table rows for both fields
+		var $excludedRow = $excludedWrapper.closest('tr');
+		var $protectedRow = $protectedWrapper.closest('tr');
+
+		// Set initial visibility based on current mode
+		var currentMode = passwpPostsAdmin.protectionMode || 'all';
+		if (currentMode === 'selected') {
+			$excludedRow.hide();
+			$protectedRow.show();
+		} else {
+			$excludedRow.show();
+			$protectedRow.hide();
+		}
+
+		$modeRadios.on('change', function () {
+			if ($(this).val() === 'selected') {
+				$excludedRow.hide();
+				$protectedRow.show();
+			} else {
+				$excludedRow.show();
+				$protectedRow.hide();
+			}
+		});
+	}
+
+	/**
 	 * Document ready.
 	 */
 	$(document).ready(function () {
 		initSelect2();
 		initPasswordToggle();
+		initProtectionModeToggle();
 	});
 })(jQuery);
