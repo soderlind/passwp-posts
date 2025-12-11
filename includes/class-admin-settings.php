@@ -243,7 +243,8 @@ final class Admin_Settings {
 				class="regular-text"
 				placeholder="<?php echo $has_password ? esc_attr__( 'Leave blank to keep current password', 'passwp-posts' ) : esc_attr__( 'Enter password', 'passwp-posts' ); ?>"
 				autocomplete="new-password" />
-			<button type="button" class="button passwp-toggle-password" aria-label="<?php esc_attr_e( 'Toggle password visibility', 'passwp-posts' ); ?>">
+			<button type="button" class="button passwp-toggle-password"
+				aria-label="<?php esc_attr_e( 'Toggle password visibility', 'passwp-posts' ); ?>">
 				<span class="dashicons dashicons-visibility" aria-hidden="true"></span>
 			</button>
 		</div>
@@ -336,7 +337,7 @@ final class Admin_Settings {
 		}
 
 		// Sanitize cookie expiry days.
-		$expiry_days                     = (int) ( $input[ 'cookie_expiry_days' ] ?? 30 );
+		$expiry_days                       = (int) ( $input[ 'cookie_expiry_days' ] ?? 30 );
 		$sanitized[ 'cookie_expiry_days' ] = max( 1, min( 365, $expiry_days ) );
 
 		// Sanitize excluded posts.
