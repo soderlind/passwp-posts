@@ -69,7 +69,9 @@ final class Admin_Settings {
 				'default'           => [
 					'password_hash'      => '',
 					'cookie_expiry_days' => 30,
+					'protection_mode'    => 'all',
 					'excluded_posts'     => [],
+					'protected_posts'    => [],
 					'enabled'            => false,
 				],
 			]
@@ -110,11 +112,29 @@ final class Admin_Settings {
 			section: 'passwp_posts_main_section'
 		);
 
-		// Excluded posts field.
+		// Protection mode field.
+		add_settings_field(
+			id: 'passwp_posts_protection_mode',
+			title: __( 'Protection Mode', 'passwp-posts' ),
+			callback: $this->render_protection_mode_field( ... ),
+			page: self::PAGE_SLUG,
+			section: 'passwp_posts_main_section'
+		);
+
+		// Excluded posts field (shown when mode is 'all').
 		add_settings_field(
 			id: 'passwp_posts_excluded',
 			title: __( 'Excluded Pages/Posts', 'passwp-posts' ),
 			callback: $this->render_excluded_posts_field( ... ),
+			page: self::PAGE_SLUG,
+			section: 'passwp_posts_main_section'
+		);
+
+		// Protected posts field (shown when mode is 'selected').
+		add_settings_field(
+			id: 'passwp_posts_protected',
+			title: __( 'Protected Pages/Posts', 'passwp-posts' ),
+			callback: $this->render_protected_posts_field( ... ),
 			page: self::PAGE_SLUG,
 			section: 'passwp_posts_main_section'
 		);
@@ -168,16 +188,21 @@ final class Admin_Settings {
 			args: true
 		);
 
+		// Get current protection mode for initial visibility.
+		$settings        = get_option( self::OPTION_NAME, [] );
+		$protection_mode = $settings[ 'protection_mode' ] ?? 'all';
+
 		// Localize script for AJAX.
 		wp_localize_script(
 			handle: 'passwp-posts-admin',
 			object_name: 'passwpPostsAdmin',
 			l10n: [
-				'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
-				'nonce'        => wp_create_nonce( 'passwp_posts_search' ),
-				'placeholder'  => __( 'Search for pages or posts...', 'passwp-posts' ),
-				'showPassword' => __( 'Show password', 'passwp-posts' ),
-				'hidePassword' => __( 'Hide password', 'passwp-posts' ),
+				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
+				'nonce'          => wp_create_nonce( 'passwp_posts_search' ),
+				'placeholder'    => __( 'Search for pages or posts...', 'passwp-posts' ),
+				'showPassword'   => __( 'Show password', 'passwp-posts' ),
+				'hidePassword'   => __( 'Hide password', 'passwp-posts' ),
+				'protectionMode' => $protection_mode,
 			]
 		);
 	}
@@ -211,7 +236,7 @@ final class Admin_Settings {
 	 * Render section description.
 	 */
 	public function render_section_description(): void {
-		echo '<p>' . esc_html__( 'Configure password protection for your site. The front page and logged-in users are always allowed.', 'passwp-posts' ) . '</p>';
+		echo '<p>' . esc_html__( 'Configure password protection for your site. The front page is always public. Logged-in users bypass the password.', 'passwp-posts' ) . '</p>';
 	}
 
 	/**
@@ -223,10 +248,10 @@ final class Admin_Settings {
 		?>
 		<label>
 			<input type="checkbox" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[enabled]" value="1" <?php checked( $enabled ); ?> />
-			<?php esc_html_e( 'Enable password protection for all pages and posts', 'passwp-posts' ); ?>
+			<?php esc_html_e( 'Enable password protection', 'passwp-posts' ); ?>
 		</label>
 		<p class="description">
-			<?php esc_html_e( 'When enabled, visitors must enter the password to view any page except the front page.', 'passwp-posts' ); ?>
+			<?php esc_html_e( 'When enabled, visitors must enter a password to view protected content.', 'passwp-posts' ); ?>
 		</p>
 		<?php
 	}
@@ -272,13 +297,36 @@ final class Admin_Settings {
 			max="365" />
 		<span><?php esc_html_e( 'days', 'passwp-posts' ); ?></span>
 		<p class="description">
-			<?php esc_html_e( 'How long the "Remember Me" authentication lasts. Default is 30 days.', 'passwp-posts' ); ?>
+			<?php esc_html_e( 'How long visitors stay authenticated after entering the password.', 'passwp-posts' ); ?>
 		</p>
 		<?php
 	}
 
 	/**
-	 * Render excluded posts field with Select2.
+	 * Render protection mode field.
+	 */
+	public function render_protection_mode_field(): void {
+		$settings        = get_option( self::OPTION_NAME, [] );
+		$protection_mode = $settings[ 'protection_mode' ] ?? 'all';
+		?>
+		<fieldset>
+			<label>
+				<input type="radio" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[protection_mode]" value="all"
+					<?php checked( $protection_mode, 'all' ); ?> class="passwp-protection-mode" />
+				<?php esc_html_e( 'Protect all pages and posts (except front page)', 'passwp-posts' ); ?>
+			</label>
+			<br />
+			<label>
+				<input type="radio" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[protection_mode]" value="selected"
+					<?php checked( $protection_mode, 'selected' ); ?> class="passwp-protection-mode" />
+				<?php esc_html_e( 'Protect only selected pages and posts', 'passwp-posts' ); ?>
+			</label>
+		</fieldset>
+		<?php
+	}
+
+	/**
+	 * Render excluded posts field with Select2 (shown when mode is 'all').
 	 */
 	public function render_excluded_posts_field(): void {
 		$settings       = get_option( self::OPTION_NAME, [] );
@@ -296,17 +344,54 @@ final class Admin_Settings {
 			] );
 		}
 		?>
-		<select name="<?php echo esc_attr( self::OPTION_NAME ); ?>[excluded_posts][]" id="passwp_posts_excluded"
-			class="passwp-posts-select2" multiple="multiple" style="width: 100%; max-width: 400px;">
-			<?php foreach ( $selected_posts as $post ) : ?>
-				<option value="<?php echo esc_attr( (string) $post->ID ); ?>" selected>
-					<?php echo esc_html( $post->post_title . ' (' . ucfirst( $post->post_type ) . ')' ); ?>
-				</option>
-			<?php endforeach; ?>
-		</select>
-		<p class="description">
-			<?php esc_html_e( 'Select pages or posts that should be accessible without a password (in addition to the front page).', 'passwp-posts' ); ?>
-		</p>
+		<div id="passwp-excluded-posts-wrapper">
+			<select name="<?php echo esc_attr( self::OPTION_NAME ); ?>[excluded_posts][]" id="passwp_posts_excluded"
+				class="passwp-posts-select2" multiple="multiple" style="width: 100%; max-width: 400px;">
+				<?php foreach ( $selected_posts as $post ) : ?>
+					<option value="<?php echo esc_attr( (string) $post->ID ); ?>" selected>
+						<?php echo esc_html( $post->post_title . ' (' . ucfirst( $post->post_type ) . ')' ); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+			<p class="description">
+				<?php esc_html_e( 'These pages and posts will not require a password.', 'passwp-posts' ); ?>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render protected posts field with Select2 (shown when mode is 'selected').
+	 */
+	public function render_protected_posts_field(): void {
+		$settings        = get_option( self::OPTION_NAME, [] );
+		$protected_posts = (array) ( $settings[ 'protected_posts' ] ?? [] );
+
+		// Get the currently protected posts for display.
+		$selected_posts = [];
+		if ( $protected_posts !== [] ) {
+			$selected_posts = get_posts( [
+				'post_type'      => [ 'post', 'page' ],
+				'post__in'       => array_map( 'intval', $protected_posts ),
+				'posts_per_page' => -1,
+				'orderby'        => 'post__in',
+				'post_status'    => 'any',
+			] );
+		}
+		?>
+		<div id="passwp-protected-posts-wrapper">
+			<select name="<?php echo esc_attr( self::OPTION_NAME ); ?>[protected_posts][]" id="passwp_posts_protected"
+				class="passwp-posts-select2" multiple="multiple" style="width: 100%; max-width: 400px;">
+				<?php foreach ( $selected_posts as $post ) : ?>
+					<option value="<?php echo esc_attr( (string) $post->ID ); ?>" selected>
+						<?php echo esc_html( $post->post_title . ' (' . ucfirst( $post->post_type ) . ')' ); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+			<p class="description">
+				<?php esc_html_e( 'Only these pages and posts will require a password.', 'passwp-posts' ); ?>
+			</p>
+		</div>
 		<?php
 	}
 
@@ -340,12 +425,26 @@ final class Admin_Settings {
 		$expiry_days                       = (int) ( $input[ 'cookie_expiry_days' ] ?? 30 );
 		$sanitized[ 'cookie_expiry_days' ] = max( 1, min( 365, $expiry_days ) );
 
+		// Sanitize protection mode.
+		$protection_mode                    = $input[ 'protection_mode' ] ?? 'all';
+		$sanitized[ 'protection_mode' ]     = in_array( $protection_mode, [ 'all', 'selected' ], true ) ? $protection_mode : 'all';
+
 		// Sanitize excluded posts.
 		$sanitized[ 'excluded_posts' ] = [];
 		if ( isset( $input[ 'excluded_posts' ] ) && is_array( $input[ 'excluded_posts' ] ) ) {
 			$sanitized[ 'excluded_posts' ] = array_values(
 				array_filter(
 					array_map( 'absint', $input[ 'excluded_posts' ] )
+				)
+			);
+		}
+
+		// Sanitize protected posts.
+		$sanitized[ 'protected_posts' ] = [];
+		if ( isset( $input[ 'protected_posts' ] ) && is_array( $input[ 'protected_posts' ] ) ) {
+			$sanitized[ 'protected_posts' ] = array_values(
+				array_filter(
+					array_map( 'absint', $input[ 'protected_posts' ] )
 				)
 			);
 		}

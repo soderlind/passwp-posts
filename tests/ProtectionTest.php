@@ -124,14 +124,15 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 	}
 
 	/**
-	 * Test protection is skipped for excluded posts.
+	 * Test protection is skipped when mode is 'selected' and post is not in protected list.
 	 */
-	public function test_protection_skipped_for_excluded_posts(): void {
+	public function test_protection_skipped_for_unprotected_posts_in_selected_mode(): void {
 		Functions\when( 'get_option' )->justReturn(
 			array(
-				'enabled'        => true,
-				'password_hash'  => 'some_hash',
-				'excluded_posts' => array( 123, 456 ),
+				'enabled'         => true,
+				'password_hash'   => 'some_hash',
+				'protection_mode' => 'selected',
+				'protected_posts' => array( 456, 789 ),
 			)
 		);
 

@@ -10,8 +10,12 @@ import { vi } from 'vitest';
 const mockSelect2 = vi.fn();
 
 const mockJQuery = vi.fn((selector) => {
-	return {
-		length: selector === '#passwp_posts_excluded' ? 1 : 0,
+	const hasMatch = selector === '#passwp_posts_excluded' || 
+		selector === '#passwp_posts_protected' ||
+		selector === '.passwp-posts-select2';
+	
+	const instance = {
+		length: hasMatch ? 1 : 0,
 		select2: mockSelect2,
 		ready: vi.fn((callback) => callback()),
 		on: vi.fn(),
@@ -26,8 +30,23 @@ const mockJQuery = vi.fn((selector) => {
 		text: vi.fn(),
 		append: vi.fn(),
 		remove: vi.fn(),
-		trigger: vi.fn()
+		trigger: vi.fn(),
+		data: vi.fn(() => null), // select2 not yet initialized
+		each: vi.fn(function(callback) {
+			if (hasMatch) {
+				callback.call(instance, 0, instance);
+			}
+			return instance;
+		}),
+		slideUp: vi.fn(),
+		slideDown: vi.fn(),
+		hide: vi.fn(),
+		show: vi.fn(),
+		closest: vi.fn(() => mockJQuery(selector)),
+		get: vi.fn(() => ({ type: 'password' })),
+		siblings: vi.fn(() => mockJQuery(selector))
 	};
+	return instance;
 });
 
 // jQuery static methods
@@ -55,7 +74,10 @@ global.$ = jQuery;
 global.passwpPostsAdmin = {
 	ajaxUrl: 'https://example.com/wp-admin/admin-ajax.php',
 	nonce: 'test_nonce_12345',
-	placeholder: 'Search for pages or posts...'
+	placeholder: 'Search for pages or posts...',
+	showPassword: 'Show password',
+	hidePassword: 'Hide password',
+	protectionMode: 'all'
 };
 
 // Export mocks for test assertions

@@ -147,36 +147,36 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	/**
 	 * Test excluded posts sanitization.
 	 */
-	public function test_sanitize_settings_excluded_posts(): void {
+	public function test_sanitize_settings_protected_posts(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
 		$settings = new Admin_Settings();
 
 		$input = array(
-			'excluded_posts' => array( '123', '456', '789' ),
+			'protected_posts' => array( '123', '456', '789' ),
 		);
 
 		$result = $settings->sanitize_settings( $input );
 
-		$this->assertEquals( array( 123, 456, 789 ), $result[ 'excluded_posts' ] );
+		$this->assertEquals( array( 123, 456, 789 ), $result[ 'protected_posts' ] );
 	}
 
 	/**
-	 * Test excluded posts filters invalid values.
+	 * Test protected posts filters invalid values.
 	 */
-	public function test_sanitize_settings_excluded_posts_filters_invalid(): void {
+	public function test_sanitize_settings_protected_posts_filters_invalid(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
 		$settings = new Admin_Settings();
 
 		$input = array(
-			'excluded_posts' => array( '123', 'invalid', '0', '456' ),
+			'protected_posts' => array( '123', 'invalid', '0', '456' ),
 		);
 
 		$result = $settings->sanitize_settings( $input );
 
 		// array_filter preserves keys, so use array_values for comparison.
-		$this->assertEquals( array( 123, 456 ), array_values( $result[ 'excluded_posts' ] ) );
+		$this->assertEquals( array( 123, 456 ), array_values( $result[ 'protected_posts' ] ) );
 	}
 
 	/**
@@ -221,6 +221,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 		$this->assertFalse( $result[ 'enabled' ] );
 		$this->assertEmpty( $result[ 'password_hash' ] );
 		$this->assertEquals( 30, $result[ 'cookie_expiry_days' ] );
-		$this->assertEquals( array(), $result[ 'excluded_posts' ] );
+		$this->assertEquals( 'all', $result[ 'protection_mode' ] );
+		$this->assertEquals( array(), $result[ 'protected_posts' ] );
 	}
 }

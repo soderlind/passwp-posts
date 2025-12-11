@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: PassWP Posts 1.0.1\n"
+"Project-Id-Version: PassWP Posts 1.0.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/passwp-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-12-11T22:17:21+00:00\n"
+"POT-Creation-Date: 2025-12-11T22:54:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: passwp-posts\n"
@@ -44,93 +44,113 @@ msgstr ""
 msgid "PassWP Posts Settings"
 msgstr ""
 
-#: includes/class-admin-settings.php:81
+#: includes/class-admin-settings.php:83
 msgid "Password Protection Settings"
 msgstr ""
 
-#: includes/class-admin-settings.php:89
+#: includes/class-admin-settings.php:91
 msgid "Enable Protection"
 msgstr ""
 
-#: includes/class-admin-settings.php:98
+#: includes/class-admin-settings.php:100
 #: templates/password-form.php:88
 msgid "Password"
 msgstr ""
 
-#: includes/class-admin-settings.php:107
+#: includes/class-admin-settings.php:109
 msgid "Remember Me Duration"
 msgstr ""
 
-#: includes/class-admin-settings.php:116
+#: includes/class-admin-settings.php:118
+msgid "Protection Mode"
+msgstr ""
+
+#: includes/class-admin-settings.php:127
 msgid "Excluded Pages/Posts"
 msgstr ""
 
-#: includes/class-admin-settings.php:178
+#: includes/class-admin-settings.php:136
+msgid "Protected Pages/Posts"
+msgstr ""
+
+#: includes/class-admin-settings.php:202
 msgid "Search for pages or posts..."
 msgstr ""
 
-#: includes/class-admin-settings.php:179
+#: includes/class-admin-settings.php:203
 msgid "Show password"
 msgstr ""
 
-#: includes/class-admin-settings.php:180
+#: includes/class-admin-settings.php:204
 msgid "Hide password"
 msgstr ""
 
-#: includes/class-admin-settings.php:203
+#: includes/class-admin-settings.php:228
 msgid "Save Settings"
 msgstr ""
 
-#: includes/class-admin-settings.php:214
-msgid "Configure password protection for your site. The front page and logged-in users are always allowed."
+#: includes/class-admin-settings.php:239
+msgid "Configure password protection for your site. The front page is always public. Logged-in users bypass the password."
 msgstr ""
 
-#: includes/class-admin-settings.php:226
-msgid "Enable password protection for all pages and posts"
+#: includes/class-admin-settings.php:251
+msgid "Enable password protection"
 msgstr ""
 
-#: includes/class-admin-settings.php:229
-msgid "When enabled, visitors must enter the password to view any page except the front page."
+#: includes/class-admin-settings.php:254
+msgid "When enabled, visitors must enter a password to view protected content."
 msgstr ""
 
-#: includes/class-admin-settings.php:244
+#: includes/class-admin-settings.php:269
 msgid "Leave blank to keep current password"
 msgstr ""
 
-#: includes/class-admin-settings.php:244
+#: includes/class-admin-settings.php:269
 #: templates/password-form.php:91
 msgid "Enter password"
 msgstr ""
 
-#: includes/class-admin-settings.php:246
+#: includes/class-admin-settings.php:272
 msgid "Toggle password visibility"
 msgstr ""
 
-#: includes/class-admin-settings.php:252
+#: includes/class-admin-settings.php:278
 msgid "A password is currently set. Enter a new password to change it, or leave blank to keep the current password."
 msgstr ""
 
-#: includes/class-admin-settings.php:256
+#: includes/class-admin-settings.php:282
 msgid "Enter the password visitors will use to access protected content."
 msgstr ""
 
-#: includes/class-admin-settings.php:272
+#: includes/class-admin-settings.php:298
 msgid "days"
 msgstr ""
 
-#: includes/class-admin-settings.php:274
-msgid "How long the \"Remember Me\" authentication lasts. Default is 30 days."
+#: includes/class-admin-settings.php:300
+msgid "How long visitors stay authenticated after entering the password."
 msgstr ""
 
-#: includes/class-admin-settings.php:307
-msgid "Select pages or posts that should be accessible without a password (in addition to the front page)."
+#: includes/class-admin-settings.php:316
+msgid "Protect all pages and posts (except front page)"
 msgstr ""
 
-#: includes/class-admin-settings.php:364
+#: includes/class-admin-settings.php:322
+msgid "Protect only selected pages and posts"
+msgstr ""
+
+#: includes/class-admin-settings.php:357
+msgid "These pages and posts will not require a password."
+msgstr ""
+
+#: includes/class-admin-settings.php:392
+msgid "Only these pages and posts will require a password."
+msgstr ""
+
+#: includes/class-admin-settings.php:464
 msgid "Permission denied."
 msgstr ""
 
-#: includes/class-protection.php:146
+#: includes/class-protection.php:158
 msgid "Security check failed."
 msgstr ""
 

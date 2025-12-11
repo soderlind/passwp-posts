@@ -236,7 +236,13 @@ describe('Admin JavaScript - Element Not Found', () => {
 			return {
 				length: 0,
 				select2: vi.fn(),
-				ready: vi.fn((callback) => callback())
+				ready: vi.fn((callback) => callback()),
+				each: vi.fn(),
+				on: vi.fn(),
+				val: vi.fn(() => 'all'),
+				closest: vi.fn(() => ({ hide: vi.fn(), show: vi.fn() })),
+				hide: vi.fn(),
+				show: vi.fn()
 			};
 		});
 		mockJQueryNoElement.ready = vi.fn((callback) => callback());

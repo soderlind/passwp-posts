@@ -2,9 +2,9 @@
 Contributors: starter
 Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,11 @@ You may need to exclude protected pages from caching or configure your caching p
 
 == Changelog ==
 
+= 1.0.2 =
+* Added protection mode selection: protect all (with exclusions) or protect only selected posts
+* Improved settings page wording for clarity
+* Updated Norwegian Bokmål translations
+
 = 1.0.1 =
 * Added password visibility toggle on settings page
 * Added cache busting for assets when WP_DEBUG is enabled
@@ -95,6 +100,9 @@ You may need to exclude protected pages from caching or configure your caching p
 * Norwegian Bokmål translation included
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+New protection mode selection - choose to protect all content or only specific pages/posts.
 
 = 1.0.1 =
 Added password visibility toggle and improved asset cache busting.

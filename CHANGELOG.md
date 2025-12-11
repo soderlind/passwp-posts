@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2024-12-11
+
+### Added
+
+- Protection mode selection: protect all (with exclusions) or protect only selected posts
+- Separate dropdowns for excluded posts and protected posts based on mode
+
+### Changed
+
+- Improved settings page wording for clarity
+- Instant field visibility toggle (no animation delay)
+- Updated Norwegian Bokmål translations
+
 ## [1.0.1] - 2024-12-11
 
 ### Added
@@ -47,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Admin capabilities checked with `manage_options`
 - All forms protected with WordPress nonces
 
-[Unreleased]: https://github.com/soderlind/passwp-posts/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/soderlind/passwp-posts/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/soderlind/passwp-posts/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/soderlind/passwp-posts/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/soderlind/passwp-posts/releases/tag/v1.0.0

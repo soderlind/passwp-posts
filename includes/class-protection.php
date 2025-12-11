@@ -76,12 +76,24 @@ final class Protection {
 			return;
 		}
 
-		// Allow excluded posts/pages.
+		// Get current post ID.
 		$current_post_id = get_queried_object_id();
-		$excluded_posts  = (array) ( $this->settings[ 'excluded_posts' ] ?? [] );
 
-		if ( in_array( $current_post_id, array_map( 'intval', $excluded_posts ), true ) ) {
-			return;
+		// Handle protection based on mode.
+		$protection_mode = $this->settings[ 'protection_mode' ] ?? 'all';
+
+		if ( $protection_mode === 'selected' ) {
+			// Only protect selected posts.
+			$protected_posts = (array) ( $this->settings[ 'protected_posts' ] ?? [] );
+			if ( ! in_array( $current_post_id, array_map( 'intval', $protected_posts ), true ) ) {
+				return;
+			}
+		} else {
+			// Protect all, but allow excluded posts.
+			$excluded_posts = (array) ( $this->settings[ 'excluded_posts' ] ?? [] );
+			if ( in_array( $current_post_id, array_map( 'intval', $excluded_posts ), true ) ) {
+				return;
+			}
 		}
 
 		// Check for valid authentication cookie.
