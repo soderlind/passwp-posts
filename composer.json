@@ -1,0 +1,30 @@
+{
+	"name": "developer-suspended/passwp-posts",
+	"description": "Password protects all pages and posts except the front page",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0+",
+	"require-dev": {
+		"phpunit/phpunit": "^10.0",
+		"brain/monkey": "^2.6",
+		"mockery/mockery": "^1.6"
+	},
+	"autoload": {
+		"classmap": [
+			"includes/"
+		]
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"PassWP_Posts\\Tests\\": "tests/"
+		}
+	},
+	"scripts": {
+		"test": "phpunit",
+		"test:coverage": "phpunit --coverage-html coverage"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
+}

@@ -1,0 +1,29 @@
+# Dependencies
+/node_modules/
+/vendor/
+
+# Build outputs
+/coverage/
+
+# IDE
+.idea/
+*.swp
+*.swo
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Composer
+composer.lock
+
+# npm
+package-lock.json
+
+# PHPUnit
+.phpunit.result.cache
+.phpunit.cache/
+
+# Test outputs
+/tests/js/coverage/

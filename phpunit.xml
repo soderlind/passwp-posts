@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+	bootstrap="tests/bootstrap.php"
+	colors="true"
+	beStrictAboutTestsThatDoNotTestAnything="true"
+	beStrictAboutOutputDuringTests="true"
+>
+	<testsuites>
+		<testsuite name="PassWP Posts Test Suite">
+			<directory suffix="Test.php">tests/</directory>
+		</testsuite>
+	</testsuites>
+
+	<coverage>
+		<include>
+			<directory suffix=".php">includes/</directory>
+		</include>
+		<exclude>
+			<directory>tests/</directory>
+			<directory>assets/</directory>
+		</exclude>
+	</coverage>
+
+	<php>
+		<const name="ABSPATH" value="/tmp/wordpress/"/>
+		<const name="WPINC" value="wp-includes"/>
+	</php>
+</phpunit>
