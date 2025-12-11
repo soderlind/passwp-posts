@@ -47,8 +47,8 @@ A WordPress plugin that password protects all pages and posts except the front p
 
 ### Requirements
 
-- PHP 7.4+
-- WordPress 5.0+
+- PHP 8.3+
+- WordPress 6.8+
 
 ### Running Tests
 

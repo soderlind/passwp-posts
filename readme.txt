@@ -1,10 +1,10 @@
 === PassWP Posts ===
 Contributors: starter
 Tags: password, protection, privacy, security, access control
-Requires at least: 5.0
-Tested up to: 6.7
-Requires PHP: 7.4
-Stable tag: 1.0.0
+Requires at least: 6.8
+Tested up to: 6.8
+Requires PHP: 8.3
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,11 @@ You may need to exclude protected pages from caching or configure your caching p
 
 == Changelog ==
 
+= 1.0.1 =
+* Added password visibility toggle on settings page
+* Added cache busting for assets when WP_DEBUG is enabled
+* Improved PHP 8.3 compatibility with strict types
+
 = 1.0.0 =
 * Initial release
 * Password protection for all pages and posts except front page
@@ -90,6 +95,9 @@ You may need to exclude protected pages from caching or configure your caching p
 * Norwegian Bokmål translation included
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Added password visibility toggle and improved asset cache busting.
 
 = 1.0.0 =
 Initial release of PassWP Posts.

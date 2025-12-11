@@ -7,11 +7,12 @@
 
 use Brain\Monkey;
 use Brain\Monkey\Functions;
+use PassWP\Posts\Admin_Settings;
 
 /**
  * Class AdminSettingsTest
  *
- * @covers PassWP_Posts_Admin_Settings
+ * @covers \PassWP\Posts\Admin_Settings
  */
 class AdminSettingsTest extends PassWP_Posts_TestCase {
 
@@ -21,7 +22,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_enabled(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new PassWP_Posts_Admin_Settings();
+		$settings = new Admin_Settings();
 
 		$input = array(
 			'enabled' => '1',
@@ -29,7 +30,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 
 		$result = $settings->sanitize_settings( $input );
 
-		$this->assertTrue( $result['enabled'] );
+		$this->assertTrue( $result[ 'enabled' ] );
 	}
 
 	/**
@@ -38,13 +39,13 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_disabled(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new PassWP_Posts_Admin_Settings();
+		$settings = new Admin_Settings();
 
 		$input = array();
 
 		$result = $settings->sanitize_settings( $input );
 
-		$this->assertFalse( $result['enabled'] );
+		$this->assertFalse( $result[ 'enabled' ] );
 	}
 
 	/**
@@ -58,7 +59,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 			}
 		);
 
-		$settings = new PassWP_Posts_Admin_Settings();
+		$settings = new Admin_Settings();
 
 		$input = array(
 			'password' => 'my_secret_password',
@@ -66,7 +67,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 
 		$result = $settings->sanitize_settings( $input );
 
-		$this->assertEquals( 'hashed_my_secret_password', $result['password_hash'] );
+		$this->assertEquals( 'hashed_my_secret_password', $result[ 'password_hash' ] );
 	}
 
 	/**
@@ -81,7 +82,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 			)
 		);
 
-		$settings = new PassWP_Posts_Admin_Settings();
+		$settings = new Admin_Settings();
 
 		$input = array(
 			'password' => '',
@@ -89,7 +90,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 
 		$result = $settings->sanitize_settings( $input );
 
-		$this->assertEquals( $existing_hash, $result['password_hash'] );
+		$this->assertEquals( $existing_hash, $result[ 'password_hash' ] );
 	}
 
 	/**
@@ -98,7 +99,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_cookie_expiry_days(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new PassWP_Posts_Admin_Settings();
+		$settings = new Admin_Settings();
 
 		$input = array(
 			'cookie_expiry_days' => '45',
@@ -106,7 +107,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 
 		$result = $settings->sanitize_settings( $input );
 
-		$this->assertEquals( 45, $result['cookie_expiry_days'] );
+		$this->assertEquals( 45, $result[ 'cookie_expiry_days' ] );
 	}
 
 	/**
@@ -115,7 +116,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_cookie_expiry_minimum(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new PassWP_Posts_Admin_Settings();
+		$settings = new Admin_Settings();
 
 		$input = array(
 			'cookie_expiry_days' => '0',
@@ -123,7 +124,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 
 		$result = $settings->sanitize_settings( $input );
 
-		$this->assertEquals( 1, $result['cookie_expiry_days'] );
+		$this->assertEquals( 1, $result[ 'cookie_expiry_days' ] );
 	}
 
 	/**
@@ -132,7 +133,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_cookie_expiry_maximum(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new PassWP_Posts_Admin_Settings();
+		$settings = new Admin_Settings();
 
 		$input = array(
 			'cookie_expiry_days' => '500',
@@ -140,7 +141,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 
 		$result = $settings->sanitize_settings( $input );
 
-		$this->assertEquals( 365, $result['cookie_expiry_days'] );
+		$this->assertEquals( 365, $result[ 'cookie_expiry_days' ] );
 	}
 
 	/**
@@ -149,7 +150,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_excluded_posts(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new PassWP_Posts_Admin_Settings();
+		$settings = new Admin_Settings();
 
 		$input = array(
 			'excluded_posts' => array( '123', '456', '789' ),
@@ -157,7 +158,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 
 		$result = $settings->sanitize_settings( $input );
 
-		$this->assertEquals( array( 123, 456, 789 ), $result['excluded_posts'] );
+		$this->assertEquals( array( 123, 456, 789 ), $result[ 'excluded_posts' ] );
 	}
 
 	/**
@@ -166,7 +167,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_excluded_posts_filters_invalid(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new PassWP_Posts_Admin_Settings();
+		$settings = new Admin_Settings();
 
 		$input = array(
 			'excluded_posts' => array( '123', 'invalid', '0', '456' ),
@@ -175,7 +176,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 		$result = $settings->sanitize_settings( $input );
 
 		// array_filter preserves keys, so use array_values for comparison.
-		$this->assertEquals( array( 123, 456 ), array_values( $result['excluded_posts'] ) );
+		$this->assertEquals( array( 123, 456 ), array_values( $result[ 'excluded_posts' ] ) );
 	}
 
 	/**
@@ -195,9 +196,9 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 		);
 
 		try {
-			$settings = new PassWP_Posts_Admin_Settings();
+			$settings = new Admin_Settings();
 			$settings->ajax_search_posts();
-		} catch ( \Exception $e ) {
+		} catch (\Exception $e) {
 			if ( 'json_error_sent' !== $e->getMessage() ) {
 				throw $e;
 			}
@@ -212,14 +213,14 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_default_settings_values(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new PassWP_Posts_Admin_Settings();
+		$settings = new Admin_Settings();
 
 		$input  = array();
 		$result = $settings->sanitize_settings( $input );
 
-		$this->assertFalse( $result['enabled'] );
-		$this->assertEmpty( $result['password_hash'] );
-		$this->assertEquals( 30, $result['cookie_expiry_days'] );
-		$this->assertEquals( array(), $result['excluded_posts'] );
+		$this->assertFalse( $result[ 'enabled' ] );
+		$this->assertEmpty( $result[ 'password_hash' ] );
+		$this->assertEquals( 30, $result[ 'cookie_expiry_days' ] );
+		$this->assertEquals( array(), $result[ 'excluded_posts' ] );
 	}
 }

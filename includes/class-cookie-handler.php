@@ -4,32 +4,32 @@
  *
  * Handles authentication cookie operations.
  *
- * @package PassWP_Posts
+ * @package PassWP\Posts
  */
+
+declare(strict_types=1);
+
+namespace PassWP\Posts;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class PassWP_Posts_Cookie_Handler
+ * Class Cookie_Handler
  *
  * Manages authentication cookies for password-protected access.
  */
-class PassWP_Posts_Cookie_Handler {
+final class Cookie_Handler {
 
 	/**
 	 * Cookie name prefix.
-	 *
-	 * @var string
 	 */
-	const COOKIE_PREFIX = 'passwp_posts_auth_';
+	private const COOKIE_PREFIX = 'passwp_posts_auth_';
 
 	/**
 	 * Get the full cookie name.
-	 *
-	 * @return string
 	 */
-	public function get_cookie_name() {
+	public function get_cookie_name(): string {
 		return self::COOKIE_PREFIX . COOKIEHASH;
 	}
 
@@ -37,9 +37,8 @@ class PassWP_Posts_Cookie_Handler {
 	 * Generate the cookie value (hashed token).
 	 *
 	 * @param string $password_hash The stored password hash.
-	 * @return string
 	 */
-	public function generate_cookie_value( $password_hash ) {
+	public function generate_cookie_value( string $password_hash ): string {
 		return hash( 'sha256', $password_hash . wp_salt( 'auth' ) );
 	}
 
@@ -48,14 +47,13 @@ class PassWP_Posts_Cookie_Handler {
 	 *
 	 * @param string $password_hash The stored password hash.
 	 * @param int    $expiry_days   Number of days until expiry (0 for session cookie).
-	 * @return void
 	 */
-	public function set_cookie( $password_hash, $expiry_days = 30 ) {
+	public function set_cookie( string $password_hash, int $expiry_days = 30 ): void {
 		$cookie_name  = $this->get_cookie_name();
 		$cookie_value = $this->generate_cookie_value( $password_hash );
 
 		// Calculate expiry time.
-		$expire = 0 === $expiry_days ? 0 : time() + ( $expiry_days * DAY_IN_SECONDS );
+		$expire = $expiry_days === 0 ? 0 : time() + ( $expiry_days * DAY_IN_SECONDS );
 
 		// Get cookie path and domain from WordPress constants.
 		$cookie_path   = defined( 'COOKIEPATH' ) ? COOKIEPATH : '/';
@@ -63,16 +61,16 @@ class PassWP_Posts_Cookie_Handler {
 
 		// Set the cookie.
 		setcookie(
-			$cookie_name,
-			$cookie_value,
-			array(
+			name: $cookie_name,
+			value: $cookie_value,
+			expires_or_options: [
 				'expires'  => $expire,
 				'path'     => $cookie_path,
 				'domain'   => $cookie_domain,
 				'secure'   => is_ssl(),
 				'httponly' => true,
 				'samesite' => 'Lax',
-			)
+			]
 		);
 
 		// Also set in $_COOKIE for immediate use.
@@ -83,9 +81,8 @@ class PassWP_Posts_Cookie_Handler {
 	 * Check if the authentication cookie is valid.
 	 *
 	 * @param string $password_hash The stored password hash.
-	 * @return bool
 	 */
-	public function is_valid_cookie( $password_hash ) {
+	public function is_valid_cookie( string $password_hash ): bool {
 		$cookie_name = $this->get_cookie_name();
 
 		// Check if cookie exists.
@@ -105,26 +102,24 @@ class PassWP_Posts_Cookie_Handler {
 
 	/**
 	 * Clear the authentication cookie.
-	 *
-	 * @return void
 	 */
-	public function clear_cookie() {
+	public function clear_cookie(): void {
 		$cookie_name   = $this->get_cookie_name();
 		$cookie_path   = defined( 'COOKIEPATH' ) ? COOKIEPATH : '/';
 		$cookie_domain = defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '';
 
 		// Set cookie to expire in the past.
 		setcookie(
-			$cookie_name,
-			'',
-			array(
+			name: $cookie_name,
+			value: '',
+			expires_or_options: [
 				'expires'  => time() - YEAR_IN_SECONDS,
 				'path'     => $cookie_path,
 				'domain'   => $cookie_domain,
 				'secure'   => is_ssl(),
 				'httponly' => true,
 				'samesite' => 'Lax',
-			)
+			]
 		);
 
 		// Remove from $_COOKIE.

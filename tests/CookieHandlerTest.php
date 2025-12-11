@@ -7,27 +7,28 @@
 
 use Brain\Monkey;
 use Brain\Monkey\Functions;
+use PassWP\Posts\Cookie_Handler;
 
 /**
  * Class CookieHandlerTest
  *
- * @covers PassWP_Posts_Cookie_Handler
+ * @covers \PassWP\Posts\Cookie_Handler
  */
 class CookieHandlerTest extends PassWP_Posts_TestCase {
 
 	/**
 	 * Cookie handler instance.
 	 *
-	 * @var PassWP_Posts_Cookie_Handler
+	 * @var Cookie_Handler
 	 */
-	private $handler;
+	private Cookie_Handler $handler;
 
 	/**
 	 * Set up test fixtures.
 	 */
 	protected function setUp(): void {
 		parent::setUp();
-		$this->handler = new PassWP_Posts_Cookie_Handler();
+		$this->handler = new Cookie_Handler();
 	}
 
 	/**

@@ -53,9 +53,39 @@
 	}
 
 	/**
+	 * Initialize password visibility toggle.
+	 */
+	function initPasswordToggle() {
+		var $toggle = $('.passwp-toggle-password');
+		var $input = $('#passwp_posts_password');
+
+		if (!$toggle.length || !$input.length) {
+			return;
+		}
+
+		$toggle.on('click', function (e) {
+			e.preventDefault();
+			var $button = $(this);
+			var $icon = $button.find('.dashicons');
+			var input = $input.get(0);
+
+			if (input.type === 'password') {
+				input.type = 'text';
+				$icon.removeClass('dashicons-visibility').addClass('dashicons-hidden');
+				$button.attr('aria-label', passwpPostsAdmin.hidePassword || 'Hide password');
+			} else {
+				input.type = 'password';
+				$icon.removeClass('dashicons-hidden').addClass('dashicons-visibility');
+				$button.attr('aria-label', passwpPostsAdmin.showPassword || 'Show password');
+			}
+		});
+	}
+
+	/**
 	 * Document ready.
 	 */
 	$(document).ready(function () {
 		initSelect2();
+		initPasswordToggle();
 	});
 })(jQuery);

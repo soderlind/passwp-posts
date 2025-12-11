@@ -57,6 +57,28 @@
 	outline: none;
 }
 
+/* Password field with toggle */
+.passwp-password-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.passwp-toggle-password {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 36px;
+	min-height: 32px;
+	padding: 0;
+	cursor: pointer;
+}
+
+.passwp-toggle-password .dashicons {
+	margin: 0;
+	padding: 0;
+}
+
 /* Description text adjustments */
 .form-table td p.description {
 	margin-top: 8px;

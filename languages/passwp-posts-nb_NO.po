@@ -73,6 +73,18 @@ msgstr "Ekskluderte sider/innlegg"
 msgid "Search for pages or posts..."
 msgstr "Søk etter sider eller innlegg..."
 
+#: includes/class-admin-settings.php:181
+msgid "Show password"
+msgstr "Vis passord"
+
+#: includes/class-admin-settings.php:182
+msgid "Hide password"
+msgstr "Skjul passord"
+
+#: includes/class-admin-settings.php:246
+msgid "Toggle password visibility"
+msgstr "Veksle passordsynlighet"
+
 #: includes/class-admin-settings.php:205
 msgid "Save Settings"
 msgstr "Lagre innstillinger"

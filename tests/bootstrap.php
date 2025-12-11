@@ -82,31 +82,31 @@ abstract class PassWP_Posts_TestCase extends \PHPUnit\Framework\TestCase {
 		// Escaping functions.
 		Monkey\Functions\stubs(
 			array(
-				'esc_html'           => function ( $text ) {
+				'esc_html'            => function ( $text ) {
 					return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
 				},
-				'esc_attr'           => function ( $text ) {
+				'esc_attr'            => function ( $text ) {
 					return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
 				},
-				'esc_url'            => function ( $url ) {
+				'esc_url'             => function ( $url ) {
 					return filter_var( $url, FILTER_SANITIZE_URL );
 				},
-				'esc_url_raw'        => function ( $url ) {
+				'esc_url_raw'         => function ( $url ) {
 					return filter_var( $url, FILTER_SANITIZE_URL );
 				},
-				'esc_html__'         => function ( $text, $domain = 'default' ) {
+				'esc_html__'          => function ( $text, $domain = 'default' ) {
 					return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
 				},
-				'esc_html_e'         => function ( $text, $domain = 'default' ) {
+				'esc_html_e'          => function ( $text, $domain = 'default' ) {
 					echo htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
 				},
-				'__'                 => function ( $text, $domain = 'default' ) {
+				'__'                  => function ( $text, $domain = 'default' ) {
 					return $text;
 				},
-				'_e'                 => function ( $text, $domain = 'default' ) {
+				'_e'                  => function ( $text, $domain = 'default' ) {
 					echo $text;
 				},
-				'esc_attr__'         => function ( $text, $domain = 'default' ) {
+				'esc_attr__'          => function ( $text, $domain = 'default' ) {
 					return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
 				},
 
@@ -114,55 +114,55 @@ abstract class PassWP_Posts_TestCase extends \PHPUnit\Framework\TestCase {
 				'sanitize_text_field' => function ( $str ) {
 					return trim( strip_tags( $str ) );
 				},
-				'sanitize_key'       => function ( $key ) {
+				'sanitize_key'        => function ( $key ) {
 					return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( $key ) );
 				},
-				'absint'             => function ( $value ) {
+				'absint'              => function ( $value ) {
 					return abs( (int) $value );
 				},
-				'wp_unslash'         => function ( $value ) {
+				'wp_unslash'          => function ( $value ) {
 					return is_array( $value ) ? array_map( 'stripslashes_deep', $value ) : stripslashes( $value );
 				},
 
 				// URL functions.
-				'home_url'           => function ( $path = '' ) {
+				'home_url'            => function ( $path = '' ) {
 					return 'https://example.com' . $path;
 				},
-				'admin_url'          => function ( $path = '' ) {
+				'admin_url'           => function ( $path = '' ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
-				'plugin_dir_url'     => function ( $file ) {
+				'plugin_dir_url'      => function ( $file ) {
 					return PASSWP_POSTS_URL;
 				},
-				'plugin_dir_path'    => function ( $file ) {
+				'plugin_dir_path'     => function ( $file ) {
 					return PASSWP_POSTS_PATH;
 				},
 
 				// Option functions (default stubs).
-				'get_option'         => function ( $option, $default = false ) {
+				'get_option'          => function ( $option, $default = false ) {
 					return $default;
 				},
-				'update_option'      => '__return_true',
-				'add_option'         => '__return_true',
-				'delete_option'      => '__return_true',
+				'update_option'       => '__return_true',
+				'add_option'          => '__return_true',
+				'delete_option'       => '__return_true',
 
 				// Hook functions.
-				'add_action'         => '__return_true',
-				'add_filter'         => '__return_true',
-				'do_action'          => '__return_null',
-				'apply_filters'      => function ( $tag, $value ) {
+				'add_action'          => '__return_true',
+				'add_filter'          => '__return_true',
+				'do_action'           => '__return_null',
+				'apply_filters'       => function ( $tag, $value ) {
 					return $value;
 				},
 
 				// Conditional functions.
-				'is_admin'           => '__return_false',
-				'is_ssl'             => '__return_true',
+				'is_admin'            => '__return_false',
+				'is_ssl'              => '__return_true',
 
 				// Misc functions.
-				'wp_die'             => function ( $message = '', $title = '', $args = array() ) {
+				'wp_die'              => function ( $message = '', $title = '', $args = array () ) {
 					throw new \Exception( $message );
 				},
-				'current_user_can'   => '__return_true',
+				'current_user_can'    => '__return_true',
 			)
 		);
 	}
@@ -172,3 +172,8 @@ abstract class PassWP_Posts_TestCase extends \PHPUnit\Framework\TestCase {
 require_once PASSWP_POSTS_PATH . 'includes/class-cookie-handler.php';
 require_once PASSWP_POSTS_PATH . 'includes/class-protection.php';
 require_once PASSWP_POSTS_PATH . 'includes/class-admin-settings.php';
+
+// Import namespaced classes for tests.
+use PassWP\Posts\Admin_Settings;
+use PassWP\Posts\Cookie_Handler;
+use PassWP\Posts\Protection;

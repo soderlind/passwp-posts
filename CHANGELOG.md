@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2024-12-11
+
+### Added
+
+- Password visibility toggle button on admin settings page
+- Cache busting for CSS/JS assets when `WP_DEBUG` is enabled (uses `time()` as version)
+
+### Changed
+
+- Improved dashicon centering in toggle button
+
 ## [1.0.0] - 2024-12-11
 
 ### Added
@@ -36,5 +47,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Admin capabilities checked with `manage_options`
 - All forms protected with WordPress nonces
 
-[Unreleased]: https://github.com/soderlind/passwp-posts/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/soderlind/passwp-posts/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/soderlind/passwp-posts/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/soderlind/passwp-posts/releases/tag/v1.0.0

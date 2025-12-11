@@ -7,11 +7,12 @@
 
 use Brain\Monkey;
 use Brain\Monkey\Functions;
+use PassWP\Posts\Protection;
 
 /**
  * Class ProtectionTest
  *
- * @covers PassWP_Posts_Protection
+ * @covers \PassWP\Posts\Protection
  */
 class ProtectionTest extends PassWP_Posts_TestCase {
 
@@ -30,7 +31,7 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 		Functions\expect( 'is_front_page' )->never();
 		Functions\expect( 'is_user_logged_in' )->never();
 
-		$protection = new PassWP_Posts_Protection();
+		$protection = new Protection();
 		$protection->check_protection();
 
 		// Test passes if no exception is thrown and we reach this point.
@@ -50,7 +51,7 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 
 		Functions\expect( 'is_front_page' )->never();
 
-		$protection = new PassWP_Posts_Protection();
+		$protection = new Protection();
 		$protection->check_protection();
 
 		$this->assertTrue( true );
@@ -70,7 +71,7 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 		Functions\when( 'is_front_page' )->justReturn( true );
 		Functions\expect( 'is_user_logged_in' )->never();
 
-		$protection = new PassWP_Posts_Protection();
+		$protection = new Protection();
 		$protection->check_protection();
 
 		$this->assertTrue( true );
@@ -90,7 +91,7 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 		Functions\when( 'is_front_page' )->justReturn( false );
 		Functions\when( 'is_user_logged_in' )->justReturn( true );
 
-		$protection = new PassWP_Posts_Protection();
+		$protection = new Protection();
 		$protection->check_protection();
 
 		$this->assertTrue( true );
@@ -112,14 +113,14 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 		Functions\when( 'is_admin' )->justReturn( true );
 
 		// Set pagenow global.
-		$GLOBALS['pagenow'] = 'edit.php';
+		$GLOBALS[ 'pagenow' ] = 'edit.php';
 
-		$protection = new PassWP_Posts_Protection();
+		$protection = new Protection();
 		$protection->check_protection();
 
 		$this->assertTrue( true );
 
-		unset( $GLOBALS['pagenow'] );
+		unset( $GLOBALS[ 'pagenow' ] );
 	}
 
 	/**
@@ -140,14 +141,14 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 		Functions\when( 'get_queried_object_id' )->justReturn( 123 );
 		Functions\when( 'wp_salt' )->justReturn( 'test_salt' );
 
-		$GLOBALS['pagenow'] = 'index.php';
+		$GLOBALS[ 'pagenow' ] = 'index.php';
 
-		$protection = new PassWP_Posts_Protection();
+		$protection = new Protection();
 		$protection->check_protection();
 
 		$this->assertTrue( true );
 
-		unset( $GLOBALS['pagenow'] );
+		unset( $GLOBALS[ 'pagenow' ] );
 	}
 
 	/**
@@ -156,12 +157,12 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 	public function test_form_submission_fails_without_nonce(): void {
 		Functions\when( 'wp_verify_nonce' )->justReturn( false );
 
-		$this->expectException( \Exception::class );
+		$this->expectException( \Exception::class);
 		$this->expectExceptionMessage( 'Security check failed.' );
 
 		$_POST = array();
 
-		$protection = new PassWP_Posts_Protection();
+		$protection = new Protection();
 		$protection->handle_form_submission();
 	}
 
@@ -195,9 +196,9 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 		);
 
 		try {
-			$protection = new PassWP_Posts_Protection();
+			$protection = new Protection();
 			$protection->handle_form_submission();
-		} catch ( \Exception $e ) {
+		} catch (\Exception $e) {
 			if ( 'redirect_called' !== $e->getMessage() ) {
 				throw $e;
 			}
@@ -240,9 +241,9 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 		);
 
 		try {
-			$protection = new PassWP_Posts_Protection();
+			$protection = new Protection();
 			$protection->handle_form_submission();
-		} catch ( \Exception $e ) {
+		} catch (\Exception $e) {
 			if ( 'redirect_called' !== $e->getMessage() ) {
 				throw $e;
 			}
