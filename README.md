@@ -1,6 +1,6 @@
 # PassWP Posts
 
-A WordPress plugin that password protects all pages and posts except the front page. Logged-in users bypass the password protection automatically.
+A WordPress plugin for password protecting your site's content. Protect all pages and posts or only selected ones—logged-in users always bypass.
 
 ## Features
 
@@ -8,8 +8,7 @@ A WordPress plugin that password protects all pages and posts except the front p
 - **Front Page Bypass**: The front page is always accessible without a password
 - **Logged-in User Bypass**: Authenticated users skip the password prompt
 - **Protection Modes**: Protect all content (with exclusions) or only selected pages/posts
-- **Remember Me**: Optional "remember me" functionality with configurable cookie duration
-- **Exclude Specific Content**: Use the Select2-powered dropdown to exclude specific pages or posts
+- **Remember Me**: Visitors stay authenticated for a configurable duration
 - **Secure Cookie Handling**: Uses SHA256 hashing with WordPress salts for cookie security
 - **Native WordPress Methods**: Built using WordPress Settings API and password functions
 
@@ -34,10 +33,11 @@ A WordPress plugin that password protects all pages and posts except the front p
 
 ## How It Works
 
-1. When a visitor tries to access any page or post (except the front page), they are shown a password form
+1. When a visitor tries to access a protected page or post, they are shown a password form
 2. If they enter the correct password, a secure cookie is set
 3. The cookie allows them to browse freely for the configured duration
 4. Logged-in users are never prompted for a password
+5. The front page is always public regardless of protection mode
 
 ## Security
 

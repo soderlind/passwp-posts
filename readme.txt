@@ -1,14 +1,14 @@
 === PassWP Posts ===
-Contributors: starter
+Contributors: soderlind
 Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Password protect all pages and posts except the front page. Logged-in users bypass protection automatically.
+Password protect your site's content. Protect all pages and posts or only selected ones—logged-in users always bypass.
 
 == Description ==
 
@@ -20,7 +20,7 @@ PassWP Posts is a simple yet powerful plugin that adds password protection to yo
 * **Front Page Always Accessible** - Your homepage remains public
 * **Logged-in User Bypass** - Authenticated users skip the password prompt
 * **Protection Modes** - Protect all content (with exclusions) or only selected pages/posts
-* **Remember Me** - Visitors can save their password for configurable durations
+* **Remember Me** - Visitors stay authenticated for configurable durations
 * **Secure** - Uses WordPress native password hashing and secure cookies
 
 **Perfect For:**
@@ -82,6 +82,9 @@ You may need to exclude protected pages from caching or configure your caching p
 
 == Changelog ==
 
+= 1.0.3 =
+* Housekeeping
+
 = 1.0.2 =
 * Added protection mode selection: protect all (with exclusions) or protect only selected posts
 * Improved settings page wording for clarity
@@ -102,6 +105,9 @@ You may need to exclude protected pages from caching or configure your caching p
 * Norwegian Bokmål translation included
 
 == Upgrade Notice ==
+
+= 1.0.3 =
+Housekeeping.
 
 = 1.0.2 =
 New protection mode selection - choose to protect all content or only specific pages/posts.
