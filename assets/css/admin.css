@@ -1,0 +1,63 @@
+/**
+ * Admin styles for PassWP Posts.
+ *
+ * @package PassWP_Posts
+ */
+
+/* Select2 container adjustments */
+.passwp-posts-select2+.select2-container {
+	max-width: 400px;
+}
+
+/* Select2 input styling to match WordPress */
+.select2-container--default .select2-selection--multiple {
+	border-color: #8c8f94;
+	border-radius: 4px;
+	min-height: 32px;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	outline: 2px solid transparent;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+	background-color: #2271b1;
+	border: none;
+	border-radius: 3px;
+	color: #fff;
+	padding: 2px 8px;
+	margin: 4px 4px 4px 0;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+	color: rgba(255, 255, 255, 0.7);
+	margin-right: 6px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+	color: #fff;
+	background: transparent;
+}
+
+/* Dropdown styling */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+	background-color: #2271b1;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+	border-color: #8c8f94;
+	border-radius: 4px;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	outline: none;
+}
+
+/* Description text adjustments */
+.form-table td p.description {
+	margin-top: 8px;
+}
