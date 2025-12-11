@@ -311,14 +311,12 @@ final class Admin_Settings {
 		?>
 		<fieldset>
 			<label>
-				<input type="radio" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[protection_mode]" value="all"
-					<?php checked( $protection_mode, 'all' ); ?> class="passwp-protection-mode" />
+				<input type="radio" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[protection_mode]" value="all" <?php checked( $protection_mode, 'all' ); ?> class="passwp-protection-mode" />
 				<?php esc_html_e( 'Protect all pages and posts (except front page)', 'passwp-posts' ); ?>
 			</label>
 			<br />
 			<label>
-				<input type="radio" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[protection_mode]" value="selected"
-					<?php checked( $protection_mode, 'selected' ); ?> class="passwp-protection-mode" />
+				<input type="radio" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[protection_mode]" value="selected" <?php checked( $protection_mode, 'selected' ); ?> class="passwp-protection-mode" />
 				<?php esc_html_e( 'Protect only selected pages and posts', 'passwp-posts' ); ?>
 			</label>
 		</fieldset>
@@ -426,8 +424,8 @@ final class Admin_Settings {
 		$sanitized[ 'cookie_expiry_days' ] = max( 1, min( 365, $expiry_days ) );
 
 		// Sanitize protection mode.
-		$protection_mode                    = $input[ 'protection_mode' ] ?? 'all';
-		$sanitized[ 'protection_mode' ]     = in_array( $protection_mode, [ 'all', 'selected' ], true ) ? $protection_mode : 'all';
+		$protection_mode                = $input[ 'protection_mode' ] ?? 'all';
+		$sanitized[ 'protection_mode' ] = in_array( $protection_mode, [ 'all', 'selected' ], true ) ? $protection_mode : 'all';
 
 		// Sanitize excluded posts.
 		$sanitized[ 'excluded_posts' ] = [];
