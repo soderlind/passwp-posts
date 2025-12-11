@@ -7,6 +7,7 @@ A WordPress plugin that password protects all pages and posts except the front p
 - **Single Password Protection**: Set one password for your entire site (no username required)
 - **Front Page Bypass**: The front page is always accessible without a password
 - **Logged-in User Bypass**: Authenticated users skip the password prompt
+- **Protection Modes**: Protect all content (with exclusions) or only selected pages/posts
 - **Remember Me**: Optional "remember me" functionality with configurable cookie duration
 - **Exclude Specific Content**: Use the Select2-powered dropdown to exclude specific pages or posts
 - **Secure Cookie Handling**: Uses SHA256 hashing with WordPress salts for cookie security
@@ -26,8 +27,10 @@ A WordPress plugin that password protects all pages and posts except the front p
 |---------|-------------|
 | **Enable Protection** | Toggle password protection on/off |
 | **Password** | The password visitors must enter to access protected content |
-| **Cookie Expiry** | Number of days to remember the password (default: 30) |
-| **Excluded Posts** | Select specific pages/posts to exclude from protection |
+| **Remember Me Duration** | Number of days to remember the password (default: 30) |
+| **Protection Mode** | Choose to protect all pages/posts or only selected ones |
+| **Excluded Pages/Posts** | When protecting all: select pages/posts to exclude |
+| **Protected Pages/Posts** | When protecting selected: choose which pages/posts to protect |
 
 ## How It Works
 
@@ -134,6 +137,16 @@ The plugin is translation-ready with the text domain `passwp-posts`. Available t
 GPL v2 or later
 
 ## Changelog
+
+### 1.0.2
+- Added protection mode selection: protect all (with exclusions) or protect only selected posts
+- Improved settings page wording for clarity
+- Updated Norwegian Bokmål translations
+
+### 1.0.1
+- Added password visibility toggle on settings page
+- Added cache busting for assets when WP_DEBUG is enabled
+- Improved PHP 8.3 compatibility with strict types
 
 ### 1.0.0
 - Initial release

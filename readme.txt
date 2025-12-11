@@ -19,8 +19,8 @@ PassWP Posts is a simple yet powerful plugin that adds password protection to yo
 * **Single Password** - One password protects your entire site (no username needed)
 * **Front Page Always Accessible** - Your homepage remains public
 * **Logged-in User Bypass** - Authenticated users skip the password prompt
+* **Protection Modes** - Protect all content (with exclusions) or only selected pages/posts
 * **Remember Me** - Visitors can save their password for configurable durations
-* **Exclude Content** - Choose specific pages or posts to remain public
 * **Secure** - Uses WordPress native password hashing and secure cookies
 
 **Perfect For:**
@@ -42,8 +42,10 @@ PassWP Posts is a simple yet powerful plugin that adds password protection to yo
 1. Navigate to **Settings → PassWP Posts**
 2. Check **Enable Protection** to activate
 3. Enter your desired **Password**
-4. Set **Cookie Expiry** (how long to remember the password)
-5. Optionally select pages/posts to exclude from protection
+4. Set **Remember Me Duration** (how long to remember the password)
+5. Choose **Protection Mode**:
+   - *Protect all pages and posts* - then optionally exclude specific content
+   - *Protect only selected* - then choose which pages/posts to protect
 6. Click **Save Settings**
 
 == Frequently Asked Questions ==
