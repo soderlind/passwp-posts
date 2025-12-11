@@ -192,21 +192,11 @@ class PassWP_Posts_Admin_Settings {
 			return;
 		}
 
-		// Show settings saved message.
-		if ( isset( $_GET[ 'settings-updated' ] ) ) {
-			add_settings_error(
-				'passwp_posts_messages',
-				'passwp_posts_message',
-				__( 'Settings saved.', 'passwp-posts' ),
-				'updated'
-			);
-		}
-
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 
-			<?php settings_errors( 'passwp_posts_messages' ); ?>
+			<?php settings_errors( self::OPTION_NAME ); ?>
 
 			<form action="options.php" method="post">
 				<?php

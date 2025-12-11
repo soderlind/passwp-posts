@@ -1,0 +1,157 @@
+# Copyright (C) 2025 Per Soderlind
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: PassWP Posts 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/passwp-posts\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-12-11T21:17:35+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: passwp-posts\n"
+
+#. Plugin Name of the plugin
+#: passwp-posts.php
+#: includes/class-admin-settings.php:54
+msgid "PassWP Posts"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: passwp-posts.php
+msgid "https://developer.suspended.no/passwp-posts"
+msgstr ""
+
+#. Description of the plugin
+#: passwp-posts.php
+msgid "Password protects all pages and posts except the front page. Logged-in users bypass the password."
+msgstr ""
+
+#. Author of the plugin
+#: passwp-posts.php
+msgid "Per Soderlind"
+msgstr ""
+
+#. Author URI of the plugin
+#: passwp-posts.php
+msgid "https://soderlind.no"
+msgstr ""
+
+#: includes/class-admin-settings.php:53
+msgid "PassWP Posts Settings"
+msgstr ""
+
+#: includes/class-admin-settings.php:85
+msgid "Password Protection Settings"
+msgstr ""
+
+#: includes/class-admin-settings.php:93
+msgid "Enable Protection"
+msgstr ""
+
+#: includes/class-admin-settings.php:102
+#: templates/password-form.php:86
+msgid "Password"
+msgstr ""
+
+#: includes/class-admin-settings.php:111
+msgid "Remember Me Duration"
+msgstr ""
+
+#: includes/class-admin-settings.php:120
+msgid "Excluded Pages/Posts"
+msgstr ""
+
+#: includes/class-admin-settings.php:180
+msgid "Search for pages or posts..."
+msgstr ""
+
+#: includes/class-admin-settings.php:205
+msgid "Save Settings"
+msgstr ""
+
+#: includes/class-admin-settings.php:218
+msgid "Configure password protection for your site. The front page and logged-in users are always allowed."
+msgstr ""
+
+#: includes/class-admin-settings.php:232
+msgid "Enable password protection for all pages and posts"
+msgstr ""
+
+#: includes/class-admin-settings.php:235
+msgid "When enabled, visitors must enter the password to view any page except the front page."
+msgstr ""
+
+#: includes/class-admin-settings.php:251
+msgid "Leave blank to keep current password"
+msgstr ""
+
+#: includes/class-admin-settings.php:251
+#: templates/password-form.php:89
+msgid "Enter password"
+msgstr ""
+
+#: includes/class-admin-settings.php:255
+msgid "A password is currently set. Enter a new password to change it, or leave blank to keep the current password."
+msgstr ""
+
+#: includes/class-admin-settings.php:259
+msgid "Enter the password visitors will use to access protected content."
+msgstr ""
+
+#: includes/class-admin-settings.php:277
+msgid "days"
+msgstr ""
+
+#: includes/class-admin-settings.php:279
+msgid "How long the \"Remember Me\" authentication lasts. Default is 30 days."
+msgstr ""
+
+#: includes/class-admin-settings.php:316
+msgid "Select pages or posts that should be accessible without a password (in addition to the front page)."
+msgstr ""
+
+#: includes/class-admin-settings.php:371
+msgid "Permission denied."
+msgstr ""
+
+#: includes/class-protection.php:148
+msgid "Security check failed."
+msgstr ""
+
+#: templates/password-form.php:22
+msgid "Incorrect password. Please try again."
+msgstr ""
+
+#: templates/password-form.php:23
+msgid "No password has been configured. Please contact the site administrator."
+msgstr ""
+
+#. translators: %s is the site name.
+#: templates/password-form.php:34
+#, php-format
+msgid "Password Required - %s"
+msgstr ""
+
+#: templates/password-form.php:61
+msgid "Password Required"
+msgstr ""
+
+#: templates/password-form.php:63
+msgid "This content is protected. Please enter the password to continue."
+msgstr ""
+
+#: templates/password-form.php:96
+msgid "Remember me"
+msgstr ""
+
+#: templates/password-form.php:101
+msgid "Submit"
+msgstr ""
+
+#: templates/password-form.php:108
+msgid "Back to home"
+msgstr ""
