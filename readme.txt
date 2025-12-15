@@ -4,7 +4,7 @@ Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,13 @@ You may need to exclude protected pages from caching or configure your caching p
 
 == Changelog ==
 
+= 1.1.1 =
+* Fixed fatal error when Plugin Update Checker library is not available
+* Included production vendor files in repository
+* Fixed JavaScript XSS vulnerabilities with proper URL and HTML escaping
+* Fixed namespace error in password form template
+* Aligned CUSTOMIZE_DEFAULTS with template field names
+
 = 1.1.0 =
 * Added Customize tab with live preview for password form styling
 * Added preset themes: Default Purple, Business Blue, Dark Mode
@@ -139,6 +146,9 @@ You may need to exclude protected pages from caching or configure your caching p
 * Norwegian Bokmål translation included
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+Bug fixes for fatal errors and security improvements.
 
 = 1.1.0 =
 New Customize tab with preset themes and live preview for password form styling.

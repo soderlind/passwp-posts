@@ -82,6 +82,11 @@ class GitHub_Plugin_Updater {
 	 * Set up the update checker using GitHub integration
 	 */
 	public function setup_updater() {
+		// Check if the Plugin Update Checker library is available.
+		if ( ! class_exists( PucFactory::class ) ) {
+			return;
+		}
+
 		try {
 			$update_checker = PucFactory::buildUpdateChecker(
 				$this->github_url,
