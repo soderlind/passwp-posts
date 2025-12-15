@@ -59,7 +59,7 @@ Go to **Settings → PassWP Posts** to configure the plugin.
 1. When a visitor tries to access a protected page or post, they are shown a password form
 2. If they enter the correct password, a secure cookie is set
 3. The cookie allows them to browse freely for the configured duration
-4. Logged-in users are never prompted for a password, so **use incognito or private browsing mode to test protection**.
+4. Logged-in users are never prompted for a password (so **use incognito or private browsing mode to test protection**).
 5. The front page is always public regardless of protection mode
 
 ## Security
