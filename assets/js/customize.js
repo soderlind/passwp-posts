@@ -247,6 +247,25 @@
         return /^(https?:\/\/|\/(?!\/)|\.{0,2}\/|[^:]+$)/i.test(url) && !/^\s*(javascript|data|vbscript):/i.test(url);
     }
 
+	function escapeHtml(text) {
+	    if (typeof text !== 'string') return '';
+	    return text.replace(/[&<>"']/g, function (c) {
+	        switch (c) {
+	            case '&': return '&amp;';
+	            case '<': return '&lt;';
+	            case '>': return '&gt;';
+	            case '"': return '&quot;';
+	            case "'": return '&#39;';
+	            default: return c;
+	        }
+	    });
+	}
+
+	// Simple CSS hex color validation (accepts #RGB, #RRGGBB, #RRGGBBAA)
+	function isValidHexColor(c) {
+	    return typeof c === 'string' && /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(c.trim());
+	}
+
 	function updatePreview() {
 		const $preview = $('.passwp-preview-frame');
 		if (!$preview.length) return;
@@ -266,7 +285,7 @@
 		const logoWidth = $('#passwp_logo_width').val() || 120;
 		const headingText = $('#passwp_heading_text').val();
 		const headingColor = $('#passwp_heading_color').val() || '#1e1e1e';
-		const textColor = $('#passwp_text_color').val() || '#666666';
+		let textColor = $('#passwp_text_color').val() || '#666666';
 		const fontFamily = $('#passwp_font_family').val() || 'system-ui, -apple-system, sans-serif';
 		const buttonText = $('#passwp_button_text').val();
 		const buttonBgColor = $('#passwp_button_bg_color').val() || '#667eea';
@@ -276,6 +295,11 @@
 		const inputBorderRadius = $('#passwp_input_border_radius').val() || 8;
 		const footerText = $('#passwp_footer_text').val();
 		const footerLink = $('#passwp_footer_link').val();
+
+		// Sanitize textColor
+		if (!isValidHexColor(textColor)) {
+		    textColor = '#666666';
+		}
 
 		// Build background style.
 		let bgStyle;
@@ -343,9 +367,9 @@
 		const $footer = $preview.find('.passwp-preview-footer');
 		if (footerText) {
 			if (footerLink) {
-				$footer.html('<a href="' + footerLink + '" style="color: ' + buttonBgColor + ';">' + footerText + '</a>');
+				$footer.html('<a href="' + escapeHtml(footerLink) + '" style="color: ' + buttonBgColor + ';">' + escapeHtml(footerText) + '</a>');
 			} else {
-				$footer.html('<span style="color: ' + textColor + ';">' + footerText + '</span>');
+				$footer.html('<span style="color: ' + textColor + ';">' + escapeHtml(footerText) + '</span>');
 			}
 		} else {
 			$footer.html('<a href="#" style="color: ' + buttonBgColor + ';">&larr; Back to home</a>');
