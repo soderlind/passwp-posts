@@ -17,6 +17,9 @@ defined( 'ABSPATH' ) || exit;
 $site_name = get_bloginfo( 'name' );
 $site_url  = home_url();
 
+// Get customize settings.
+$customize = PassWP\Posts\Admin_Settings::get_customize_settings();
+
 // Error messages.
 $error_messages = array(
 	'invalid'     => __( 'Incorrect password. Please try again.', 'passwp-posts' ),
@@ -24,6 +27,16 @@ $error_messages = array(
 );
 
 $error_message = isset( $error_messages[ $error ] ) ? $error_messages[ $error ] : '';
+
+// Build background style.
+$bg_style = '';
+if ( ! empty( $customize[ 'bg_image' ] ) ) {
+	$bg_style = sprintf( 'background-image: url(%s); background-size: cover; background-position: center;', esc_url( $customize[ 'bg_image' ] ) );
+} elseif ( ! empty( $customize[ 'bg_gradient_end' ] ) ) {
+	$bg_style = sprintf( 'background: linear-gradient(135deg, %s 0%%, %s 100%%);', esc_attr( $customize[ 'bg_color' ] ), esc_attr( $customize[ 'bg_gradient_end' ] ) );
+} else {
+	$bg_style = sprintf( 'background-color: %s;', esc_attr( $customize[ 'bg_color' ] ) );
+}
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -37,19 +50,71 @@ $error_message = isset( $error_messages[ $error ] ) ? $error_messages[ $error ] 
 	<link rel="stylesheet"
 		href="<?php echo esc_url( PASSWP_POSTS_URL . 'assets/css/password-form.css?ver=' . PASSWP_POSTS_VERSION ); ?>">
 	<?php wp_site_icon(); ?>
+	<style>
+		:root {
+			--passwp-bg-color:
+				<?php echo esc_attr( $customize[ 'bg_color' ] ); ?>
+			;
+			--passwp-bg-gradient-end:
+				<?php echo esc_attr( $customize[ 'bg_gradient_end' ] ?: $customize[ 'bg_color' ] ); ?>
+			;
+			--passwp-card-bg-color:
+				<?php echo esc_attr( $customize[ 'card_bg_color' ] ); ?>
+			;
+			--passwp-card-border-radius:
+				<?php echo absint( $customize[ 'card_border_radius' ] ); ?>
+				px;
+			--passwp-card-shadow:
+				<?php echo $customize[ 'card_shadow' ] ? '0 10px 40px rgba(0, 0, 0, 0.2)' : 'none'; ?>
+			;
+			--passwp-heading-color:
+				<?php echo esc_attr( $customize[ 'heading_color' ] ); ?>
+			;
+			--passwp-text-color:
+				<?php echo esc_attr( $customize[ 'text_color' ] ); ?>
+			;
+			--passwp-font-family:
+				<?php echo esc_attr( $customize[ 'font_family' ] ); ?>
+			;
+			--passwp-button-bg-color:
+				<?php echo esc_attr( $customize[ 'button_bg_color' ] ); ?>
+			;
+			--passwp-button-text-color:
+				<?php echo esc_attr( $customize[ 'button_text_color' ] ); ?>
+			;
+			--passwp-button-border-radius:
+				<?php echo absint( $customize[ 'button_border_radius' ] ); ?>
+				px;
+			--passwp-input-border-radius:
+				<?php echo absint( $customize[ 'input_border_radius' ] ); ?>
+				px;
+		}
+
+		.passwp-posts-body {
+			<?php echo $bg_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built with escaped values above. ?>
+			font-family: var(--passwp-font-family);
+		}
+	</style>
 </head>
 
 <body class="passwp-posts-body">
 	<div class="passwp-posts-container">
 		<div class="passwp-posts-card">
-			<div class="passwp-posts-header">
-				<a href="<?php echo esc_url( $site_url ); ?>" class="passwp-posts-site-link">
-					<?php if ( has_site_icon() ) : ?>
-						<img src="<?php echo esc_url( get_site_icon_url( 64 ) ); ?>" alt="" class="passwp-posts-site-icon">
-					<?php endif; ?>
-					<h1 class="passwp-posts-site-name"><?php echo esc_html( $site_name ); ?></h1>
-				</a>
-			</div>
+			<?php if ( ! empty( $customize[ 'logo' ] ) ) : ?>
+				<div class="passwp-posts-logo">
+					<img src="<?php echo esc_url( $customize[ 'logo' ] ); ?>" alt="<?php echo esc_attr( $site_name ); ?>"
+						style="width: <?php echo absint( $customize[ 'logo_width' ] ); ?>px;">
+				</div>
+			<?php else : ?>
+				<div class="passwp-posts-header">
+					<a href="<?php echo esc_url( $site_url ); ?>" class="passwp-posts-site-link">
+						<?php if ( has_site_icon() ) : ?>
+							<img src="<?php echo esc_url( get_site_icon_url( 64 ) ); ?>" alt="" class="passwp-posts-site-icon">
+						<?php endif; ?>
+						<h1 class="passwp-posts-site-name"><?php echo esc_html( $site_name ); ?></h1>
+					</a>
+				</div>
+			<?php endif; ?>
 
 			<div class="passwp-posts-content">
 				<div class="passwp-posts-lock-icon">
@@ -60,7 +125,9 @@ $error_message = isset( $error_messages[ $error ] ) ? $error_messages[ $error ] 
 					</svg>
 				</div>
 
-				<h2 class="passwp-posts-title"><?php esc_html_e( 'Password Required', 'passwp-posts' ); ?></h2>
+				<h2 class="passwp-posts-title">
+					<?php echo esc_html( $customize[ 'heading_text' ] ?: __( 'Password Required', 'passwp-posts' ) ); ?>
+				</h2>
 				<p class="passwp-posts-description">
 					<?php esc_html_e( 'This content is protected. Please enter the password to continue.', 'passwp-posts' ); ?>
 				</p>
@@ -92,7 +159,7 @@ $error_message = isset( $error_messages[ $error ] ) ? $error_messages[ $error ] 
 							autocomplete="current-password">
 					</div>
 
-					<div class="passwp-posts-remember">
+					<div class="passwp-posts-remember" <?php echo $customize[ 'show_remember_me' ] ? '' : ' style="display: none;"'; ?>>
 						<label class="passwp-posts-checkbox-label">
 							<input type="checkbox" name="passwp_remember" value="1" checked>
 							<span><?php esc_html_e( 'Remember me', 'passwp-posts' ); ?></span>
@@ -100,14 +167,23 @@ $error_message = isset( $error_messages[ $error ] ) ? $error_messages[ $error ] 
 					</div>
 
 					<button type="submit" class="passwp-posts-submit">
-						<?php esc_html_e( 'Submit', 'passwp-posts' ); ?>
+						<?php echo esc_html( $customize[ 'button_text' ] ?: __( 'Submit', 'passwp-posts' ) ); ?>
 					</button>
 				</form>
 			</div>
 
 			<div class="passwp-posts-footer">
-				<a href="<?php echo esc_url( $site_url ); ?>">&larr;
-					<?php esc_html_e( 'Back to home', 'passwp-posts' ); ?></a>
+				<?php if ( ! empty( $customize[ 'footer_text' ] ) ) : ?>
+					<?php if ( ! empty( $customize[ 'footer_link' ] ) ) : ?>
+						<a
+							href="<?php echo esc_url( $customize[ 'footer_link' ] ); ?>"><?php echo esc_html( $customize[ 'footer_text' ] ); ?></a>
+					<?php else : ?>
+						<span><?php echo esc_html( $customize[ 'footer_text' ] ); ?></span>
+					<?php endif; ?>
+				<?php else : ?>
+					<a href="<?php echo esc_url( $site_url ); ?>">&larr;
+						<?php esc_html_e( 'Back to home', 'passwp-posts' ); ?></a>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>

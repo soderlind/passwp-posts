@@ -8,9 +8,13 @@ A WordPress plugin for password protecting your site's content. Protect all page
 - **Front Page Bypass**: The front page is always accessible without a password
 - **Logged-in User Bypass**: Authenticated users skip the password prompt
 - **Protection Modes**: Protect all content (with exclusions) or only selected pages/posts
+- **Customizable Password Form**: Personalize colors, typography, logo, and more with live preview
+- **Preset Themes**: Choose from built-in themes (Default Purple, Business Blue, Dark Mode)
 - **Remember Me**: Visitors stay authenticated for a configurable duration
 - **Secure Cookie Handling**: Uses SHA256 hashing with WordPress salts for cookie security
 - **Native WordPress Methods**: Built using WordPress Settings API and password functions
+
+
 
 ## Installation
 
@@ -20,7 +24,7 @@ A WordPress plugin for password protecting your site's content. Protect all page
 
 ## Configuration
 
-### Settings
+### General Settings
 
 | Setting | Description |
 |---------|-------------|
@@ -30,6 +34,19 @@ A WordPress plugin for password protecting your site's content. Protect all page
 | **Protection Mode** | Choose to protect all pages/posts or only selected ones |
 | **Excluded Pages/Posts** | When protecting all: select pages/posts to exclude |
 | **Protected Pages/Posts** | When protecting selected: choose which pages/posts to protect |
+
+### Customize Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Preset Themes** | Quick-apply themes: Default Purple, Business Blue, Dark Mode |
+| **Background** | Background color, gradient, and optional background image |
+| **Card Styling** | Card background color, border radius, and shadow |
+| **Logo** | Upload a custom logo with adjustable width |
+| **Typography** | Heading text, colors, and font family |
+| **Button** | Button text, colors, and border radius |
+| **Form Options** | Show/hide "Remember Me" checkbox, input border radius |
+| **Footer** | Custom footer text and link URL |
 
 ## How It Works
 
@@ -89,9 +106,11 @@ passwp-posts/
 ├── assets/
 │   ├── css/
 │   │   ├── admin.css
+│   │   ├── customize-admin.css
 │   │   └── password-form.css
 │   ├── js/
-│   │   └── admin.js
+│   │   ├── admin.js
+│   │   └── customize.js
 │   └── vendor/
 │       └── select2/
 ├── includes/

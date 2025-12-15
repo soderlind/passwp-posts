@@ -32,6 +32,34 @@ final class Admin_Settings {
 	private const PAGE_SLUG = 'passwp-posts-settings';
 
 	/**
+	 * Default customize settings.
+	 *
+	 * @var array<string, mixed>
+	 */
+	private const CUSTOMIZE_DEFAULTS = [
+		'bg_color'             => '#667eea',
+		'bg_gradient_end'      => '#764ba2',
+		'bg_image'             => '',
+		'card_bg_color'        => '#ffffff',
+		'card_border_radius'   => 12,
+		'card_shadow'          => true,
+		'logo'                 => '',
+		'logo_width'           => 120,
+		'heading_text'         => '',
+		'heading_color'        => '#1a1a2e',
+		'text_color'           => '#4a5568',
+		'font_family'          => 'system-ui, -apple-system, sans-serif',
+		'button_text'          => '',
+		'button_bg_color'      => '#667eea',
+		'button_text_color'    => '#ffffff',
+		'button_border_radius' => 8,
+		'show_remember_me'     => true,
+		'input_border_radius'  => 8,
+		'footer_text'          => '',
+		'footer_link_url'      => '',
+	];
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -66,14 +94,7 @@ final class Admin_Settings {
 			args: [
 				'type'              => 'array',
 				'sanitize_callback' => $this->sanitize_settings( ... ),
-				'default'           => [
-					'password_hash'      => '',
-					'cookie_expiry_days' => 30,
-					'protection_mode'    => 'all',
-					'excluded_posts'     => [],
-					'protected_posts'    => [],
-					'enabled'            => false,
-				],
+				'default'           => $this->get_default_settings(),
 			]
 		);
 
@@ -141,6 +162,34 @@ final class Admin_Settings {
 	}
 
 	/**
+	 * Get default settings.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function get_default_settings(): array {
+		return [
+			'password_hash'      => '',
+			'cookie_expiry_days' => 30,
+			'protection_mode'    => 'all',
+			'excluded_posts'     => [],
+			'protected_posts'    => [],
+			'enabled'            => false,
+			'customize'          => self::CUSTOMIZE_DEFAULTS,
+		];
+	}
+
+	/**
+	 * Get customize settings with defaults.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public static function get_customize_settings(): array {
+		$settings  = get_option( self::OPTION_NAME, [] );
+		$customize = $settings[ 'customize' ] ?? [];
+		return array_merge( self::CUSTOMIZE_DEFAULTS, $customize );
+	}
+
+	/**
 	 * Enqueue admin scripts and styles.
 	 *
 	 * @param string $hook Current admin page hook.
@@ -153,6 +202,9 @@ final class Admin_Settings {
 
 		// Use time() for cache busting in debug mode.
 		$version = defined( 'WP_DEBUG' ) && WP_DEBUG ? (string) time() : PASSWP_POSTS_VERSION;
+
+		// Get current tab.
+		$current_tab = isset( $_GET[ 'tab' ] ) ? sanitize_key( $_GET[ 'tab' ] ) : 'general';
 
 		// Select2 CSS.
 		wp_enqueue_style(
@@ -205,6 +257,47 @@ final class Admin_Settings {
 				'protectionMode' => $protection_mode,
 			]
 		);
+
+		// Customize tab assets.
+		if ( 'customize' === $current_tab ) {
+			// WordPress color picker.
+			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script( 'wp-color-picker' );
+
+			// WordPress media uploader.
+			wp_enqueue_media();
+
+			// Customize admin CSS.
+			wp_enqueue_style(
+				handle: 'passwp-posts-customize-admin',
+				src: PASSWP_POSTS_URL . 'assets/css/customize-admin.css',
+				deps: [ 'wp-color-picker' ],
+				ver: $version
+			);
+
+			// Customize JS.
+			wp_enqueue_script(
+				handle: 'passwp-posts-customize',
+				src: PASSWP_POSTS_URL . 'assets/js/customize.js',
+				deps: [ 'jquery', 'wp-color-picker' ],
+				ver: $version,
+				args: true
+			);
+
+			// Localize customize script.
+			wp_localize_script(
+				handle: 'passwp-posts-customize',
+				object_name: 'passwpCustomize',
+				l10n: [
+					'defaults'           => self::CUSTOMIZE_DEFAULTS,
+					'resetConfirm'       => __( 'Are you sure you want to reset all customize settings to defaults?', 'passwp-posts' ),
+					'selectImage'        => __( 'Select Image', 'passwp-posts' ),
+					'useImage'           => __( 'Use this image', 'passwp-posts' ),
+					'removeImage'        => __( 'Remove', 'passwp-posts' ),
+					'previewPasswordUrl' => add_query_arg( 'passwp-preview', '1', home_url( '/' ) ),
+				]
+			);
+		}
 	}
 
 	/**
@@ -215,19 +308,437 @@ final class Admin_Settings {
 			return;
 		}
 
+		$current_tab = isset( $_GET[ 'tab' ] ) ? sanitize_key( $_GET[ 'tab' ] ) : 'general';
+		$page_url    = admin_url( 'options-general.php?page=' . self::PAGE_SLUG );
+
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 
 			<?php settings_errors( self::OPTION_NAME ); ?>
 
-			<form action="options.php" method="post">
-				<?php
-				settings_fields( 'passwp_posts_settings_group' );
-				do_settings_sections( self::PAGE_SLUG );
-				submit_button( __( 'Save Settings', 'passwp-posts' ) );
-				?>
-			</form>
+			<nav class="nav-tab-wrapper">
+				<a href="<?php echo esc_url( $page_url ); ?>"
+					class="nav-tab <?php echo 'general' === $current_tab ? 'nav-tab-active' : ''; ?>">
+					<?php esc_html_e( 'General', 'passwp-posts' ); ?>
+				</a>
+				<a href="<?php echo esc_url( add_query_arg( 'tab', 'customize', $page_url ) ); ?>"
+					class="nav-tab <?php echo 'customize' === $current_tab ? 'nav-tab-active' : ''; ?>">
+					<?php esc_html_e( 'Customize', 'passwp-posts' ); ?>
+				</a>
+			</nav>
+
+			<?php
+			if ( 'customize' === $current_tab ) {
+				$this->render_customize_tab();
+			} else {
+				$this->render_general_tab();
+			}
+			?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render the general settings tab.
+	 */
+	private function render_general_tab(): void {
+		?>
+		<form action="options.php" method="post">
+			<?php
+			settings_fields( 'passwp_posts_settings_group' );
+			do_settings_sections( self::PAGE_SLUG );
+			submit_button( __( 'Save Settings', 'passwp-posts' ) );
+			?>
+		</form>
+		<?php
+	}
+
+	/**
+	 * Render the customize settings tab.
+	 */
+	private function render_customize_tab(): void {
+		$settings = self::get_customize_settings();
+		?>
+		<form action="options.php" method="post" id="passwp-customize-form">
+			<?php settings_fields( 'passwp_posts_settings_group' ); ?>
+			<input type="hidden" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[_customize_tab]" value="1" />
+
+			<div class="passwp-customize-wrapper">
+				<div class="passwp-customize-options">
+					<!-- Preset Themes -->
+					<div class="passwp-section">
+						<h2><?php esc_html_e( 'Preset Themes', 'passwp-posts' ); ?></h2>
+						<div class="passwp-presets">
+							<button type="button" class="passwp-preset-card" data-preset="default">
+								<span class="passwp-preset-preview"
+									style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></span>
+								<span class="passwp-preset-name"><?php esc_html_e( 'Default Purple', 'passwp-posts' ); ?></span>
+							</button>
+							<button type="button" class="passwp-preset-card" data-preset="business-blue">
+								<span class="passwp-preset-preview"
+									style="background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);"></span>
+								<span class="passwp-preset-name"><?php esc_html_e( 'Business Blue', 'passwp-posts' ); ?></span>
+							</button>
+							<button type="button" class="passwp-preset-card" data-preset="dark-mode">
+								<span class="passwp-preset-preview" style="background: #1a1a2e;"></span>
+								<span class="passwp-preset-name"><?php esc_html_e( 'Dark Mode', 'passwp-posts' ); ?></span>
+							</button>
+						</div>
+					</div>
+
+					<div class="passwp-settings-grid">
+						<!-- Background -->
+						<div class="passwp-section">
+							<h2><?php esc_html_e( 'Background', 'passwp-posts' ); ?></h2>
+
+							<div class="passwp-form-row">
+								<label for="passwp_bg_color"><?php esc_html_e( 'Background Color', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_bg_color"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][bg_color]"
+									value="<?php echo esc_attr( $settings[ 'bg_color' ] ); ?>" class="passwp-color-picker"
+									data-default-color="<?php echo esc_attr( self::CUSTOMIZE_DEFAULTS[ 'bg_color' ] ); ?>" />
+							</div>
+
+							<div class="passwp-form-row">
+								<label
+									for="passwp_bg_gradient_end"><?php esc_html_e( 'Gradient End Color', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_bg_gradient_end"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][bg_gradient_end]"
+									value="<?php echo esc_attr( $settings[ 'bg_gradient_end' ] ); ?>"
+									class="passwp-color-picker"
+									data-default-color="<?php echo esc_attr( self::CUSTOMIZE_DEFAULTS[ 'bg_gradient_end' ] ); ?>" />
+								<p class="description">
+									<?php esc_html_e( 'Leave empty for solid color background.', 'passwp-posts' ); ?>
+								</p>
+							</div>
+
+							<div class="passwp-form-row">
+								<label for="passwp_bg_image"><?php esc_html_e( 'Background Image', 'passwp-posts' ); ?></label>
+								<div class="passwp-media-upload" data-target="passwp_bg_image">
+									<input type="hidden" id="passwp_bg_image"
+										name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][bg_image]"
+										value="<?php echo esc_url( $settings[ 'bg_image' ] ); ?>" />
+									<div class="passwp-media-preview">
+										<?php if ( ! empty( $settings[ 'bg_image' ] ) ) : ?>
+											<img src="<?php echo esc_url( $settings[ 'bg_image' ] ); ?>" alt="" />
+										<?php endif; ?>
+									</div>
+									<button type="button"
+										class="button passwp-media-select"><?php esc_html_e( 'Select Image', 'passwp-posts' ); ?></button>
+									<button type="button" class="button passwp-media-remove" <?php echo empty( $settings[ 'bg_image' ] ) ? 'style="display:none;"' : ''; ?>><?php esc_html_e( 'Remove', 'passwp-posts' ); ?></button>
+								</div>
+							</div>
+						</div>
+
+						<!-- Card Styling -->
+						<div class="passwp-section">
+							<h2><?php esc_html_e( 'Card Styling', 'passwp-posts' ); ?></h2>
+
+							<div class="passwp-form-row">
+								<label
+									for="passwp_card_bg_color"><?php esc_html_e( 'Card Background Color', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_card_bg_color"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][card_bg_color]"
+									value="<?php echo esc_attr( $settings[ 'card_bg_color' ] ); ?>" class="passwp-color-picker"
+									data-default-color="<?php echo esc_attr( self::CUSTOMIZE_DEFAULTS[ 'card_bg_color' ] ); ?>" />
+							</div>
+
+							<div class="passwp-form-row">
+								<label
+									for="passwp_card_border_radius"><?php esc_html_e( 'Card Border Radius', 'passwp-posts' ); ?></label>
+								<div class="passwp-range-wrapper">
+									<input type="range" id="passwp_card_border_radius"
+										name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][card_border_radius]"
+										value="<?php echo esc_attr( $settings[ 'card_border_radius' ] ); ?>" min="0" max="50"
+										step="1" />
+									<span
+										class="passwp-range-value"><?php echo esc_html( $settings[ 'card_border_radius' ] ); ?>px</span>
+								</div>
+							</div>
+
+							<div class="passwp-form-row">
+								<label for="passwp_card_shadow"><?php esc_html_e( 'Card Shadow', 'passwp-posts' ); ?></label>
+								<label class="passwp-toggle">
+									<input type="checkbox" id="passwp_card_shadow"
+										name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][card_shadow]" value="1"
+										<?php checked( $settings[ 'card_shadow' ] ); ?> />
+									<span class="passwp-toggle-slider"></span>
+								</label>
+							</div>
+						</div>
+
+						<!-- Logo -->
+						<div class="passwp-section">
+							<h2><?php esc_html_e( 'Logo', 'passwp-posts' ); ?></h2>
+
+							<div class="passwp-form-row">
+								<label for="passwp_logo"><?php esc_html_e( 'Logo Image', 'passwp-posts' ); ?></label>
+								<div class="passwp-media-upload" data-target="passwp_logo">
+									<input type="hidden" id="passwp_logo"
+										name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][logo]"
+										value="<?php echo esc_url( $settings[ 'logo' ] ); ?>" />
+									<div class="passwp-media-preview">
+										<?php if ( ! empty( $settings[ 'logo' ] ) ) : ?>
+											<img src="<?php echo esc_url( $settings[ 'logo' ] ); ?>" alt="" />
+										<?php endif; ?>
+									</div>
+									<button type="button"
+										class="button passwp-media-select"><?php esc_html_e( 'Select Image', 'passwp-posts' ); ?></button>
+									<button type="button" class="button passwp-media-remove" <?php echo empty( $settings[ 'logo' ] ) ? 'style="display:none;"' : ''; ?>><?php esc_html_e( 'Remove', 'passwp-posts' ); ?></button>
+								</div>
+							</div>
+
+							<div class="passwp-form-row">
+								<label for="passwp_logo_width"><?php esc_html_e( 'Logo Width', 'passwp-posts' ); ?></label>
+								<div class="passwp-range-wrapper">
+									<input type="range" id="passwp_logo_width"
+										name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][logo_width]"
+										value="<?php echo esc_attr( $settings[ 'logo_width' ] ); ?>" min="50" max="300"
+										step="10" />
+									<span
+										class="passwp-range-value"><?php echo esc_html( $settings[ 'logo_width' ] ); ?>px</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Typography -->
+						<div class="passwp-section">
+							<h2><?php esc_html_e( 'Typography', 'passwp-posts' ); ?></h2>
+
+							<div class="passwp-form-row">
+								<label for="passwp_heading_text"><?php esc_html_e( 'Heading Text', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_heading_text"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][heading_text]"
+									value="<?php echo esc_attr( $settings[ 'heading_text' ] ); ?>" class="regular-text" />
+							</div>
+
+							<div class="passwp-form-row">
+								<label
+									for="passwp_heading_color"><?php esc_html_e( 'Heading Color', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_heading_color"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][heading_color]"
+									value="<?php echo esc_attr( $settings[ 'heading_color' ] ); ?>" class="passwp-color-picker"
+									data-default-color="<?php echo esc_attr( self::CUSTOMIZE_DEFAULTS[ 'heading_color' ] ); ?>" />
+							</div>
+
+							<div class="passwp-form-row">
+								<label for="passwp_text_color"><?php esc_html_e( 'Text Color', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_text_color"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][text_color]"
+									value="<?php echo esc_attr( $settings[ 'text_color' ] ); ?>" class="passwp-color-picker"
+									data-default-color="<?php echo esc_attr( self::CUSTOMIZE_DEFAULTS[ 'text_color' ] ); ?>" />
+							</div>
+
+							<div class="passwp-form-row">
+								<label for="passwp_font_family"><?php esc_html_e( 'Font Family', 'passwp-posts' ); ?></label>
+								<select id="passwp_font_family"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][font_family]">
+									<option value="system-ui, -apple-system, sans-serif" <?php selected( $settings[ 'font_family' ], 'system-ui, -apple-system, sans-serif' ); ?>>
+										<?php esc_html_e( 'System Default', 'passwp-posts' ); ?>
+									</option>
+									<option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" <?php selected( $settings[ 'font_family' ], "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" ); ?>>
+										<?php esc_html_e( 'Segoe UI', 'passwp-posts' ); ?>
+									</option>
+									<option value="Georgia, 'Times New Roman', serif" <?php selected( $settings[ 'font_family' ], "Georgia, 'Times New Roman', serif" ); ?>>
+										<?php esc_html_e( 'Georgia', 'passwp-posts' ); ?>
+									</option>
+									<option value="'Courier New', Courier, monospace" <?php selected( $settings[ 'font_family' ], "'Courier New', Courier, monospace" ); ?>>
+										<?php esc_html_e( 'Courier New', 'passwp-posts' ); ?>
+									</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- Button -->
+						<div class="passwp-section">
+							<h2><?php esc_html_e( 'Button', 'passwp-posts' ); ?></h2>
+
+							<div class="passwp-form-row">
+								<label for="passwp_button_text"><?php esc_html_e( 'Button Text', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_button_text"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][button_text]"
+									value="<?php echo esc_attr( $settings[ 'button_text' ] ); ?>" class="regular-text" />
+							</div>
+
+							<div class="passwp-form-row">
+								<label
+									for="passwp_button_bg_color"><?php esc_html_e( 'Button Background Color', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_button_bg_color"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][button_bg_color]"
+									value="<?php echo esc_attr( $settings[ 'button_bg_color' ] ); ?>"
+									class="passwp-color-picker"
+									data-default-color="<?php echo esc_attr( self::CUSTOMIZE_DEFAULTS[ 'button_bg_color' ] ); ?>" />
+							</div>
+
+							<div class="passwp-form-row">
+								<label
+									for="passwp_button_text_color"><?php esc_html_e( 'Button Text Color', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_button_text_color"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][button_text_color]"
+									value="<?php echo esc_attr( $settings[ 'button_text_color' ] ); ?>"
+									class="passwp-color-picker"
+									data-default-color="<?php echo esc_attr( self::CUSTOMIZE_DEFAULTS[ 'button_text_color' ] ); ?>" />
+							</div>
+
+							<div class="passwp-form-row">
+								<label
+									for="passwp_button_border_radius"><?php esc_html_e( 'Button Border Radius', 'passwp-posts' ); ?></label>
+								<div class="passwp-range-wrapper">
+									<input type="range" id="passwp_button_border_radius"
+										name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][button_border_radius]"
+										value="<?php echo esc_attr( $settings[ 'button_border_radius' ] ); ?>" min="0" max="30"
+										step="1" />
+									<span
+										class="passwp-range-value"><?php echo esc_html( $settings[ 'button_border_radius' ] ); ?>px</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Form Options -->
+						<div class="passwp-section">
+							<h2><?php esc_html_e( 'Form Options', 'passwp-posts' ); ?></h2>
+
+							<div class="passwp-form-row">
+								<label
+									for="passwp_show_remember_me"><?php esc_html_e( 'Show Remember Me', 'passwp-posts' ); ?></label>
+								<label class="passwp-toggle">
+									<input type="checkbox" id="passwp_show_remember_me"
+										name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][show_remember_me]"
+										value="1" <?php checked( $settings[ 'show_remember_me' ] ); ?> />
+									<span class="passwp-toggle-slider"></span>
+								</label>
+							</div>
+
+							<div class="passwp-form-row">
+								<label
+									for="passwp_input_border_radius"><?php esc_html_e( 'Input Border Radius', 'passwp-posts' ); ?></label>
+								<div class="passwp-range-wrapper">
+									<input type="range" id="passwp_input_border_radius"
+										name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][input_border_radius]"
+										value="<?php echo esc_attr( $settings[ 'input_border_radius' ] ); ?>" min="0" max="20"
+										step="1" />
+									<span
+										class="passwp-range-value"><?php echo esc_html( $settings[ 'input_border_radius' ] ); ?>px</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Footer -->
+						<div class="passwp-section">
+							<h2><?php esc_html_e( 'Footer', 'passwp-posts' ); ?></h2>
+
+							<div class="passwp-form-row">
+								<label for="passwp_footer_text"><?php esc_html_e( 'Footer Text', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_footer_text"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][footer_text]"
+									value="<?php echo esc_attr( $settings[ 'footer_text' ] ); ?>" class="regular-text" />
+							</div>
+
+							<div class="passwp-form-row">
+								<label
+									for="passwp_footer_link"><?php esc_html_e( 'Footer Link URL', 'passwp-posts' ); ?></label>
+								<input type="url" id="passwp_footer_link"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][footer_link]"
+									value="<?php echo esc_url( $settings[ 'footer_link' ] ); ?>" class="regular-text" />
+							</div>
+						</div>
+					</div><!-- .passwp-settings-grid -->
+
+					<!-- Actions -->
+					<div class="passwp-section passwp-actions">
+						<?php submit_button( __( 'Save Settings', 'passwp-posts' ), 'primary', 'submit', false ); ?>
+						<button type="button" id="passwp-reset-customize" class="button button-secondary">
+							<?php esc_html_e( 'Reset to Defaults', 'passwp-posts' ); ?>
+						</button>
+					</div>
+				</div>
+
+				<div class="passwp-preview-wrapper">
+					<h2><?php esc_html_e( 'Live Preview', 'passwp-posts' ); ?></h2>
+					<div id="passwp-preview-container">
+						<div class="passwp-preview-frame">
+							<?php $this->render_preview_content( $settings ); ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<?php
+	}
+
+	/**
+	 * Render the preview content for the customize tab.
+	 *
+	 * @param array<string, mixed> $settings The customize settings.
+	 */
+	private function render_preview_content( array $settings ): void {
+		$bg_style = '';
+		if ( ! empty( $settings[ 'bg_image' ] ) ) {
+			$bg_style = sprintf( 'background-image: url(%s); background-size: cover; background-position: center;', esc_url( $settings[ 'bg_image' ] ) );
+		} elseif ( ! empty( $settings[ 'bg_gradient_end' ] ) ) {
+			$bg_style = sprintf( 'background: linear-gradient(135deg, %s 0%%, %s 100%%);', esc_attr( $settings[ 'bg_color' ] ), esc_attr( $settings[ 'bg_gradient_end' ] ) );
+		} else {
+			$bg_style = sprintf( 'background-color: %s;', esc_attr( $settings[ 'bg_color' ] ) );
+		}
+
+		$card_style = sprintf(
+			'background-color: %s; border-radius: %dpx;%s',
+			esc_attr( $settings[ 'card_bg_color' ] ),
+			absint( $settings[ 'card_border_radius' ] ),
+			$settings[ 'card_shadow' ] ? ' box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);' : ''
+		);
+		?>
+		<div class="passwp-preview-bg"
+			style="<?php echo esc_attr( $bg_style ); ?>; font-family: <?php echo esc_attr( $settings[ 'font_family' ] ); ?>;">
+			<div class="passwp-preview-card" style="<?php echo esc_attr( $card_style ); ?>">
+				<?php if ( ! empty( $settings[ 'logo' ] ) ) : ?>
+					<img src="<?php echo esc_url( $settings[ 'logo' ] ); ?>" alt="" class="passwp-preview-logo"
+						style="width: <?php echo absint( $settings[ 'logo_width' ] ); ?>px;" />
+				<?php endif; ?>
+
+				<h1 class="passwp-preview-heading" style="color: <?php echo esc_attr( $settings[ 'heading_color' ] ); ?>;">
+					<?php echo esc_html( $settings[ 'heading_text' ] ?: __( 'Password Protected', 'passwp-posts' ) ); ?>
+				</h1>
+
+				<p class="passwp-preview-text" style="color: <?php echo esc_attr( $settings[ 'text_color' ] ); ?>;">
+					<?php esc_html_e( 'Enter the password to access this content.', 'passwp-posts' ); ?>
+				</p>
+
+				<div class="passwp-preview-form">
+					<input type="password" placeholder="<?php esc_attr_e( 'Password', 'passwp-posts' ); ?>"
+						style="border-radius: <?php echo absint( $settings[ 'input_border_radius' ] ); ?>px;" readonly />
+
+					<?php if ( $settings[ 'show_remember_me' ] ) : ?>
+						<label class="passwp-preview-remember" style="color: <?php echo esc_attr( $settings[ 'text_color' ] ); ?>;">
+							<input type="checkbox" disabled />
+							<?php esc_html_e( 'Remember me', 'passwp-posts' ); ?>
+						</label>
+					<?php endif; ?>
+
+					<button type="button"
+						style="background-color: <?php echo esc_attr( $settings[ 'button_bg_color' ] ); ?>; color: <?php echo esc_attr( $settings[ 'button_text_color' ] ); ?>; border-radius: <?php echo absint( $settings[ 'button_border_radius' ] ); ?>px;">
+						<?php echo esc_html( $settings[ 'button_text' ] ?: __( 'Submit', 'passwp-posts' ) ); ?>
+					</button>
+				</div>
+
+				<p class="passwp-preview-footer" style="color: <?php echo esc_attr( $settings[ 'text_color' ] ); ?>;">
+					<?php if ( ! empty( $settings[ 'footer_text' ] ) ) : ?>
+						<?php if ( ! empty( $settings[ 'footer_link' ] ) ) : ?>
+							<a href="<?php echo esc_url( $settings[ 'footer_link' ] ); ?>"
+								style="color: <?php echo esc_attr( $settings[ 'button_bg_color' ] ); ?>;">
+								<?php echo esc_html( $settings[ 'footer_text' ] ); ?>
+							</a>
+						<?php else : ?>
+							<?php echo esc_html( $settings[ 'footer_text' ] ); ?>
+						<?php endif; ?>
+					<?php else : ?>
+						<a href="#" style="color: <?php echo esc_attr( $settings[ 'button_bg_color' ] ); ?>;">
+							&larr; <?php esc_html_e( 'Back to home', 'passwp-posts' ); ?>
+						</a>
+					<?php endif; ?>
+				</p>
+			</div>
 		</div>
 		<?php
 	}
@@ -447,7 +958,120 @@ final class Admin_Settings {
 			);
 		}
 
+		// Sanitize customize settings.
+		if ( isset( $input[ '_customize_tab' ] ) || isset( $input[ 'customize' ] ) ) {
+			$sanitized[ 'customize' ] = $this->sanitize_customize_settings( $input[ 'customize' ] ?? [] );
+
+			// Preserve existing general settings when saving from customize tab.
+			if ( isset( $input[ '_customize_tab' ] ) ) {
+				$sanitized[ 'enabled' ]            = $existing[ 'enabled' ] ?? false;
+				$sanitized[ 'password_hash' ]      = $existing[ 'password_hash' ] ?? '';
+				$sanitized[ 'cookie_expiry_days' ] = $existing[ 'cookie_expiry_days' ] ?? 30;
+				$sanitized[ 'protection_mode' ]    = $existing[ 'protection_mode' ] ?? 'all';
+				$sanitized[ 'excluded_posts' ]     = $existing[ 'excluded_posts' ] ?? [];
+				$sanitized[ 'protected_posts' ]    = $existing[ 'protected_posts' ] ?? [];
+			}
+		} elseif ( ! empty( $existing[ 'customize' ] ) ) {
+			// Preserve existing customize settings when saving from general tab.
+			$sanitized[ 'customize' ] = $existing[ 'customize' ];
+		}
+
 		return $sanitized;
+	}
+
+	/**
+	 * Sanitize customize settings.
+	 *
+	 * @param array<string, mixed> $input Raw customize input.
+	 * @return array<string, mixed> Sanitized customize settings.
+	 */
+	private function sanitize_customize_settings( array $input ): array {
+		$sanitized = [];
+
+		// Colors - sanitize as hex colors.
+		$color_fields = [
+			'bg_color',
+			'bg_gradient_end',
+			'card_bg_color',
+			'heading_color',
+			'text_color',
+			'button_bg_color',
+			'button_text_color',
+		];
+
+		foreach ( $color_fields as $field ) {
+			$value               = $input[ $field ] ?? self::CUSTOMIZE_DEFAULTS[ $field ];
+			$sanitized[ $field ] = $this->sanitize_hex_color( $value );
+		}
+
+		// URLs - sanitize as URLs.
+		$url_fields = [ 'bg_image', 'logo', 'footer_link' ];
+		foreach ( $url_fields as $field ) {
+			$sanitized[ $field ] = esc_url_raw( $input[ $field ] ?? '' );
+		}
+
+		// Integers - sanitize as integers with min/max.
+		$sanitized[ 'card_border_radius' ]   = $this->sanitize_int_range( $input[ 'card_border_radius' ] ?? 16, 0, 50 );
+		$sanitized[ 'button_border_radius' ] = $this->sanitize_int_range( $input[ 'button_border_radius' ] ?? 8, 0, 30 );
+		$sanitized[ 'input_border_radius' ]  = $this->sanitize_int_range( $input[ 'input_border_radius' ] ?? 8, 0, 20 );
+		$sanitized[ 'logo_width' ]           = $this->sanitize_int_range( $input[ 'logo_width' ] ?? 120, 50, 300 );
+
+		// Booleans.
+		$sanitized[ 'card_shadow' ]      = ! empty( $input[ 'card_shadow' ] );
+		$sanitized[ 'show_remember_me' ] = ! empty( $input[ 'show_remember_me' ] );
+
+		// Text fields.
+		$sanitized[ 'heading_text' ] = sanitize_text_field( $input[ 'heading_text' ] ?? '' );
+		$sanitized[ 'button_text' ]  = sanitize_text_field( $input[ 'button_text' ] ?? '' );
+		$sanitized[ 'footer_text' ]  = sanitize_text_field( $input[ 'footer_text' ] ?? '' );
+
+		// Font family - allow only safe values.
+		$allowed_fonts              = [
+			'system-ui, -apple-system, sans-serif',
+			"'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+			"Georgia, 'Times New Roman', serif",
+			"'Courier New', Courier, monospace",
+		];
+		$font_family                = $input[ 'font_family' ] ?? self::CUSTOMIZE_DEFAULTS[ 'font_family' ];
+		$sanitized[ 'font_family' ] = in_array( $font_family, $allowed_fonts, true ) ? $font_family : self::CUSTOMIZE_DEFAULTS[ 'font_family' ];
+
+		return $sanitized;
+	}
+
+	/**
+	 * Sanitize hex color.
+	 *
+	 * @param string $color Color value.
+	 * @return string Sanitized color or empty string.
+	 */
+	private function sanitize_hex_color( string $color ): string {
+		if ( empty( $color ) ) {
+			return '';
+		}
+
+		// Handle rgba format.
+		if ( preg_match( '/^rgba?\([^)]+\)$/', $color ) ) {
+			return $color;
+		}
+
+		// 3 or 6 hex digits, or the empty string.
+		if ( preg_match( '/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $color ) ) {
+			return $color;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Sanitize integer within a range.
+	 *
+	 * @param mixed $value Value to sanitize.
+	 * @param int   $min   Minimum value.
+	 * @param int   $max   Maximum value.
+	 * @return int Sanitized integer.
+	 */
+	private function sanitize_int_range( mixed $value, int $min, int $max ): int {
+		return max( $min, min( $max, absint( $value ) ) );
 	}
 
 	/**

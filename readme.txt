@@ -4,7 +4,7 @@ Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.0.4
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,9 @@ PassWP Posts is a simple yet powerful plugin that adds password protection to yo
 * **Front Page Always Accessible** - Your homepage remains public
 * **Logged-in User Bypass** - Authenticated users skip the password prompt
 * **Protection Modes** - Protect all content (with exclusions) or only selected pages/posts
+* **Customizable Password Form** - Personalize colors, typography, logo, and more
+* **Preset Themes** - Choose from Default Purple, Business Blue, or Dark Mode
+* **Live Preview** - See your customizations in real-time before saving
 * **Remember Me** - Visitors stay authenticated for configurable durations
 * **Secure** - Uses WordPress native password hashing and secure cookies
 
@@ -39,6 +42,8 @@ PassWP Posts is a simple yet powerful plugin that adds password protection to yo
 
 == Configuration ==
 
+**General Tab:**
+
 1. Navigate to **Settings → PassWP Posts**
 2. Check **Enable Protection** to activate
 3. Enter your desired **Password**
@@ -47,6 +52,19 @@ PassWP Posts is a simple yet powerful plugin that adds password protection to yo
    - *Protect all pages and posts* - then optionally exclude specific content
    - *Protect only selected* - then choose which pages/posts to protect
 6. Click **Save Settings**
+
+**Customize Tab:**
+
+1. Click the **Customize** tab
+2. Choose a **Preset Theme** or customize individual settings:
+   - Background color, gradient, and image
+   - Card styling (background, border radius, shadow)
+   - Logo with adjustable width
+   - Typography (heading, colors, font family)
+   - Button appearance
+   - Footer text and link
+3. Use the **Live Preview** to see changes in real-time
+4. Click **Save Settings**
 
 == Frequently Asked Questions ==
 
@@ -68,7 +86,7 @@ Yes, passwords are hashed using `wp_hash_password()`, the same function WordPres
 
 = Can I customize the password form? =
 
-Yes, copy `templates/password-form.php` to your theme and modify it. You can also use the `passwp_posts_form_template` filter.
+Yes! Use the **Customize** tab in Settings → PassWP Posts to change colors, typography, add a logo, and more—all with live preview. For advanced customization, copy `templates/password-form.php` to your theme and modify it. You can also use the `passwp_posts_form_template` filter.
 
 = Does it work with caching plugins? =
 
@@ -81,6 +99,17 @@ You may need to exclude protected pages from caching or configure your caching p
 3. Select2 dropdown for excluding posts
 
 == Changelog ==
+
+= 1.1.0 =
+* Added Customize tab with live preview for password form styling
+* Added preset themes: Default Purple, Business Blue, Dark Mode
+* Added customizable background (color, gradient, image)
+* Added card styling options (background, border radius, shadow)
+* Added logo upload with adjustable width
+* Added typography settings (heading, colors, font family)
+* Added button customization (text, colors, border radius)
+* Added footer text and link options
+* Updated Norwegian Bokmål translations
 
 = 1.0.4 =
 * Added GitHub Plugin Updater for automatic updates from GitHub releases
@@ -110,6 +139,9 @@ You may need to exclude protected pages from caching or configure your caching p
 * Norwegian Bokmål translation included
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+New Customize tab with preset themes and live preview for password form styling.
 
 = 1.0.4 =
 Added automatic plugin updates from GitHub releases.
