@@ -282,7 +282,10 @@
         if (!isSafeImageUrl(logo)) {
             logo = '';
         }
-		const logoWidth = $('#passwp_logo_width').val() || 120;
+		let logoWidth = parseInt($('#passwp_logo_width').val(), 10);
+		if (isNaN(logoWidth) || logoWidth < 20 || logoWidth > 600) {
+		    logoWidth = 120;
+		}
 		const headingText = $('#passwp_heading_text').val();
 		const headingColor = $('#passwp_heading_color').val() || '#1e1e1e';
 		let textColor = $('#passwp_text_color').val() || '#666666';
@@ -332,7 +335,12 @@
 			if ($logoImg.length) {
 				$logoImg.attr('src', logo).css('width', logoWidth + 'px').show();
 			} else {
-				$preview.find('.passwp-preview-card').prepend('<img src="' + logo + '" alt="" class="passwp-preview-logo" style="width: ' + logoWidth + 'px;" />');
+				const $newLogo = $('<img>')
+					.addClass('passwp-preview-logo')
+					.attr('src', logo)
+					.attr('alt', '')
+					.css('width', logoWidth + 'px');
+				$preview.find('.passwp-preview-card').prepend($newLogo);
 			}
 		} else {
 			$logoImg.hide();
