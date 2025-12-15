@@ -18,7 +18,7 @@ $site_name = get_bloginfo( 'name' );
 $site_url  = home_url();
 
 // Get customize settings.
-$customize = PassWP_Posts\Admin_Settings::get_customize_settings();
+$customize = PassWP\Posts\Admin_Settings::get_customize_settings();
 
 // Error messages.
 $error_messages = array(
