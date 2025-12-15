@@ -56,7 +56,7 @@ final class AdminSettings {
 		'show_remember_me'     => true,
 		'input_border_radius'  => 8,
 		'footer_text'          => '',
-		'footer_link_url'      => '',
+		'footer_link'          => '',
 	];
 
 	/**
@@ -186,6 +186,12 @@ final class AdminSettings {
 	public static function get_customize_settings(): array {
 		$settings  = get_option( self::OPTION_NAME, [] );
 		$customize = $settings[ 'customize' ] ?? [];
+
+		// Backward-compat: prior versions used footer_link_url.
+		if ( empty( $customize['footer_link'] ) && ! empty( $customize['footer_link_url'] ) ) {
+			$customize['footer_link'] = $customize['footer_link_url'];
+		}
+
 		return array_merge( self::CUSTOMIZE_DEFAULTS, $customize );
 	}
 
@@ -1005,6 +1011,10 @@ final class AdminSettings {
 		}
 
 		// URLs - sanitize as URLs.
+		if ( empty( $input['footer_link'] ) && ! empty( $input['footer_link_url'] ) ) {
+			$input['footer_link'] = $input['footer_link_url'];
+		}
+
 		$url_fields = [ 'bg_image', 'logo', 'footer_link' ];
 		foreach ( $url_fields as $field ) {
 			$sanitized[ $field ] = esc_url_raw( $input[ $field ] ?? '' );

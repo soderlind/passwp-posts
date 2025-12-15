@@ -3,7 +3,7 @@
         'name' => 'soderlind/passwp-posts',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '8dbc6445966a732fd3c022dcf079a6cb5d0a7017',
+        'reference' => 'acd9d3ab66e315ac38c8f84da750aef4bdf65524',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -292,7 +292,7 @@
         'soderlind/passwp-posts' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '8dbc6445966a732fd3c022dcf079a6cb5d0a7017',
+            'reference' => 'acd9d3ab66e315ac38c8f84da750aef4bdf65524',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -254,4 +254,48 @@ class ProtectionTest extends PassWP_Posts_TestCase {
 
 		$_POST = array();
 	}
+
+	/**
+	 * Test form submission rejects external redirect URLs.
+	 */
+	public function test_form_submission_rejects_external_redirect(): void {
+		$_POST = array(
+			'passwp_posts_nonce' => 'valid_nonce',
+			'passwp_password'    => 'correct_password',
+			'passwp_redirect'    => 'https://evil.example/phish',
+			'passwp_remember'    => '1',
+		);
+
+		Functions\when( 'wp_verify_nonce' )->justReturn( true );
+		Functions\when( 'get_option' )->justReturn(
+			array(
+				'enabled'            => true,
+				'password_hash'      => '$2y$10$validhashhere',
+				'cookie_expiry_days' => 30,
+			)
+		);
+		Functions\when( 'wp_check_password' )->justReturn( true );
+		Functions\when( 'wp_salt' )->justReturn( 'test_salt' );
+
+		$redirect_url = '';
+		Functions\when( 'wp_safe_redirect' )->alias(
+			function ( $url ) use ( &$redirect_url ) {
+				$redirect_url = $url;
+				throw new \Exception( 'redirect_called' );
+			}
+		);
+
+		try {
+			$protection = new Protection();
+			$protection->handle_form_submission();
+		} catch (\Exception $e) {
+			if ( 'redirect_called' !== $e->getMessage() ) {
+				throw $e;
+			}
+		}
+
+		$this->assertEquals( 'https://example.com/', $redirect_url );
+
+		$_POST = array();
+	}
 }

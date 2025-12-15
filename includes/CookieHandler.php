@@ -52,25 +52,28 @@ final class CookieHandler {
 		$cookie_name  = $this->get_cookie_name();
 		$cookie_value = $this->generate_cookie_value( $password_hash );
 
-		// Calculate expiry time.
-		$expire = $expiry_days === 0 ? 0 : time() + ( $expiry_days * DAY_IN_SECONDS );
-
 		// Get cookie path and domain from WordPress constants.
 		$cookie_path   = defined( 'COOKIEPATH' ) ? COOKIEPATH : '/';
 		$cookie_domain = defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '';
+
+		$cookie_options = [
+			'path'     => $cookie_path,
+			'domain'   => $cookie_domain,
+			'secure'   => is_ssl(),
+			'httponly' => true,
+			'samesite' => 'Lax',
+		];
+
+		// Calculate expiry time. For session cookies, omit the expires option.
+		if ( $expiry_days !== 0 ) {
+			$cookie_options['expires'] = time() + ( $expiry_days * DAY_IN_SECONDS );
+		}
 
 		// Set the cookie.
 		setcookie(
 			name: $cookie_name,
 			value: $cookie_value,
-			expires_or_options: [
-				'expires'  => $expire,
-				'path'     => $cookie_path,
-				'domain'   => $cookie_domain,
-				'secure'   => is_ssl(),
-				'httponly' => true,
-				'samesite' => 'Lax',
-			]
+			expires_or_options: $cookie_options
 		);
 
 		// Also set in $_COOKIE for immediate use.
