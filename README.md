@@ -47,29 +47,87 @@ Go to **Settings → PassWP Posts** to configure the plugin.
 
 <img src="general-settings.png" alt="General Settings Screenshot" style="max-width:100%;height:auto;">
 
-| Setting | Description |
-|---------|-------------|
-| **Enable Protection** | Toggle password protection on/off |
-| **Password** | The password visitors must enter to access protected content |
-| **Remember Me Duration** | Number of days to remember the password (default: 30) |
-| **Protection Mode** | Choose to protect all pages/posts or only selected ones |
-| **Excluded Pages/Posts** | When protecting all: select pages/posts to exclude |
-| **Protected Pages/Posts** | When protecting selected: choose which pages/posts to protect |
+<table width="100%">
+  <thead>
+    <tr>
+      <th align="left">Setting</th>
+      <th align="left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enable Protection</strong></td>
+      <td>Toggle password protection on/off</td>
+    </tr>
+    <tr>
+      <td><strong>Password</strong></td>
+      <td>The password visitors must enter to access protected content</td>
+    </tr>
+    <tr>
+      <td><strong>Remember Me Duration</strong></td>
+      <td>Number of days to remember the password (default: 30)</td>
+    </tr>
+    <tr>
+      <td><strong>Protection Mode</strong></td>
+      <td>Choose to protect all pages/posts or only selected ones</td>
+    </tr>
+    <tr>
+      <td><strong>Excluded Pages/Posts</strong></td>
+      <td>When protecting all: select pages/posts to exclude</td>
+    </tr>
+    <tr>
+      <td><strong>Protected Pages/Posts</strong></td>
+      <td>When protecting selected: choose which pages/posts to protect</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Customize Settings
 
 <img src="customize-settings.png" alt="Customize Settings Screenshot" style="max-width:100%;height:auto;">
 
-| Setting | Description |
-|---------|-------------|
-| **Preset Themes** | Quick-apply themes: Default Purple, Business Blue, Dark Mode |
-| **Background** | Background color, gradient, and optional background image |
-| **Card Styling** | Card background color, border radius, and shadow |
-| **Logo** | Upload a custom logo with adjustable width |
-| **Typography** | Heading text, colors, and font family |
-| **Button** | Button text, colors, and border radius |
-| **Form Options** | Show/hide "Remember Me" checkbox, input border radius |
-| **Footer** | Custom footer text and link URL |
+<table width="100%">
+  <thead>
+    <tr>
+      <th align="left">Setting</th>
+      <th align="left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Preset Themes</strong></td>
+      <td>Quick-apply themes: Default Purple, Business Blue, Dark Mode</td>
+    </tr>
+    <tr>
+      <td><strong>Background</strong></td>
+      <td>Background color, gradient, and optional background image</td>
+    </tr>
+    <tr>
+      <td><strong>Card Styling</strong></td>
+      <td>Card background color, border radius, and shadow</td>
+    </tr>
+    <tr>
+      <td><strong>Logo</strong></td>
+      <td>Upload a custom logo with adjustable width</td>
+    </tr>
+    <tr>
+      <td><strong>Typography</strong></td>
+      <td>Heading text, colors, and font family</td>
+    </tr>
+    <tr>
+      <td><strong>Button</strong></td>
+      <td>Button text, colors, and border radius</td>
+    </tr>
+    <tr>
+      <td><strong>Form Options</strong></td>
+      <td>Show/hide "Remember Me" checkbox, input border radius</td>
+    </tr>
+    <tr>
+      <td><strong>Footer</strong></td>
+      <td>Custom footer text and link URL</td>
+    </tr>
+  </tbody>
+</table>
 
 ## How It Works
 
