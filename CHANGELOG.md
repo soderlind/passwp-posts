@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2024-12-15
+
+### Fixed
+
+- Fatal error when Plugin Update Checker library is not available (added class_exists check)
+- Namespace error in password form template (PassWP_Posts vs PassWP\Posts)
+- JavaScript XSS vulnerabilities with proper URL and HTML escaping in customize.js
+- CUSTOMIZE_DEFAULTS field names aligned with template expectations
+
+### Added
+
+- Production vendor files (yahnis-elsts/plugin-update-checker) included in repository
+
 ## [1.1.0] - 2024-12-15
 
 ### Added
