@@ -4,35 +4,50 @@ Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Password protect your site's content. Protect all pages and posts or only selected ones—logged-in users always bypass.
+A simple password protection plugin—no usernames, no accounts, just one shared password for quick, hassle-free access control.
 
 == Description ==
 
-PassWP Posts is a simple yet powerful plugin that adds password protection to your entire WordPress site. Unlike WordPress's built-in password protection which works per-post, this plugin protects everything with a single password.
+PassWP Posts adds simple password protection to your WordPress site. **No usernames, no user accounts**—just share one password with those who need access. Visitors enter the password and they're in.
+
+This is ideal when you need quick, shared access without the complexity of user management.
+
+**How It Differs from WordPress Built-in Protection:**
+
+* WordPress's per-post password protection requires a password for each individual post
+* PassWP Posts uses one password for your entire site (or selected content)
+* No need to share multiple passwords for multiple pages
 
 **Key Features:**
 
-* **Single Password** - One password protects your entire site (no username needed)
-* **Front Page Always Accessible** - Your homepage remains public
-* **Logged-in User Bypass** - Authenticated users skip the password prompt
-* **Protection Modes** - Protect all content (with exclusions) or only selected pages/posts
-* **Customizable Password Form** - Personalize colors, typography, logo, and more
-* **Preset Themes** - Choose from Default Purple, Business Blue, or Dark Mode
-* **Live Preview** - See your customizations in real-time before saving
-* **Remember Me** - Visitors stay authenticated for configurable durations
-* **Secure** - Uses WordPress native password hashing and secure cookies
+* **One Password, No Username** - Visitors just enter the password—no accounts needed
+* **Front Page Always Public** - Your homepage remains accessible to everyone
+* **Logged-in User Bypass** - WordPress users (editors, admins) skip the prompt
+* **Flexible Protection** - Protect all content (with exclusions) or only selected pages/posts
+* **Customizable Form** - Match your brand with colors, typography, and logo
+* **Preset Themes** - Quick-start with Default Purple, Business Blue, or Dark Mode
+* **Live Preview** - See changes in real-time before saving
+* **Remember Me** - Visitors stay authenticated for your configured duration
+* **Secure** - Uses WordPress-native password hashing and secure cookies
 
-**Perfect For:**
+**When to Use This Plugin:**
 
-* Staging sites that need client access
-* Private blogs or journals
-* Member-only content areas
-* Pre-launch websites
-* Internal company resources
+* **Staging sites** - Share a password with clients to preview before launch
+* **Client portals** - Protect project files or deliverables
+* **Pre-launch websites** - Keep "Coming Soon" sites private during development
+* **Private blogs** - Share personal content with family or friends
+* **Internal resources** - Protect company documentation from public access
+* **Event websites** - Limit access to event details or member-only areas
+* **Photography galleries** - Share client proofs without requiring login
+* **Educational content** - Protect course materials for a class
+
+**When NOT to Use This Plugin:**
+
+If you need individual user accounts, different access levels, or tracking who accessed what—use a membership plugin instead. PassWP Posts is for simple shared access, not user management.
 
 == Installation ==
 
@@ -100,6 +115,11 @@ You may need to exclude protected pages from caching or configure your caching p
 
 == Changelog ==
 
+= 1.2.1 =
+* Improved documentation with clearer explanation of single-password concept
+* Added detailed use case examples (staging sites, client portals, etc.)
+* Added "When NOT to use" guidance for users needing membership features
+
 = 1.2.0 =
 * Refactored to PSR-4 autoloading with Composer
 * Renamed class files to PascalCase (AdminSettings, CookieHandler, GitHubPluginUpdater, Protection)
@@ -154,6 +174,9 @@ You may need to exclude protected pages from caching or configure your caching p
 * Norwegian Bokmål translation included
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Documentation improvements.
 
 = 1.2.0 =
 Code refactoring with PSR-4 autoloading.

@@ -3,7 +3,7 @@
  * Plugin Name: PassWP Posts
  * Plugin URI: https://developer.suspended.no/passwp-posts
  * Description: Password protects all pages and posts except the front page. Logged-in users bypass the password.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: Per Soderlind
  * Author URI: https://soderlind.no
  * License: GPL-2.0+
@@ -22,7 +22,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 // Plugin constants.
-define( 'PASSWP_POSTS_VERSION', '1.2.0' );
+define( 'PASSWP_POSTS_VERSION', '1.2.1' );
 define( 'PASSWP_POSTS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'PASSWP_POSTS_URL', plugin_dir_url( __FILE__ ) );
 define( 'PASSWP_POSTS_BASENAME', plugin_basename( __FILE__ ) );
