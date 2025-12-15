@@ -52,6 +52,43 @@ if ( ! defined( 'PASSWP_POSTS_URL' ) ) {
 }
 
 /**
+ * Minimal WordPress redirect validator for tests.
+ *
+ * Brain\Monkey does not define this function by default, but the plugin conditionally
+ * calls it when present. Defining a minimal compatible implementation here allows
+ * us to test redirect hardening logic.
+ */
+if ( ! function_exists( 'wp_validate_redirect' ) ) {
+	function wp_validate_redirect( $location, $default = '' ) {
+		$location = is_string( $location ) ? trim( $location ) : '';
+		$default  = is_string( $default ) ? $default : '';
+
+		if ( $location === '' ) {
+			return $default;
+		}
+
+		$allowed_host = parse_url( home_url( '/' ), PHP_URL_HOST );
+		$host         = parse_url( $location, PHP_URL_HOST );
+		$scheme       = parse_url( $location, PHP_URL_SCHEME );
+
+		// Allow relative URLs.
+		if ( $host === null ) {
+			return $location;
+		}
+
+		// Only allow http(s) to the site's host.
+		if ( $host !== $allowed_host ) {
+			return $default;
+		}
+		if ( $scheme !== null && ! in_array( strtolower( (string) $scheme ), array( 'http', 'https' ), true ) ) {
+			return $default;
+		}
+
+		return $location;
+	}
+}
+
+/**
  * Base test case class with Brain\Monkey setup.
  */
 abstract class PassWP_Posts_TestCase extends \PHPUnit\Framework\TestCase {

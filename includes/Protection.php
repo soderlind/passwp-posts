@@ -137,11 +137,16 @@ final class Protection {
 	 * Get the current URL.
 	 */
 	private function get_current_url(): string {
-		$protocol = is_ssl() ? 'https://' : 'http://';
-		$host     = sanitize_text_field( wp_unslash( $_SERVER[ 'HTTP_HOST' ] ?? '' ) );
-		$uri      = sanitize_text_field( wp_unslash( $_SERVER[ 'REQUEST_URI' ] ?? '' ) );
+		$request_uri = isset( $_SERVER[ 'REQUEST_URI' ] ) ? wp_unslash( $_SERVER[ 'REQUEST_URI' ] ) : '';
+		if ( ! is_string( $request_uri ) ) {
+			$request_uri = '';
+		}
 
-		return $protocol . $host . $uri;
+		// Prevent header injection and ensure this stays a local path.
+		$request_uri = preg_replace( "/[\r\n].*/", '', $request_uri );
+		$request_uri = '/' . ltrim( $request_uri, '/' );
+
+		return home_url( $request_uri );
 	}
 
 	/**
@@ -168,9 +173,14 @@ final class Protection {
 			: '';
 
 		// Get redirect URL.
-		$redirect_url = isset( $_POST[ 'passwp_redirect' ] )
+		$redirect_url_raw = isset( $_POST[ 'passwp_redirect' ] )
 			? esc_url_raw( wp_unslash( $_POST[ 'passwp_redirect' ] ) )
-			: home_url();
+			: '';
+		$default_redirect = home_url( '/' );
+		$redirect_url     = $redirect_url_raw !== '' ? $redirect_url_raw : $default_redirect;
+		if ( function_exists( '\\wp_validate_redirect' ) ) {
+			$redirect_url = wp_validate_redirect( $redirect_url, $default_redirect );
+		}
 
 		// Get remember me checkbox.
 		$remember = ( $_POST[ 'passwp_remember' ] ?? '' ) === '1';

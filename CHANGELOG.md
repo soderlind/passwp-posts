@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.2.2] - 2025-12-15
+
+### Security & Fixed
+
+- Hardened redirect handling: all posted redirect URLs are now validated and external/hostile URLs are rejected, always falling back to the site home if unsafe
+- Session cookie fix: session cookies now omit the expires option for correct browser behavior
+- Footer link customize key is now consistent and backward compatible
+- Added PHPUnit test to ensure external redirect URLs are always rejected
+
+
 
 ## [1.2.1] - 2024-12-15
 
