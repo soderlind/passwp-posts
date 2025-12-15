@@ -10,24 +10,36 @@
 	'use strict';
 
 	/**
-	 * Sanitizes an image URL by allowing only HTTPS image URLs and data: URLs for images.
-	 * If the URL is unsafe or empty, returns an empty string.
-	 * @param {string} url
-	 * @return {string}
+	 * Escape HTML entities to prevent XSS.
+	 *
+	 * @param {string} str String to escape.
+	 * @return {string} Escaped string.
 	 */
-	function sanitizeImageUrl(url) {
-		if (!url || typeof url !== 'string') return '';
-		// Remove leading/trailing whitespace
-		url = url.trim();
-		// Allow only HTTPS URLs to images or safe data:image
-		if (/^https:\/\/[^\s]+(\.png|\.jpg|\.jpeg|\.gif|\.svg)(\?[^\s]*)?$/i.test(url)) {
-			return url;
+	function escapeHtml(str) {
+		if (!str) return '';
+		const div = document.createElement('div');
+		div.textContent = str;
+		return div.innerHTML;
+	}
+
+	/**
+	 * Escape URL for use in attributes.
+	 *
+	 * @param {string} url URL to escape.
+	 * @return {string} Escaped URL or empty string if invalid.
+	 */
+	function escapeUrl(url) {
+		if (!url) return '';
+		try {
+			const parsed = new URL(url, window.location.origin);
+			// Only allow http, https, and data URLs (for images)
+			if (!['http:', 'https:', 'data:'].includes(parsed.protocol)) {
+				return '';
+			}
+			return parsed.href;
+		} catch (e) {
+			return '';
 		}
-		// Or data:image inline (basic check; can be made stricter)
-		if (/^data:image\/[a-zA-Z]+;base64,[a-zA-Z0-9+/=]+$/i.test(url)) {
-			return url;
-		}
-		return '';
 	}
 
 	// Preset theme definitions matching PHP field names.
@@ -148,8 +160,12 @@
 
 				frame.on('select', function () {
 					const attachment = frame.state().get('selection').first().toJSON();
-					$input.val(attachment.url);
-					$preview.html('<img src="' + attachment.url + '" alt="" />');
+					const safeUrl = escapeUrl(attachment.url);
+					$input.val(safeUrl);
+					$preview.empty();
+					if (safeUrl) {
+						$('<img>', { src: safeUrl, alt: '' }).appendTo($preview);
+					}
 					$removeBtn.show();
 					updatePreview();
 				});
@@ -257,36 +273,6 @@
 	/**
 	 * Update the live preview.
 	 */
-    /**
-     * Check if a given string is a safe image URL.
-     * Allows only http(s) URLs or relative/absolute paths, blocks javascript: and data: schemes.
-     */
-    function isSafeImageUrl(url) {
-        if (typeof url !== 'string') return false;
-        // Disallow empty/trivial, data:, javascript:, vbscript: or other harmful schemes.
-        // Allow http, https, protocol-relative (//), or local paths, but block javascript/data/etc.
-        return /^(https?:\/\/|\/(?!\/)|\.{0,2}\/|[^:]+$)/i.test(url) && !/^\s*(javascript|data|vbscript):/i.test(url);
-    }
-
-	function escapeHtml(text) {
-	    if (typeof text !== 'string') return '';
-	    return text.replace(/[&<>"']/g, function (c) {
-	        switch (c) {
-	            case '&': return '&amp;';
-	            case '<': return '&lt;';
-	            case '>': return '&gt;';
-	            case '"': return '&quot;';
-	            case "'": return '&#39;';
-	            default: return c;
-	        }
-	    });
-	}
-
-	// Simple CSS hex color validation (accepts #RGB, #RRGGBB, #RRGGBBAA)
-	function isValidHexColor(c) {
-	    return typeof c === 'string' && /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(c.trim());
-	}
-
 	function updatePreview() {
 		const $preview = $('.passwp-preview-frame');
 		if (!$preview.length) return;
@@ -298,19 +284,14 @@
 		const cardBgColor = $('#passwp_card_bg_color').val() || '#ffffff';
 		const cardBorderRadius = $('#passwp_card_border_radius').val() || 16;
 		const cardShadow = $('#passwp_card_shadow').is(':checked');
-        // Get logo and sanitize before use
-        let logo = $('#passwp_logo').val();
-        logo = sanitizeImageUrl(logo);
-		let logoWidth = parseInt($('#passwp_logo_width').val(), 10);
-		if (isNaN(logoWidth) || logoWidth < 20 || logoWidth > 600) {
-		    logoWidth = 120;
-		}
+		const logo = $('#passwp_logo').val();
+		const logoWidth = $('#passwp_logo_width').val() || 120;
 		const headingText = $('#passwp_heading_text').val();
 		const headingColor = $('#passwp_heading_color').val() || '#1e1e1e';
-		let textColor = sanitizeColor($('#passwp_text_color').val()) || '#666666';
+		const textColor = $('#passwp_text_color').val() || '#666666';
 		const fontFamily = $('#passwp_font_family').val() || 'system-ui, -apple-system, sans-serif';
 		const buttonText = $('#passwp_button_text').val();
-		const buttonBgColor = sanitizeColor($('#passwp_button_bg_color').val()) || '#667eea';
+		const buttonBgColor = $('#passwp_button_bg_color').val() || '#667eea';
 		const buttonTextColor = $('#passwp_button_text_color').val() || '#ffffff';
 		const buttonBorderRadius = $('#passwp_button_border_radius').val() || 8;
 		const showRememberMe = $('#passwp_show_remember_me').is(':checked');
@@ -318,15 +299,11 @@
 		const footerText = $('#passwp_footer_text').val();
 		const footerLink = $('#passwp_footer_link').val();
 
-		// Sanitize textColor
-		if (!isValidHexColor(textColor)) {
-		    textColor = '#666666';
-		}
-
 		// Build background style.
 		let bgStyle;
-		if (bgImage) {
-			bgStyle = 'url(' + bgImage + ') center/cover no-repeat';
+		const safeBgImage = escapeUrl(bgImage);
+		if (safeBgImage) {
+			bgStyle = 'url(' + safeBgImage + ') center/cover no-repeat';
 		} else if (bgGradientEnd) {
 			bgStyle = 'linear-gradient(135deg, ' + bgColor + ' 0%, ' + bgGradientEnd + ' 100%)';
 		} else {
@@ -350,16 +327,17 @@
 
 		// Logo.
 		const $logoImg = $preview.find('.passwp-preview-logo');
-		if (logo) {
+		const safeLogo = escapeUrl(logo);
+		if (safeLogo) {
 			if ($logoImg.length) {
-				$logoImg.attr('src', logo).css('width', logoWidth + 'px').show();
+				$logoImg.attr('src', safeLogo).css('width', logoWidth + 'px').show();
 			} else {
-				const $newLogo = $('<img>')
-					.addClass('passwp-preview-logo')
-					.attr('src', logo)
-					.attr('alt', '')
-					.css('width', logoWidth + 'px');
-				$preview.find('.passwp-preview-card').prepend($newLogo);
+				$('<img>', {
+					src: safeLogo,
+					alt: '',
+					'class': 'passwp-preview-logo',
+					css: { width: logoWidth + 'px' }
+				}).prependTo($preview.find('.passwp-preview-card'));
 			}
 		} else {
 			$logoImg.hide();
@@ -392,16 +370,27 @@
 
 		// Footer.
 		const $footer = $preview.find('.passwp-preview-footer');
+		$footer.empty();
 		if (footerText) {
-			if (footerLink) {
-				$footer.html('<a href="' + escapeHtml(footerLink) + '" style="color: ' + buttonBgColor + ';">' + escapeHtml(footerText) + '</a>');
+			const safeFooterLink = escapeUrl(footerLink);
+			if (safeFooterLink) {
+				$('<a>', {
+					href: safeFooterLink,
+					text: footerText,
+					css: { color: buttonBgColor }
+				}).appendTo($footer);
 			} else {
-				$footer.html('<span style="color: ' + textColor + ';">' + escapeHtml(footerText) + '</span>');
+				$('<span>', {
+					text: footerText,
+					css: { color: textColor }
+				}).appendTo($footer);
 			}
 		} else {
-            // Prevent XSS by creating element and setting style via jQuery.
-            var $a = $('<a href="#">').text('← Back to home').css('color', buttonBgColor);
-            $footer.empty().append($a);
+			$('<a>', {
+				href: '#',
+				html: '&larr; Back to home',
+				css: { color: buttonBgColor }
+			}).appendTo($footer);
 		}
 	}
 
@@ -434,26 +423,5 @@
 
 	// Initialize when document is ready.
 	$(document).ready(init);
-
-/**
- * Strictly sanitize CSS color values.
- * Allows hex colors (#abc, #aabbcc, #aabbccdd), rgb(), rgba(), hsl(), hsla(), or color keyword.
- * Rejects anything else; returns undefined if not safe.
- */
-function sanitizeColor(input) {
-	if (typeof input !== "string") return undefined;
-	// Hex: #abc, #aabbcc, #aabbccdd
-	const hexPattern = /^#([A-Fa-f0-9]{3,4}){1,2}$/;
-	// rgb() / rgba()
-	const rgbPattern = /^rgb(a)?\(\s*([0-9]{1,3}\s*,\s*){2,3}[0-9\.]+\s*\)$/i;
-	// hsl() / hsla()
-	const hslPattern = /^hsl(a)?\(\s*([0-9]{1,3}(deg)?\s*,\s*){2,3}[0-9\.%]+\s*\)$/i;
-	// CSS keywords (whitelist basic)
-	const cssKeywords = /^(black|white|red|green|blue|yellow|purple|pink|orange|gray|grey|brown|cyan|magenta)$/i;
-	if (hexPattern.test(input) || rgbPattern.test(input) || hslPattern.test(input) || cssKeywords.test(input.trim())) {
-		return input.trim();
-	}
-	return undefined;
-}
 
 })(jQuery);

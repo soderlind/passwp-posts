@@ -14,6 +14,8 @@ A WordPress plugin for password protecting your site's content. Protect all page
 - **Secure Cookie Handling**: Uses SHA256 hashing with WordPress salts for cookie security
 - **Native WordPress Methods**: Built using WordPress Settings API and password functions
 
+
+
 ## Installation
 
 1. Upload the `passwp-posts` folder to `/wp-content/plugins/`
