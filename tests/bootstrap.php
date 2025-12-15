@@ -168,12 +168,12 @@ abstract class PassWP_Posts_TestCase extends \PHPUnit\Framework\TestCase {
 	}
 }
 
-// Load plugin classes.
-require_once PASSWP_POSTS_PATH . 'includes/class-cookie-handler.php';
-require_once PASSWP_POSTS_PATH . 'includes/class-protection.php';
-require_once PASSWP_POSTS_PATH . 'includes/class-admin-settings.php';
+// Load plugin classes via PSR-4 autoloader.
+require_once PASSWP_POSTS_PATH . 'includes/CookieHandler.php';
+require_once PASSWP_POSTS_PATH . 'includes/Protection.php';
+require_once PASSWP_POSTS_PATH . 'includes/AdminSettings.php';
 
 // Import namespaced classes for tests.
-use PassWP\Posts\Admin_Settings;
-use PassWP\Posts\Cookie_Handler;
+use PassWP\Posts\AdminSettings;
+use PassWP\Posts\CookieHandler;
 use PassWP\Posts\Protection;

@@ -15,11 +15,11 @@ namespace PassWP\Posts;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class Admin_Settings
+ * Class AdminSettings
  *
  * Creates and manages the plugin settings page.
  */
-final class Admin_Settings {
+final class AdminSettings {
 
 	/**
 	 * Option name for plugin settings.
