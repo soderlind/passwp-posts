@@ -9,6 +9,27 @@
 (function ($) {
 	'use strict';
 
+	/**
+	 * Sanitizes an image URL by allowing only HTTPS image URLs and data: URLs for images.
+	 * If the URL is unsafe or empty, returns an empty string.
+	 * @param {string} url
+	 * @return {string}
+	 */
+	function sanitizeImageUrl(url) {
+		if (!url || typeof url !== 'string') return '';
+		// Remove leading/trailing whitespace
+		url = url.trim();
+		// Allow only HTTPS URLs to images or safe data:image
+		if (/^https:\/\/[^\s]+(\.png|\.jpg|\.jpeg|\.gif|\.svg)(\?[^\s]*)?$/i.test(url)) {
+			return url;
+		}
+		// Or data:image inline (basic check; can be made stricter)
+		if (/^data:image\/[a-zA-Z]+;base64,[a-zA-Z0-9+/=]+$/i.test(url)) {
+			return url;
+		}
+		return '';
+	}
+
 	// Preset theme definitions matching PHP field names.
 	const presets = {
 		default: {
@@ -279,9 +300,7 @@
 		const cardShadow = $('#passwp_card_shadow').is(':checked');
         // Get logo and sanitize before use
         let logo = $('#passwp_logo').val();
-        if (!isSafeImageUrl(logo)) {
-            logo = '';
-        }
+        logo = sanitizeImageUrl(logo);
 		let logoWidth = parseInt($('#passwp_logo_width').val(), 10);
 		if (isNaN(logoWidth) || logoWidth < 20 || logoWidth > 600) {
 		    logoWidth = 120;
