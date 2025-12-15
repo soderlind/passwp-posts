@@ -380,7 +380,9 @@
 				$footer.html('<span style="color: ' + textColor + ';">' + escapeHtml(footerText) + '</span>');
 			}
 		} else {
-			$footer.html('<a href="#" style="color: ' + buttonBgColor + ';">&larr; Back to home</a>');
+            // Prevent XSS by creating element and setting style via jQuery.
+            var $a = $('<a href="#">').text('← Back to home').css('color', buttonBgColor);
+            $footer.empty().append($a);
 		}
 	}
 
