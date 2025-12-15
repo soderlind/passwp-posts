@@ -307,7 +307,7 @@
 		}
 		const headingText = $('#passwp_heading_text').val();
 		const headingColor = $('#passwp_heading_color').val() || '#1e1e1e';
-		let textColor = $('#passwp_text_color').val() || '#666666';
+		let textColor = sanitizeColor($('#passwp_text_color').val()) || '#666666';
 		const fontFamily = $('#passwp_font_family').val() || 'system-ui, -apple-system, sans-serif';
 		const buttonText = $('#passwp_button_text').val();
 		const buttonBgColor = sanitizeColor($('#passwp_button_bg_color').val()) || '#667eea';
