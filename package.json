@@ -1,6 +1,6 @@
 {
 	"name": "passwp-posts",
-	"version": "1.0.0",
+	"version": "1.0.4",
 	"description": "Password protects all pages and posts except the front page",
 	"type": "module",
 	"scripts": {
