@@ -236,6 +236,17 @@
 	/**
 	 * Update the live preview.
 	 */
+    /**
+     * Check if a given string is a safe image URL.
+     * Allows only http(s) URLs or relative/absolute paths, blocks javascript: and data: schemes.
+     */
+    function isSafeImageUrl(url) {
+        if (typeof url !== 'string') return false;
+        // Disallow empty/trivial, data:, javascript:, vbscript: or other harmful schemes.
+        // Allow http, https, protocol-relative (//), or local paths, but block javascript/data/etc.
+        return /^(https?:\/\/|\/(?!\/)|\.{0,2}\/|[^:]+$)/i.test(url) && !/^\s*(javascript|data|vbscript):/i.test(url);
+    }
+
 	function updatePreview() {
 		const $preview = $('.passwp-preview-frame');
 		if (!$preview.length) return;
@@ -247,7 +258,11 @@
 		const cardBgColor = $('#passwp_card_bg_color').val() || '#ffffff';
 		const cardBorderRadius = $('#passwp_card_border_radius').val() || 16;
 		const cardShadow = $('#passwp_card_shadow').is(':checked');
-		const logo = $('#passwp_logo').val();
+        // Get logo and sanitize before use
+        let logo = $('#passwp_logo').val();
+        if (!isSafeImageUrl(logo)) {
+            logo = '';
+        }
 		const logoWidth = $('#passwp_logo_width').val() || 120;
 		const headingText = $('#passwp_heading_text').val();
 		const headingColor = $('#passwp_heading_color').val() || '#1e1e1e';
