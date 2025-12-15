@@ -288,7 +288,7 @@
 		let textColor = $('#passwp_text_color').val() || '#666666';
 		const fontFamily = $('#passwp_font_family').val() || 'system-ui, -apple-system, sans-serif';
 		const buttonText = $('#passwp_button_text').val();
-		const buttonBgColor = $('#passwp_button_bg_color').val() || '#667eea';
+		const buttonBgColor = sanitizeColor($('#passwp_button_bg_color').val()) || '#667eea';
 		const buttonTextColor = $('#passwp_button_text_color').val() || '#ffffff';
 		const buttonBorderRadius = $('#passwp_button_border_radius').val() || 8;
 		const showRememberMe = $('#passwp_show_remember_me').is(':checked');
@@ -405,5 +405,26 @@
 
 	// Initialize when document is ready.
 	$(document).ready(init);
+
+/**
+ * Strictly sanitize CSS color values.
+ * Allows hex colors (#abc, #aabbcc, #aabbccdd), rgb(), rgba(), hsl(), hsla(), or color keyword.
+ * Rejects anything else; returns undefined if not safe.
+ */
+function sanitizeColor(input) {
+	if (typeof input !== "string") return undefined;
+	// Hex: #abc, #aabbcc, #aabbccdd
+	const hexPattern = /^#([A-Fa-f0-9]{3,4}){1,2}$/;
+	// rgb() / rgba()
+	const rgbPattern = /^rgb(a)?\(\s*([0-9]{1,3}\s*,\s*){2,3}[0-9\.]+\s*\)$/i;
+	// hsl() / hsla()
+	const hslPattern = /^hsl(a)?\(\s*([0-9]{1,3}(deg)?\s*,\s*){2,3}[0-9\.%]+\s*\)$/i;
+	// CSS keywords (whitelist basic)
+	const cssKeywords = /^(black|white|red|green|blue|yellow|purple|pink|orange|gray|grey|brown|cyan|magenta)$/i;
+	if (hexPattern.test(input) || rgbPattern.test(input) || hslPattern.test(input) || cssKeywords.test(input.trim())) {
+		return input.trim();
+	}
+	return undefined;
+}
 
 })(jQuery);
