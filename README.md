@@ -47,87 +47,29 @@ Go to **Settings → PassWP Posts** to configure the plugin.
 
 <img src="general-settings.png" alt="General Settings Screenshot" style="max-width:100%;height:auto;">
 
-<table width="100%">
-  <thead>
-    <tr>
-      <th align="left">Setting</th>
-      <th align="left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Enable Protection</strong></td>
-      <td>Toggle password protection on/off</td>
-    </tr>
-    <tr>
-      <td><strong>Password</strong></td>
-      <td>The password visitors must enter to access protected content</td>
-    </tr>
-    <tr>
-      <td><strong>Remember Me Duration</strong></td>
-      <td>Number of days to remember the password (default: 30)</td>
-    </tr>
-    <tr>
-      <td><strong>Protection Mode</strong></td>
-      <td>Choose to protect all pages/posts or only selected ones</td>
-    </tr>
-    <tr>
-      <td><strong>Excluded Pages/Posts</strong></td>
-      <td>When protecting all: select pages/posts to exclude</td>
-    </tr>
-    <tr>
-      <td><strong>Protected Pages/Posts</strong></td>
-      <td>When protecting selected: choose which pages/posts to protect</td>
-    </tr>
-  </tbody>
-</table>
+| Setting | Description |
+|:--------|:------------|
+| **Enable Protection** | Toggle password protection on or off for your entire site |
+| **Password** | The shared password that visitors must enter to access any protected content on your site |
+| **Remember Me Duration** | Number of days the browser will remember the password so visitors don't need to re-enter it (default: 30 days) |
+| **Protection Mode** | Choose between protecting all pages and posts (with optional exclusions) or protecting only specific selected content |
+| **Excluded Pages/Posts** | When "Protect all" is selected: choose specific pages or posts that should remain publicly accessible without a password |
+| **Protected Pages/Posts** | When "Protect selected" is chosen: select the specific pages or posts that require password protection |
 
 ### Customize Settings
 
 <img src="customize-settings.png" alt="Customize Settings Screenshot" style="max-width:100%;height:auto;">
 
-<table width="100%">
-  <thead>
-    <tr>
-      <th align="left">Setting</th>
-      <th align="left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Preset Themes</strong></td>
-      <td>Quick-apply themes: Default Purple, Business Blue, Dark Mode</td>
-    </tr>
-    <tr>
-      <td><strong>Background</strong></td>
-      <td>Background color, gradient, and optional background image</td>
-    </tr>
-    <tr>
-      <td><strong>Card Styling</strong></td>
-      <td>Card background color, border radius, and shadow</td>
-    </tr>
-    <tr>
-      <td><strong>Logo</strong></td>
-      <td>Upload a custom logo with adjustable width</td>
-    </tr>
-    <tr>
-      <td><strong>Typography</strong></td>
-      <td>Heading text, colors, and font family</td>
-    </tr>
-    <tr>
-      <td><strong>Button</strong></td>
-      <td>Button text, colors, and border radius</td>
-    </tr>
-    <tr>
-      <td><strong>Form Options</strong></td>
-      <td>Show/hide "Remember Me" checkbox, input border radius</td>
-    </tr>
-    <tr>
-      <td><strong>Footer</strong></td>
-      <td>Custom footer text and link URL</td>
-    </tr>
-  </tbody>
-</table>
+| Setting | Description |
+|:--------|:------------|
+| **Preset Themes** | Quick-apply a complete theme with one click: Default Purple, Business Blue, or Dark Mode |
+| **Background** | Customize the page background with a solid color, gradient blend, or upload a background image |
+| **Card Styling** | Style the password form card: background color, corner radius, and drop shadow intensity |
+| **Logo** | Upload your company or site logo to display above the password form, with adjustable width |
+| **Typography** | Customize the heading text, text colors, and choose from available font families |
+| **Button** | Style the submit button: custom text, background and hover colors, and corner radius |
+| **Form Options** | Toggle the "Remember Me" checkbox visibility and set the input field corner radius |
+| **Footer** | Add custom footer text below the form with an optional link URL |
 
 ## How It Works
 
