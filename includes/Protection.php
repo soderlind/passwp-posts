@@ -32,7 +32,7 @@ final class Protection {
 	 * Constructor with property promotion.
 	 */
 	public function __construct(
-		private readonly Cookie_Handler $cookie_handler = new Cookie_Handler(),
+		private readonly CookieHandler $cookie_handler = new CookieHandler(),
 	) {
 		$this->settings = get_option( 'passwp_posts_settings', [] );
 

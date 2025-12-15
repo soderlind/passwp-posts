@@ -7,12 +7,12 @@
 
 use Brain\Monkey;
 use Brain\Monkey\Functions;
-use PassWP\Posts\Admin_Settings;
+use PassWP\Posts\AdminSettings;
 
 /**
  * Class AdminSettingsTest
  *
- * @covers \PassWP\Posts\Admin_Settings
+ * @covers \PassWP\Posts\AdminSettings
  */
 class AdminSettingsTest extends PassWP_Posts_TestCase {
 
@@ -22,7 +22,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_enabled(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new Admin_Settings();
+		$settings = new AdminSettings();
 
 		$input = array(
 			'enabled' => '1',
@@ -39,7 +39,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_disabled(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new Admin_Settings();
+		$settings = new AdminSettings();
 
 		$input = array();
 
@@ -59,7 +59,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 			}
 		);
 
-		$settings = new Admin_Settings();
+		$settings = new AdminSettings();
 
 		$input = array(
 			'password' => 'my_secret_password',
@@ -82,7 +82,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 			)
 		);
 
-		$settings = new Admin_Settings();
+		$settings = new AdminSettings();
 
 		$input = array(
 			'password' => '',
@@ -99,7 +99,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_cookie_expiry_days(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new Admin_Settings();
+		$settings = new AdminSettings();
 
 		$input = array(
 			'cookie_expiry_days' => '45',
@@ -116,7 +116,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_cookie_expiry_minimum(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new Admin_Settings();
+		$settings = new AdminSettings();
 
 		$input = array(
 			'cookie_expiry_days' => '0',
@@ -133,7 +133,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_cookie_expiry_maximum(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new Admin_Settings();
+		$settings = new AdminSettings();
 
 		$input = array(
 			'cookie_expiry_days' => '500',
@@ -150,7 +150,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_protected_posts(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new Admin_Settings();
+		$settings = new AdminSettings();
 
 		$input = array(
 			'protected_posts' => array( '123', '456', '789' ),
@@ -167,7 +167,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_sanitize_settings_protected_posts_filters_invalid(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new Admin_Settings();
+		$settings = new AdminSettings();
 
 		$input = array(
 			'protected_posts' => array( '123', 'invalid', '0', '456' ),
@@ -196,7 +196,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 		);
 
 		try {
-			$settings = new Admin_Settings();
+			$settings = new AdminSettings();
 			$settings->ajax_search_posts();
 		} catch (\Exception $e) {
 			if ( 'json_error_sent' !== $e->getMessage() ) {
@@ -213,7 +213,7 @@ class AdminSettingsTest extends PassWP_Posts_TestCase {
 	public function test_default_settings_values(): void {
 		Functions\when( 'get_option' )->justReturn( array() );
 
-		$settings = new Admin_Settings();
+		$settings = new AdminSettings();
 
 		$input  = array();
 		$result = $settings->sanitize_settings( $input );

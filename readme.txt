@@ -4,7 +4,7 @@ Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,11 @@ You may need to exclude protected pages from caching or configure your caching p
 
 == Changelog ==
 
+= 1.2.0 =
+* Refactored to PSR-4 autoloading with Composer
+* Renamed class files to PascalCase (AdminSettings, CookieHandler, GitHubPluginUpdater, Protection)
+* Removed custom autoloader in favor of Composer autoloader
+
 = 1.1.2 =
 * Fixed Select2 tag remove button positioning and styling
 
@@ -149,6 +154,9 @@ You may need to exclude protected pages from caching or configure your caching p
 * Norwegian Bokmål translation included
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Code refactoring with PSR-4 autoloading.
 
 = 1.1.2 =
 Fixed Select2 tag styling.

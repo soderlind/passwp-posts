@@ -14,7 +14,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
  * @author Per Soderlind
  * @license GPL-2.0+
  */
-class GitHub_Plugin_Updater {
+class GitHubPluginUpdater {
 	/**
 	 * @var string GitHub repository URL
 	 */
@@ -83,7 +83,7 @@ class GitHub_Plugin_Updater {
 	 */
 	public function setup_updater() {
 		// Check if the Plugin Update Checker library is available.
-		if ( ! class_exists( PucFactory::class ) ) {
+		if ( ! class_exists( PucFactory::class) ) {
 			return;
 		}
 
@@ -117,7 +117,7 @@ class GitHub_Plugin_Updater {
 	 * @param string $plugin_slug Plugin slug
 	 * @param string $branch Branch name (default: 'main')
 	 * 
-	 * @return GitHub_Plugin_Updater
+	 * @return GitHubPluginUpdater
 	 */
 	public static function create( $github_url, $plugin_file, $plugin_slug, $branch = 'main' ) {
 		return new self( array(
@@ -137,7 +137,7 @@ class GitHub_Plugin_Updater {
 	 * @param string $name_regex Regex pattern for release assets
 	 * @param string $branch Branch name (default: 'main')
 	 * 
-	 * @return GitHub_Plugin_Updater
+	 * @return GitHubPluginUpdater
 	 */
 	public static function create_with_assets( $github_url, $plugin_file, $plugin_slug, $name_regex, $branch = 'main' ) {
 		return new self( array(

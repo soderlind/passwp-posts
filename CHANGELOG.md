@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2024-12-15
+
+### Changed
+
+- Refactored to PSR-4 autoloading with Composer
+- Renamed class files to PascalCase convention:
+  - `class-admin-settings.php` → `AdminSettings.php`
+  - `class-cookie-handler.php` → `CookieHandler.php`
+  - `class-github-plugin-updater.php` → `GitHubPluginUpdater.php`
+  - `class-protection.php` → `Protection.php`
+- Renamed classes from underscore to PascalCase (e.g., `Admin_Settings` → `AdminSettings`)
+- Removed custom autoloader in favor of Composer autoloader
+
 ## [1.1.2] - 2024-12-15
 
 ### Fixed

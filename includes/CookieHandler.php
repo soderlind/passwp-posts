@@ -15,11 +15,11 @@ namespace PassWP\Posts;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class Cookie_Handler
+ * Class CookieHandler
  *
  * Manages authentication cookies for password-protected access.
  */
-final class Cookie_Handler {
+final class CookieHandler {
 
 	/**
 	 * Cookie name prefix.
