@@ -1,0 +1,460 @@
+/**
+ * PassWP Posts Customize Admin Styles.
+ *
+ * Styles for the Customize tab in admin settings.
+ *
+ * @package PassWP_Posts
+ */
+
+/* Tab navigation */
+.nav-tab-wrapper {
+	margin-bottom: 20px;
+}
+
+/* Two-column layout */
+.passwp-customize-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 380px;
+	gap: 30px;
+	align-items: start;
+	margin-top: 20px;
+}
+
+@media (max-width: 1200px) {
+	.passwp-customize-wrapper {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Options column */
+.passwp-customize-options {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	padding: 0;
+}
+
+/* Sections */
+.passwp-section {
+	padding: 20px;
+	border-bottom: 1px solid #e5e7eb;
+}
+
+.passwp-section:last-child {
+	border-bottom: none;
+}
+
+.passwp-section h2 {
+	margin: 0 0 15px;
+	padding: 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+/* Settings grid - sections after presets */
+.passwp-settings-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0;
+	border-top: 1px solid #e5e7eb;
+}
+
+@media (max-width: 1600px) {
+	.passwp-settings-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 1200px) {
+	.passwp-settings-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.passwp-settings-grid .passwp-section {
+	border-bottom: 1px solid #e5e7eb;
+	border-right: 1px solid #e5e7eb;
+}
+
+.passwp-settings-grid .passwp-section:nth-child(3n) {
+	border-right: none;
+}
+
+@media (max-width: 1600px) {
+	.passwp-settings-grid .passwp-section:nth-child(3n) {
+		border-right: 1px solid #e5e7eb;
+	}
+	.passwp-settings-grid .passwp-section:nth-child(2n) {
+		border-right: none;
+	}
+}
+
+@media (max-width: 1200px) {
+	.passwp-settings-grid .passwp-section {
+		border-right: none;
+	}
+}
+
+.passwp-settings-grid .passwp-section:last-child {
+	border-bottom: none;
+}
+
+/* Preset themes */
+.passwp-presets {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px;
+}
+
+@media (max-width: 782px) {
+	.passwp-presets {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.passwp-preset-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: 2px solid #dcdcde;
+	border-radius: 8px;
+	padding: 12px;
+	cursor: pointer;
+	transition: border-color 0.2s, box-shadow 0.2s;
+	background: #fff;
+}
+
+.passwp-preset-card:hover {
+	border-color: #2271b1;
+}
+
+.passwp-preset-card.active {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+}
+
+.passwp-preset-preview {
+	display: block;
+	width: 100%;
+	height: 50px;
+	border-radius: 4px;
+	margin-bottom: 8px;
+}
+
+.passwp-preset-name {
+	display: block;
+	font-weight: 500;
+	text-align: center;
+	font-size: 12px;
+	color: #1e1e1e;
+}
+
+/* Form rows */
+.passwp-form-row {
+	margin-bottom: 16px;
+}
+
+.passwp-form-row:last-child {
+	margin-bottom: 0;
+}
+
+.passwp-form-row > label {
+	display: block;
+	margin-bottom: 6px;
+	font-weight: 500;
+	font-size: 13px;
+	color: #1d2327;
+}
+
+.passwp-form-row .description {
+	margin-top: 6px;
+	color: #646970;
+	font-size: 12px;
+	font-style: italic;
+}
+
+/* Color picker adjustments */
+.passwp-form-row .wp-picker-container {
+	display: block;
+}
+
+.passwp-form-row .wp-picker-container .wp-color-result.button {
+	margin: 0;
+}
+
+/* Range slider */
+.passwp-range-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.passwp-range-wrapper input[type="range"] {
+	flex: 1;
+	max-width: 200px;
+	margin: 0;
+}
+
+.passwp-range-value {
+	min-width: 50px;
+	color: #50575e;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+/* Toggle switch */
+.passwp-toggle {
+	position: relative;
+	display: inline-block;
+	width: 44px;
+	height: 24px;
+	cursor: pointer;
+}
+
+.passwp-toggle input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.passwp-toggle-slider {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	border-radius: 24px;
+	transition: 0.3s;
+}
+
+.passwp-toggle-slider::before {
+	position: absolute;
+	content: "";
+	height: 18px;
+	width: 18px;
+	left: 3px;
+	bottom: 3px;
+	background-color: #fff;
+	border-radius: 50%;
+	transition: 0.3s;
+}
+
+.passwp-toggle input:checked + .passwp-toggle-slider {
+	background-color: #2271b1;
+}
+
+.passwp-toggle input:checked + .passwp-toggle-slider::before {
+	transform: translateX(20px);
+}
+
+.passwp-toggle input:focus + .passwp-toggle-slider {
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2271b1;
+}
+
+/* Media uploader */
+.passwp-media-upload {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.passwp-media-upload .button {
+	margin: 0;
+}
+
+.passwp-media-preview {
+	width: 80px;
+	height: 50px;
+	border-radius: 4px;
+	border: 1px solid #dcdcde;
+	background: #f0f0f1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.passwp-media-preview img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+.passwp-media-preview:empty::before {
+	content: "—";
+	color: #a7aaad;
+	font-size: 18px;
+}
+
+/* Text inputs */
+.passwp-form-row input[type="text"],
+.passwp-form-row input[type="url"] {
+	width: 100%;
+	max-width: 100%;
+}
+
+.passwp-form-row input.regular-text {
+	width: 100%;
+	max-width: 100%;
+}
+
+.passwp-form-row select {
+	width: 100%;
+	max-width: 100%;
+}
+
+/* Actions section */
+.passwp-section.passwp-actions {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #f6f7f7;
+	border-top: 1px solid #c3c4c7;
+	border-bottom: none;
+}
+
+#passwp-reset-customize {
+	color: #b32d2e;
+	border-color: #b32d2e;
+}
+
+#passwp-reset-customize:hover {
+	background: #b32d2e;
+	color: #fff;
+	border-color: #b32d2e;
+}
+
+/* Preview column */
+.passwp-preview-wrapper {
+	position: sticky;
+	top: 50px;
+}
+
+.passwp-preview-wrapper h2 {
+	margin: 0 0 12px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+#passwp-preview-container {
+	border: 1px solid #c3c4c7;
+	border-radius: 8px;
+	overflow: hidden;
+	background: #1e1e1e;
+}
+
+.passwp-preview-frame {
+	padding: 20px;
+	min-height: 400px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Preview content styles */
+.passwp-preview-bg {
+	width: 100%;
+	min-height: 360px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.passwp-preview-card {
+	background: #fff;
+	padding: 30px;
+	width: 100%;
+	max-width: 280px;
+	text-align: center;
+}
+
+.passwp-preview-logo {
+	margin-bottom: 16px;
+	max-width: 100%;
+	height: auto;
+}
+
+.passwp-preview-heading {
+	margin: 0 0 8px;
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.passwp-preview-text {
+	margin: 0 0 16px;
+	font-size: 13px;
+}
+
+.passwp-preview-form {
+	text-align: left;
+}
+
+.passwp-preview-form input[type="password"] {
+	width: 100%;
+	padding: 10px 12px;
+	margin-bottom: 12px;
+	border: 1px solid #ddd;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+
+.passwp-preview-remember {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 12px;
+	font-size: 12px;
+}
+
+.passwp-preview-remember input {
+	margin: 0;
+}
+
+.passwp-preview-form button {
+	width: 100%;
+	padding: 10px 16px;
+	border: none;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.passwp-preview-footer {
+	margin-top: 16px;
+	font-size: 12px;
+}
+
+.passwp-preview-footer a {
+	text-decoration: none;
+}
+
+.passwp-preview-footer a:hover {
+	text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 782px) {
+	.passwp-customize-wrapper {
+		gap: 20px;
+	}
+
+	.passwp-section {
+		padding: 15px;
+	}
+
+	.passwp-preview-wrapper {
+		position: relative;
+		top: 0;
+	}
+
+	.passwp-preview-frame {
+		min-height: 300px;
+	}
+}

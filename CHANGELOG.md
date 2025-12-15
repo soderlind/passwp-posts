@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2024-12-15
+
+### Added
+
+- Customize tab with live preview for password form styling
+- Preset themes: Default Purple, Business Blue, Dark Mode
+- Background customization: color, gradient, and background image
+- Card styling options: background color, border radius, shadow
+- Logo upload with adjustable width
+- Typography settings: heading text, heading color, text color, font family
+- Button customization: text, background color, text color, border radius
+- Form options: show/hide "Remember Me" checkbox, input border radius
+- Footer customization: text and link URL
+- Updated Norwegian Bokmål translations for all new strings
+
 ## [1.0.4] - 2024-12-15
 
 ### Added
