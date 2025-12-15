@@ -27,13 +27,20 @@
 	border: none;
 	border-radius: 3px;
 	color: #fff;
-	padding: 2px 8px;
+	padding: 4px 8px 4px 24px;
 	margin: 4px 4px 4px 0;
+	position: relative;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
 	color: rgba(255, 255, 255, 0.7);
-	margin-right: 6px;
+	position: absolute;
+	left: 6px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {

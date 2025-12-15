@@ -4,7 +4,7 @@ Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,9 @@ You may need to exclude protected pages from caching or configure your caching p
 
 == Changelog ==
 
+= 1.1.2 =
+* Fixed Select2 tag remove button positioning and styling
+
 = 1.1.1 =
 * Fixed fatal error when Plugin Update Checker library is not available
 * Included production vendor files in repository
@@ -146,6 +149,9 @@ You may need to exclude protected pages from caching or configure your caching p
 * Norwegian Bokmål translation included
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+Fixed Select2 tag styling.
 
 = 1.1.1 =
 Bug fixes for fatal errors and security improvements.
