@@ -1,6 +1,18 @@
 # Dependencies
 /node_modules/
-/vendor/
+
+# Vendor - include production, exclude dev
+/vendor/antecedent/
+/vendor/bin/
+/vendor/brain/
+/vendor/hamcrest/
+/vendor/mockery/
+/vendor/myclabs/
+/vendor/nikic/
+/vendor/phar-io/
+/vendor/phpunit/
+/vendor/sebastian/
+/vendor/theseer/
 
 # Build outputs
 /coverage/
