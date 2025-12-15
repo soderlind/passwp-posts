@@ -32,6 +32,8 @@ Go to **Settings → PassWP Posts** to configure the plugin.
 
 ### General Settings
 
+<img src="general-settings.png" alt="General Settings Screenshot" style="max-width:100%;height:auto;">
+
 | Setting | Description |
 |---------|-------------|
 | **Enable Protection** | Toggle password protection on/off |
@@ -42,6 +44,8 @@ Go to **Settings → PassWP Posts** to configure the plugin.
 | **Protected Pages/Posts** | When protecting selected: choose which pages/posts to protect |
 
 ### Customize Settings
+
+<img src="customize-settings.png" alt="Customize Settings Screenshot" style="max-width:100%;height:auto;">
 
 | Setting | Description |
 |---------|-------------|
