@@ -37,26 +37,26 @@ final class Admin_Settings {
 	 * @var array<string, mixed>
 	 */
 	private const CUSTOMIZE_DEFAULTS = [
-		'bg_color'            => '#667eea',
-		'bg_gradient_end'     => '#764ba2',
-		'bg_image'            => '',
-		'card_bg_color'       => '#ffffff',
-		'card_border_radius'  => 12,
-		'card_shadow'         => true,
-		'logo'                => '',
-		'logo_width'          => 120,
-		'heading_text'        => '',
-		'heading_color'       => '#1a1a2e',
-		'text_color'          => '#4a5568',
-		'font_family'         => 'system-ui, -apple-system, sans-serif',
-		'button_text'         => '',
-		'button_bg_color'     => '#667eea',
-		'button_text_color'   => '#ffffff',
+		'bg_color'             => '#667eea',
+		'bg_gradient_end'      => '#764ba2',
+		'bg_image'             => '',
+		'card_bg_color'        => '#ffffff',
+		'card_border_radius'   => 12,
+		'card_shadow'          => true,
+		'logo'                 => '',
+		'logo_width'           => 120,
+		'heading_text'         => '',
+		'heading_color'        => '#1a1a2e',
+		'text_color'           => '#4a5568',
+		'font_family'          => 'system-ui, -apple-system, sans-serif',
+		'button_text'          => '',
+		'button_bg_color'      => '#667eea',
+		'button_text_color'    => '#ffffff',
 		'button_border_radius' => 8,
-		'show_remember_me'    => true,
-		'input_border_radius' => 8,
-		'footer_text'         => '',
-		'footer_link_url'     => '',
+		'show_remember_me'     => true,
+		'input_border_radius'  => 8,
+		'footer_text'          => '',
+		'footer_link_url'      => '',
 	];
 
 	/**
@@ -405,10 +405,12 @@ final class Admin_Settings {
 									for="passwp_bg_gradient_end"><?php esc_html_e( 'Gradient End Color', 'passwp-posts' ); ?></label>
 								<input type="text" id="passwp_bg_gradient_end"
 									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][bg_gradient_end]"
-									value="<?php echo esc_attr( $settings[ 'bg_gradient_end' ] ); ?>" class="passwp-color-picker"
+									value="<?php echo esc_attr( $settings[ 'bg_gradient_end' ] ); ?>"
+									class="passwp-color-picker"
 									data-default-color="<?php echo esc_attr( self::CUSTOMIZE_DEFAULTS[ 'bg_gradient_end' ] ); ?>" />
 								<p class="description">
-									<?php esc_html_e( 'Leave empty for solid color background.', 'passwp-posts' ); ?></p>
+									<?php esc_html_e( 'Leave empty for solid color background.', 'passwp-posts' ); ?>
+								</p>
 							</div>
 
 							<div class="passwp-form-row">
@@ -494,7 +496,8 @@ final class Admin_Settings {
 										name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][logo_width]"
 										value="<?php echo esc_attr( $settings[ 'logo_width' ] ); ?>" min="50" max="300"
 										step="10" />
-									<span class="passwp-range-value"><?php echo esc_html( $settings[ 'logo_width' ] ); ?>px</span>
+									<span
+										class="passwp-range-value"><?php echo esc_html( $settings[ 'logo_width' ] ); ?>px</span>
 								</div>
 							</div>
 						</div>
@@ -532,13 +535,17 @@ final class Admin_Settings {
 								<select id="passwp_font_family"
 									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][font_family]">
 									<option value="system-ui, -apple-system, sans-serif" <?php selected( $settings[ 'font_family' ], 'system-ui, -apple-system, sans-serif' ); ?>>
-										<?php esc_html_e( 'System Default', 'passwp-posts' ); ?></option>
+										<?php esc_html_e( 'System Default', 'passwp-posts' ); ?>
+									</option>
 									<option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" <?php selected( $settings[ 'font_family' ], "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" ); ?>>
-										<?php esc_html_e( 'Segoe UI', 'passwp-posts' ); ?></option>
+										<?php esc_html_e( 'Segoe UI', 'passwp-posts' ); ?>
+									</option>
 									<option value="Georgia, 'Times New Roman', serif" <?php selected( $settings[ 'font_family' ], "Georgia, 'Times New Roman', serif" ); ?>>
-										<?php esc_html_e( 'Georgia', 'passwp-posts' ); ?></option>
+										<?php esc_html_e( 'Georgia', 'passwp-posts' ); ?>
+									</option>
 									<option value="'Courier New', Courier, monospace" <?php selected( $settings[ 'font_family' ], "'Courier New', Courier, monospace" ); ?>>
-										<?php esc_html_e( 'Courier New', 'passwp-posts' ); ?></option>
+										<?php esc_html_e( 'Courier New', 'passwp-posts' ); ?>
+									</option>
 								</select>
 							</div>
 						</div>
@@ -559,7 +566,8 @@ final class Admin_Settings {
 									for="passwp_button_bg_color"><?php esc_html_e( 'Button Background Color', 'passwp-posts' ); ?></label>
 								<input type="text" id="passwp_button_bg_color"
 									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][button_bg_color]"
-									value="<?php echo esc_attr( $settings[ 'button_bg_color' ] ); ?>" class="passwp-color-picker"
+									value="<?php echo esc_attr( $settings[ 'button_bg_color' ] ); ?>"
+									class="passwp-color-picker"
 									data-default-color="<?php echo esc_attr( self::CUSTOMIZE_DEFAULTS[ 'button_bg_color' ] ); ?>" />
 							</div>
 
@@ -1018,13 +1026,13 @@ final class Admin_Settings {
 		$sanitized[ 'footer_text' ]  = sanitize_text_field( $input[ 'footer_text' ] ?? '' );
 
 		// Font family - allow only safe values.
-		$allowed_fonts            = [
+		$allowed_fonts              = [
 			'system-ui, -apple-system, sans-serif',
 			"'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
 			"Georgia, 'Times New Roman', serif",
 			"'Courier New', Courier, monospace",
 		];
-		$font_family              = $input[ 'font_family' ] ?? self::CUSTOMIZE_DEFAULTS[ 'font_family' ];
+		$font_family                = $input[ 'font_family' ] ?? self::CUSTOMIZE_DEFAULTS[ 'font_family' ];
 		$sanitized[ 'font_family' ] = in_array( $font_family, $allowed_fonts, true ) ? $font_family : self::CUSTOMIZE_DEFAULTS[ 'font_family' ];
 
 		return $sanitized;
