@@ -188,8 +188,8 @@ final class AdminSettings {
 		$customize = $settings[ 'customize' ] ?? [];
 
 		// Backward-compat: prior versions used footer_link_url.
-		if ( empty( $customize['footer_link'] ) && ! empty( $customize['footer_link_url'] ) ) {
-			$customize['footer_link'] = $customize['footer_link_url'];
+		if ( empty( $customize[ 'footer_link' ] ) && ! empty( $customize[ 'footer_link_url' ] ) ) {
+			$customize[ 'footer_link' ] = $customize[ 'footer_link_url' ];
 		}
 
 		return array_merge( self::CUSTOMIZE_DEFAULTS, $customize );
@@ -1011,8 +1011,8 @@ final class AdminSettings {
 		}
 
 		// URLs - sanitize as URLs.
-		if ( empty( $input['footer_link'] ) && ! empty( $input['footer_link_url'] ) ) {
-			$input['footer_link'] = $input['footer_link_url'];
+		if ( empty( $input[ 'footer_link' ] ) && ! empty( $input[ 'footer_link_url' ] ) ) {
+			$input[ 'footer_link' ] = $input[ 'footer_link_url' ];
 		}
 
 		$url_fields = [ 'bg_image', 'logo', 'footer_link' ];

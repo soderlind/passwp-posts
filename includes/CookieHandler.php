@@ -66,7 +66,7 @@ final class CookieHandler {
 
 		// Calculate expiry time. For session cookies, omit the expires option.
 		if ( $expiry_days !== 0 ) {
-			$cookie_options['expires'] = time() + ( $expiry_days * DAY_IN_SECONDS );
+			$cookie_options[ 'expires' ] = time() + ( $expiry_days * DAY_IN_SECONDS );
 		}
 
 		// Set the cookie.
