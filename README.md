@@ -18,11 +18,17 @@ A WordPress plugin for password protecting your site's content. Protect all page
 
 ## Installation
 
-1. Upload the `passwp-posts` folder to `/wp-content/plugins/`
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to **Settings → PassWP Posts** to configure
+
+- Download [`passwp-posts.zip`](https://github.com/soderlind/passwp-posts/releases/latest/download/passwp-posts.zip)
+- Upload via  Plugins > Add New > Upload Plugin
+- Activate the plugin.
+
+
+Plugin [updates are handled automatically](https://github.com/soderlind/wordpress-plugin-github-updater#readme) via GitHub. No need to manually download and install updates.
 
 ## Configuration
+
+Go to **Settings → PassWP Posts** to configure the plugin.
 
 ### General Settings
 
