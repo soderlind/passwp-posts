@@ -85,6 +85,7 @@
 	.passwp-settings-grid .passwp-section:nth-child(3n) {
 		border-right: 1px solid #e5e7eb;
 	}
+
 	.passwp-settings-grid .passwp-section:nth-child(2n) {
 		border-right: none;
 	}
@@ -159,7 +160,7 @@
 	margin-bottom: 0;
 }
 
-.passwp-form-row > label {
+.passwp-form-row>label {
 	display: block;
 	margin-bottom: 6px;
 	font-weight: 500;
@@ -241,15 +242,15 @@
 	transition: 0.3s;
 }
 
-.passwp-toggle input:checked + .passwp-toggle-slider {
+.passwp-toggle input:checked+.passwp-toggle-slider {
 	background-color: #2271b1;
 }
 
-.passwp-toggle input:checked + .passwp-toggle-slider::before {
+.passwp-toggle input:checked+.passwp-toggle-slider::before {
 	transform: translateX(20px);
 }
 
-.passwp-toggle input:focus + .passwp-toggle-slider {
+.passwp-toggle input:focus+.passwp-toggle-slider {
 	box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2271b1;
 }
 
