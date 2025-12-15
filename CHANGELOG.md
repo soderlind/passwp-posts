@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2024-12-15
+
+### Changed
+
+- Improved documentation with clearer explanation of single-password concept
+- Added detailed use case examples (staging sites, client portals, photography galleries, etc.)
+- Added "When NOT to use" guidance for users needing membership features
+
 ## [1.2.0] - 2024-12-15
 
 ### Changed

@@ -1,18 +1,31 @@
 # PassWP Posts
 
-A WordPress plugin for password protecting your site's content. Protect all pages and posts or only selected ones—logged-in users always bypass.
+A simple password protection plugin for WordPress—no usernames, no accounts, just one shared password. Share the password with those who need access and they're in. Perfect for situations where you need quick, hassle-free access control without user management.
+
+## When to Use This Plugin
+
+PassWP Posts is ideal when you need **simple shared access** without the overhead of user accounts:
+
+- **Staging Sites** — Share a password with clients to preview their site before launch
+- **Client Portals** — Protect project documentation or deliverables with a single password
+- **Pre-launch Sites** — Keep your "Coming Soon" site private while you finish development
+- **Private Blogs** — Share personal content with family or friends using one easy password
+- **Internal Resources** — Protect company wikis or documentation from public access
+- **Event Websites** — Limit access to event details, schedules, or member areas
+- **Photography Galleries** — Share client proofs with a simple password (no login required)
+- **Educational Content** — Protect course materials for a class or workshop
+
+> **Note:** This is NOT a membership or user management plugin. If you need individual user accounts, different access levels, or tracking who accessed what, use a membership plugin instead.
 
 ## Features
 
-- **Single Password Protection**: Set one password for your entire site (no username required)
-- **Front Page Bypass**: The front page is always accessible without a password
-- **Logged-in User Bypass**: Authenticated users skip the password prompt
-- **Protection Modes**: Protect all content (with exclusions) or only selected pages/posts
-- **Customizable Password Form**: Personalize colors, typography, logo, and more with live preview
-- **Preset Themes**: Choose from built-in themes (Default Purple, Business Blue, Dark Mode)
-- **Remember Me**: Visitors stay authenticated for a configurable duration
-- **Secure Cookie Handling**: Uses SHA256 hashing with WordPress salts for cookie security
-- **Native WordPress Methods**: Built using WordPress Settings API and password functions
+- **One Password, No Username** — Visitors just enter the password—no account creation, no login forms
+- **Front Page Always Public** — Your homepage remains accessible to everyone
+- **Logged-in User Bypass** — WordPress users (editors, admins) skip the password prompt
+- **Flexible Protection** — Protect all content (with exclusions) or only selected pages/posts
+- **Customizable Form** — Match your brand with colors, typography, logo, and preset themes
+- **Remember Me** — Visitors stay authenticated for a configurable duration
+- **Secure** — Uses WordPress-native password hashing and secure cookies
 
 
 
