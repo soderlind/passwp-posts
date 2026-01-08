@@ -47,7 +47,7 @@ class ShortcodesTest extends PassWP_Posts_TestCase {
 			}
 		);
 
-		$_GET = array();
+		$_GET    = array();
 		$_COOKIE = array();
 
 		$shortcodes = new Shortcodes();
@@ -108,7 +108,7 @@ class ShortcodesTest extends PassWP_Posts_TestCase {
 			}
 		);
 
-		$_GET = array();
+		$_GET    = array();
 		$_COOKIE = array();
 
 		$shortcodes = new Shortcodes();

@@ -607,7 +607,8 @@ final class AdminSettings {
 							<h2><?php esc_html_e( 'Form Options', 'passwp-posts' ); ?></h2>
 
 							<div class="passwp-form-row">
-								<label for="passwp_password_placeholder"><?php esc_html_e( 'Password Placeholder', 'passwp-posts' ); ?></label>
+								<label
+									for="passwp_password_placeholder"><?php esc_html_e( 'Password Placeholder', 'passwp-posts' ); ?></label>
 								<input type="text" id="passwp_password_placeholder"
 									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][password_placeholder]"
 									value="<?php echo esc_attr( $settings[ 'password_placeholder' ] ); ?>" class="regular-text"
@@ -729,8 +730,7 @@ final class AdminSettings {
 				</p>
 
 				<div class="passwp-preview-form">
-					<input type="password"
-						placeholder="<?php echo esc_attr( $password_placeholder ); ?>"
+					<input type="password" placeholder="<?php echo esc_attr( $password_placeholder ); ?>"
 						data-default-placeholder="<?php echo esc_attr( $default_password_placeholder ); ?>"
 						style="border-radius: <?php echo absint( $settings[ 'input_border_radius' ] ); ?>px;" readonly />
 
@@ -1050,10 +1050,10 @@ final class AdminSettings {
 		$sanitized[ 'show_remember_me' ] = ! empty( $input[ 'show_remember_me' ] );
 
 		// Text fields.
-		$sanitized[ 'heading_text' ] = sanitize_text_field( $input[ 'heading_text' ] ?? '' );
+		$sanitized[ 'heading_text' ]         = sanitize_text_field( $input[ 'heading_text' ] ?? '' );
 		$sanitized[ 'password_placeholder' ] = sanitize_text_field( $input[ 'password_placeholder' ] ?? '' );
-		$sanitized[ 'button_text' ]  = sanitize_text_field( $input[ 'button_text' ] ?? '' );
-		$sanitized[ 'footer_text' ]  = sanitize_text_field( $input[ 'footer_text' ] ?? '' );
+		$sanitized[ 'button_text' ]          = sanitize_text_field( $input[ 'button_text' ] ?? '' );
+		$sanitized[ 'footer_text' ]          = sanitize_text_field( $input[ 'footer_text' ] ?? '' );
 
 		// Font family - allow only safe values.
 		$allowed_fonts              = [

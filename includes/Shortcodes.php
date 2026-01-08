@@ -95,7 +95,7 @@ final class Shortcodes {
 
 		$show_remember_me = ! empty( $customize[ 'show_remember_me' ] );
 
-		$html  = '<div class="passwp-login">';
+		$html = '<div class="passwp-login">';
 		if ( $error_message !== '' ) {
 			$html .= '<p role="alert">' . esc_html( $error_message ) . '</p>';
 		}
