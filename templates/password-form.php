@@ -20,6 +20,12 @@ $site_url  = home_url();
 // Get customize settings.
 $customize = PassWP\Posts\AdminSettings::get_customize_settings();
 
+$default_password_placeholder = __( 'Enter password', 'passwp-posts' );
+$password_placeholder         = ! empty( $customize[ 'password_placeholder' ] ) ? $customize[ 'password_placeholder' ] : $default_password_placeholder;
+
+$default_button_text = __( 'Login', 'passwp-posts' );
+$button_text         = ! empty( $customize[ 'button_text' ] ) ? $customize[ 'button_text' ] : $default_button_text;
+
 // Error messages.
 $error_messages = array(
 	'invalid'     => __( 'Incorrect password. Please try again.', 'passwp-posts' ),
@@ -155,7 +161,7 @@ if ( ! empty( $customize[ 'bg_image' ] ) ) {
 							<?php esc_html_e( 'Password', 'passwp-posts' ); ?>
 						</label>
 						<input type="password" id="passwp_password" name="passwp_password" class="passwp-posts-input"
-							placeholder="<?php esc_attr_e( 'Enter password', 'passwp-posts' ); ?>" required autofocus
+							placeholder="<?php echo esc_attr( $password_placeholder ); ?>" required autofocus
 							autocomplete="current-password">
 					</div>
 
@@ -167,7 +173,7 @@ if ( ! empty( $customize[ 'bg_image' ] ) ) {
 					</div>
 
 					<button type="submit" class="passwp-posts-submit">
-						<?php echo esc_html( $customize[ 'button_text' ] ?: __( 'Submit', 'passwp-posts' ) ); ?>
+						<?php echo esc_html( $button_text ); ?>
 					</button>
 				</form>
 			</div>

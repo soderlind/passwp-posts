@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-01-08
+
+### Added
+
+- New `[passwp_login]` shortcode for rendering a password form on public pages
+- New Customize option for the password input placeholder
+
+### Changed
+
+- Unified default texts: "Enter password" placeholder and "Login" button
+- Shortcode output uses common WordPress login form CSS classes
+
 ## [1.2.2] - 2025-12-15
 
 ### Security & Fixed
