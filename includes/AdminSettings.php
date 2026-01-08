@@ -49,6 +49,7 @@ final class AdminSettings {
 		'heading_color'        => '#1a1a2e',
 		'text_color'           => '#4a5568',
 		'font_family'          => 'system-ui, -apple-system, sans-serif',
+		'password_placeholder' => '',
 		'button_text'          => '',
 		'button_bg_color'      => '#667eea',
 		'button_text_color'    => '#ffffff',
@@ -607,6 +608,18 @@ final class AdminSettings {
 
 							<div class="passwp-form-row">
 								<label
+									for="passwp_password_placeholder"><?php esc_html_e( 'Password Placeholder', 'passwp-posts' ); ?></label>
+								<input type="text" id="passwp_password_placeholder"
+									name="<?php echo esc_attr( self::OPTION_NAME ); ?>[customize][password_placeholder]"
+									value="<?php echo esc_attr( $settings[ 'password_placeholder' ] ); ?>" class="regular-text"
+									placeholder="<?php echo esc_attr__( 'Enter password', 'passwp-posts' ); ?>" />
+								<p class="description">
+									<?php esc_html_e( 'Leave empty to use the default text.', 'passwp-posts' ); ?>
+								</p>
+							</div>
+
+							<div class="passwp-form-row">
+								<label
 									for="passwp_show_remember_me"><?php esc_html_e( 'Show Remember Me', 'passwp-posts' ); ?></label>
 								<label class="passwp-toggle">
 									<input type="checkbox" id="passwp_show_remember_me"
@@ -679,6 +692,11 @@ final class AdminSettings {
 	 * @param array<string, mixed> $settings The customize settings.
 	 */
 	private function render_preview_content( array $settings ): void {
+		$default_password_placeholder = __( 'Enter password', 'passwp-posts' );
+		$password_placeholder         = $settings[ 'password_placeholder' ] ?: $default_password_placeholder;
+		$default_button_text          = __( 'Login', 'passwp-posts' );
+		$button_text                  = $settings[ 'button_text' ] ?: $default_button_text;
+
 		$bg_style = '';
 		if ( ! empty( $settings[ 'bg_image' ] ) ) {
 			$bg_style = sprintf( 'background-image: url(%s); background-size: cover; background-position: center;', esc_url( $settings[ 'bg_image' ] ) );
@@ -712,7 +730,8 @@ final class AdminSettings {
 				</p>
 
 				<div class="passwp-preview-form">
-					<input type="password" placeholder="<?php esc_attr_e( 'Password', 'passwp-posts' ); ?>"
+					<input type="password" placeholder="<?php echo esc_attr( $password_placeholder ); ?>"
+						data-default-placeholder="<?php echo esc_attr( $default_password_placeholder ); ?>"
 						style="border-radius: <?php echo absint( $settings[ 'input_border_radius' ] ); ?>px;" readonly />
 
 					<?php if ( $settings[ 'show_remember_me' ] ) : ?>
@@ -722,9 +741,9 @@ final class AdminSettings {
 						</label>
 					<?php endif; ?>
 
-					<button type="button"
+					<button type="button" data-default-text="<?php echo esc_attr( $default_button_text ); ?>"
 						style="background-color: <?php echo esc_attr( $settings[ 'button_bg_color' ] ); ?>; color: <?php echo esc_attr( $settings[ 'button_text_color' ] ); ?>; border-radius: <?php echo absint( $settings[ 'button_border_radius' ] ); ?>px;">
-						<?php echo esc_html( $settings[ 'button_text' ] ?: __( 'Submit', 'passwp-posts' ) ); ?>
+						<?php echo esc_html( $button_text ); ?>
 					</button>
 				</div>
 
@@ -1031,9 +1050,10 @@ final class AdminSettings {
 		$sanitized[ 'show_remember_me' ] = ! empty( $input[ 'show_remember_me' ] );
 
 		// Text fields.
-		$sanitized[ 'heading_text' ] = sanitize_text_field( $input[ 'heading_text' ] ?? '' );
-		$sanitized[ 'button_text' ]  = sanitize_text_field( $input[ 'button_text' ] ?? '' );
-		$sanitized[ 'footer_text' ]  = sanitize_text_field( $input[ 'footer_text' ] ?? '' );
+		$sanitized[ 'heading_text' ]         = sanitize_text_field( $input[ 'heading_text' ] ?? '' );
+		$sanitized[ 'password_placeholder' ] = sanitize_text_field( $input[ 'password_placeholder' ] ?? '' );
+		$sanitized[ 'button_text' ]          = sanitize_text_field( $input[ 'button_text' ] ?? '' );
+		$sanitized[ 'footer_text' ]          = sanitize_text_field( $input[ 'footer_text' ] ?? '' );
 
 		// Font family - allow only safe values.
 		$allowed_fonts              = [

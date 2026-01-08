@@ -57,6 +57,7 @@
 			heading_color: '#1e1e1e',
 			text_color: '#666666',
 			font_family: 'system-ui, -apple-system, sans-serif',
+			password_placeholder: '',
 			button_text: '',
 			button_bg_color: '#667eea',
 			button_text_color: '#ffffff',
@@ -79,6 +80,7 @@
 			heading_color: '#1e1e1e',
 			text_color: '#666666',
 			font_family: 'system-ui, -apple-system, sans-serif',
+			password_placeholder: '',
 			button_text: '',
 			button_bg_color: '#2193b0',
 			button_text_color: '#ffffff',
@@ -101,6 +103,7 @@
 			heading_color: '#e5e5e5',
 			text_color: '#a0a0a0',
 			font_family: 'system-ui, -apple-system, sans-serif',
+			password_placeholder: '',
 			button_text: '',
 			button_bg_color: '#6366f1',
 			button_text_color: '#ffffff',
@@ -227,6 +230,7 @@
 
 		// Text fields.
 		$('#passwp_heading_text').val(values.heading_text);
+		$('#passwp_password_placeholder').val(values.password_placeholder);
 		$('#passwp_button_text').val(values.button_text);
 		$('#passwp_footer_text').val(values.footer_text);
 		$('#passwp_footer_link').val(values.footer_link);
@@ -290,6 +294,7 @@
 		const headingColor = $('#passwp_heading_color').val() || '#1e1e1e';
 		const textColor = $('#passwp_text_color').val() || '#666666';
 		const fontFamily = $('#passwp_font_family').val() || 'system-ui, -apple-system, sans-serif';
+		const passwordPlaceholder = $('#passwp_password_placeholder').val();
 		const buttonText = $('#passwp_button_text').val();
 		const buttonBgColor = $('#passwp_button_bg_color').val() || '#667eea';
 		const buttonTextColor = $('#passwp_button_text_color').val() || '#ffffff';
@@ -353,19 +358,26 @@
 		$preview.find('.passwp-preview-text').css('color', textColor);
 
 		// Form input.
-		$preview.find('.passwp-preview-form input[type="password"]').css('border-radius', inputBorderRadius + 'px');
+		const $passwordInput = $preview.find('.passwp-preview-form input[type="password"]');
+		$passwordInput.css('border-radius', inputBorderRadius + 'px');
+		if ($passwordInput.length) {
+			const defaultPlaceholder = $passwordInput.data('defaultPlaceholder') || $passwordInput.attr('placeholder') || '';
+			$passwordInput.attr('placeholder', passwordPlaceholder || defaultPlaceholder);
+		}
 
 		// Remember me.
 		$preview.find('.passwp-preview-remember').toggle(showRememberMe).css('color', textColor);
 
 		// Button.
-		$preview.find('.passwp-preview-form button').css({
+		const $button = $preview.find('.passwp-preview-form button');
+		$button.css({
 			'background-color': buttonBgColor,
 			'color': buttonTextColor,
 			'border-radius': buttonBorderRadius + 'px'
 		});
-		if (buttonText) {
-			$preview.find('.passwp-preview-form button').text(buttonText);
+		if ($button.length) {
+			const defaultButtonText = $button.data('defaultText') || $button.text() || '';
+			$button.text(buttonText || defaultButtonText);
 		}
 
 		// Footer.

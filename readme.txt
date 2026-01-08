@@ -4,7 +4,7 @@ Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +114,18 @@ You may need to exclude protected pages from caching or configure your caching p
 3. Select2 dropdown for excluding posts
 
 == Changelog ==
+
+= 1.3.0 =
+* Added shortcode [passwp_login] to render a theme-styled password form on public pages
+* Added Customize option for password placeholder text
+* Unified default texts: "Enter password" placeholder and "Login" button
+* Shortcode output uses common WordPress login form CSS classes
+
+= 1.2.2 =
+* Hardened redirect handling to reject unsafe external URLs
+* Fixed session cookie expiration handling in browsers
+* Improved footer link customize key compatibility
+* Added PHPUnit coverage for redirect validation
 
 = 1.2.1 =
 * Improved documentation with clearer explanation of single-password concept
