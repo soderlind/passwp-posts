@@ -200,6 +200,10 @@ abstract class PassWP_Posts_TestCase extends \PHPUnit\Framework\TestCase {
 					throw new \Exception( $message );
 				},
 				'current_user_can'    => '__return_true',
+
+				// Asset functions.
+				'wp_enqueue_style'    => '__return_null',
+				'wp_enqueue_script'   => '__return_null',
 			)
 		);
 	}

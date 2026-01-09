@@ -39,6 +39,14 @@ final class Shortcodes {
 	 * @param array<string, mixed>|string $atts Shortcode attributes.
 	 */
 	public function render_passwp_login( array|string $atts = [] ): string {
+		// Enqueue shortcode form styles.
+		wp_enqueue_style(
+			'passwp-posts-shortcode',
+			PASSWP_POSTS_URL . 'assets/css/shortcode-form.css',
+			[],
+			PASSWP_POSTS_VERSION
+		);
+
 		$settings = get_option( 'passwp_posts_settings', [] );
 
 		if ( empty( $settings[ 'enabled' ] ) || empty( $settings[ 'password_hash' ] ) ) {
