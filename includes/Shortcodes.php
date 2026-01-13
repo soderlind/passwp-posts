@@ -59,6 +59,15 @@ final class Shortcodes {
 
 		$password_hash = (string) $settings[ 'password_hash' ];
 		if ( $this->cookie_handler->is_valid_cookie( $password_hash ) ) {
+			// User already authenticated - redirect to the redirect page if auto-redirect is enabled.
+			$auto_redirect = (bool) ( $settings[ 'auto_redirect' ] ?? true );
+			if ( $auto_redirect ) {
+				$redirect_url = $this->get_redirect_url( $atts );
+				if ( $redirect_url !== '' ) {
+					wp_safe_redirect( $redirect_url );
+					exit;
+				}
+			}
 			return '';
 		}
 
@@ -133,5 +142,31 @@ final class Shortcodes {
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	/**
+	 * Get the redirect URL from shortcode attributes.
+	 *
+	 * @param array<string, mixed>|string $atts Shortcode attributes.
+	 */
+	private function get_redirect_url( array|string $atts = [] ): string {
+		$redirect_attr = '';
+		if ( is_array( $atts ) && isset( $atts[ 'redirect' ] ) ) {
+			$redirect_attr = (string) $atts[ 'redirect' ];
+		}
+
+		if ( $redirect_attr === '' ) {
+			return '';
+		}
+
+		$default_redirect = home_url( '/' );
+		$redirect_url_raw = esc_url_raw( $redirect_attr );
+		$redirect_url     = $redirect_url_raw !== '' ? $redirect_url_raw : $default_redirect;
+
+		if ( function_exists( '\\wp_validate_redirect' ) ) {
+			$redirect_url = wp_validate_redirect( $redirect_url, $default_redirect );
+		}
+
+		return $redirect_url;
 	}
 }

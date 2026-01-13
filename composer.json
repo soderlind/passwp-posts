@@ -3,7 +3,7 @@
 	"description": "Password protects all pages and posts except the front page",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0+",
-	"version": "1.3.0",
+	"version": "1.3.2",
 	"require": {
 		"php": ">=8.3",
 		"yahnis-elsts/plugin-update-checker": "^5.6"
