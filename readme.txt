@@ -4,7 +4,7 @@ Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +114,14 @@ You may need to exclude protected pages from caching or configure your caching p
 3. Select2 dropdown for excluding posts
 
 == Changelog ==
+
+= 1.3.2 =
+* Auto-redirect authenticated users to redirect page when returning to login shortcode
+* Added setting to enable/disable auto-redirect (default: enabled)
+
+= 1.3.1 =
+* New minimal-style CSS for shortcode form with gray input and black button
+* Shortcode form now automatically enqueues its own stylesheet
 
 = 1.3.0 =
 * Added shortcode [passwp_login] to render a theme-styled password form on public pages

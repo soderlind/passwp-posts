@@ -160,6 +160,15 @@ final class AdminSettings {
 			page: self::PAGE_SLUG,
 			section: 'passwp_posts_main_section'
 		);
+
+		// Auto-redirect field.
+		add_settings_field(
+			id: 'passwp_posts_auto_redirect',
+			title: __( 'Auto-redirect', 'passwp-posts' ),
+			callback: $this->render_auto_redirect_field( ... ),
+			page: self::PAGE_SLUG,
+			section: 'passwp_posts_main_section'
+		);
 	}
 
 	/**
@@ -175,6 +184,7 @@ final class AdminSettings {
 			'excluded_posts'     => [],
 			'protected_posts'    => [],
 			'enabled'            => false,
+			'auto_redirect'      => true,
 			'customize'          => self::CUSTOMIZE_DEFAULTS,
 		];
 	}
@@ -793,6 +803,23 @@ final class AdminSettings {
 	}
 
 	/**
+	 * Render auto-redirect checkbox field.
+	 */
+	public function render_auto_redirect_field(): void {
+		$settings      = get_option( self::OPTION_NAME, [] );
+		$auto_redirect = (bool) ( $settings[ 'auto_redirect' ] ?? true );
+		?>
+		<label>
+			<input type="checkbox" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[auto_redirect]" value="1" <?php checked( $auto_redirect ); ?> />
+			<?php esc_html_e( 'Auto-redirect authenticated users', 'passwp-posts' ); ?>
+		</label>
+		<p class="description">
+			<?php esc_html_e( 'When enabled, users who have already authenticated will be automatically redirected to the redirect page when returning to the login shortcode.', 'passwp-posts' ); ?>
+		</p>
+		<?php
+	}
+
+	/**
 	 * Render password field.
 	 */
 	public function render_password_field(): void {
@@ -945,6 +972,9 @@ final class AdminSettings {
 		// Sanitize enabled.
 		$sanitized[ 'enabled' ] = ( $input[ 'enabled' ] ?? '' ) === '1';
 
+		// Sanitize auto-redirect (default to true if not set).
+		$sanitized[ 'auto_redirect' ] = ! isset( $input[ 'auto_redirect' ] ) || ( $input[ 'auto_redirect' ] ?? '' ) === '1';
+
 		// Sanitize and hash password.
 		if ( ! empty( $input[ 'password' ] ) ) {
 			$sanitized[ 'password_hash' ] = wp_hash_password( $input[ 'password' ] );
@@ -990,6 +1020,7 @@ final class AdminSettings {
 			// Preserve existing general settings when saving from customize tab.
 			if ( isset( $input[ '_customize_tab' ] ) ) {
 				$sanitized[ 'enabled' ]            = $existing[ 'enabled' ] ?? false;
+				$sanitized[ 'auto_redirect' ]      = $existing[ 'auto_redirect' ] ?? true;
 				$sanitized[ 'password_hash' ]      = $existing[ 'password_hash' ] ?? '';
 				$sanitized[ 'cookie_expiry_days' ] = $existing[ 'cookie_expiry_days' ] ?? 30;
 				$sanitized[ 'protection_mode' ]    = $existing[ 'protection_mode' ] ?? 'all';
