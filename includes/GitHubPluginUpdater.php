@@ -81,7 +81,7 @@ class GitHubPluginUpdater {
 	 */
 	public function setup_updater() {
 		// Check if the Plugin Update Checker library is available.
-		if ( ! class_exists( \YahnisElsts\PluginUpdateChecker\v5\PucFactory::class ) ) {
+		if ( ! class_exists( \YahnisElsts\PluginUpdateChecker\v5\PucFactory::class) ) {
 			return;
 		}
 
