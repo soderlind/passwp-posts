@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'soderlind/passwp-posts',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => 'acd9d3ab66e315ac38c8f84da750aef4bdf65524',
+        'pretty_version' => '1.3.3',
+        'version' => '1.3.3.0',
+        'reference' => null,
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -290,9 +290,9 @@
             'dev_requirement' => true,
         ),
         'soderlind/passwp-posts' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => 'acd9d3ab66e315ac38c8f84da750aef4bdf65524',
+            'pretty_version' => '1.3.3',
+            'version' => '1.3.3.0',
+            'reference' => null,
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

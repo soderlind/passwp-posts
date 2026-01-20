@@ -1,14 +1,12 @@
 <?php
 namespace PassWP\Posts;
 
-use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
-
 /**
  * Generic WordPress Plugin GitHub Updater
- * 
+ *
  * A reusable class for handling WordPress plugin updates from GitHub repositories
  * using the plugin-update-checker library.
- * 
+ *
  * @package Soderlind\WordPress
  * @version 1.0.0
  * @author Per Soderlind
@@ -83,12 +81,12 @@ class GitHubPluginUpdater {
 	 */
 	public function setup_updater() {
 		// Check if the Plugin Update Checker library is available.
-		if ( ! class_exists( PucFactory::class) ) {
+		if ( ! class_exists( \YahnisElsts\PluginUpdateChecker\v5\PucFactory::class) ) {
 			return;
 		}
 
 		try {
-			$update_checker = PucFactory::buildUpdateChecker(
+			$update_checker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
 				$this->github_url,
 				$this->plugin_file,
 				$this->plugin_slug
