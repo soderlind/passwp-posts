@@ -6,10 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
-    'PassWP\\Posts\\Tests\\' => array($baseDir . '/tests'),
     'PassWP\\Posts\\' => array($baseDir . '/includes'),
-    'Mockery\\' => array($vendorDir . '/mockery/mockery/library/Mockery'),
-    'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
-    'Brain\\Monkey\\' => array($vendorDir . '/brain/monkey/src'),
 );

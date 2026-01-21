@@ -4,7 +4,7 @@ Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +114,10 @@ You may need to exclude protected pages from caching or configure your caching p
 3. Select2 dropdown for excluding posts
 
 == Changelog ==
+
+= 1.3.4 =
+* Fixed fatal error on remote activation caused by Composer autoloader including dev dependencies
+* Regenerated autoloader with --no-dev flag to exclude test dependencies from production
 
 = 1.3.3 =
 * Fixed fatal error on plugin activation caused by early autoloading of PucFactory class
