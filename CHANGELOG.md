@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-01-23
+
+### Added
+
+- New "Redirect Page" setting in admin to configure where authenticated users are redirected
+- Redirect page selector uses Select2 for easy page/post search
+
+### Changed
+
+- Removed `redirect` attribute from `[passwp_login]` shortcode (now uses global setting)
+- Auto-redirect for authenticated users now uses meta refresh instead of JavaScript for CSP compatibility
+- Redirect page field visibility toggles based on auto-redirect checkbox
+
+### Fixed
+
+- Fixed Content Security Policy violation when using inline JavaScript for redirects
+
 ## [1.3.4] - 2026-01-21
 
 ### Fixed

@@ -39,6 +39,9 @@ final class Shortcodes {
 	 * @param array<string, mixed>|string $atts Shortcode attributes.
 	 */
 	public function render_passwp_login( array|string $atts = [] ): string {
+		// Silence unused parameter warning - kept for backward compatibility.
+		unset( $atts );
+
 		// Enqueue shortcode form styles.
 		wp_enqueue_style(
 			'passwp-posts-shortcode',
@@ -62,10 +65,11 @@ final class Shortcodes {
 			// User already authenticated - redirect to the redirect page if auto-redirect is enabled.
 			$auto_redirect = (bool) ( $settings[ 'auto_redirect' ] ?? true );
 			if ( $auto_redirect ) {
-				$redirect_url = $this->get_redirect_url( $atts );
+				$redirect_url = $this->get_redirect_url_from_settings( $settings );
 				if ( $redirect_url !== '' ) {
-					wp_safe_redirect( $redirect_url );
-					exit;
+					// Use meta refresh since headers are already sent during shortcode rendering.
+					// This is CSP-safe and works without JavaScript.
+					return '<meta http-equiv="refresh" content="0;url=' . esc_url( $redirect_url ) . '">';
 				}
 			}
 			return '';
@@ -81,19 +85,7 @@ final class Shortcodes {
 			? (string) $customize[ 'button_text' ]
 			: __( 'Login', 'passwp-posts' );
 
-		$redirect_attr = '';
-		if ( is_array( $atts ) && isset( $atts[ 'redirect' ] ) ) {
-			$redirect_attr = (string) $atts[ 'redirect' ];
-		}
-
-		$default_redirect = home_url( '/' );
-		$raw_referer      = wp_get_raw_referer();
-		$redirect_url_raw = $redirect_attr !== '' ? $redirect_attr : ( $raw_referer ?: $default_redirect );
-		$redirect_url_raw = esc_url_raw( $redirect_url_raw );
-		$redirect_url     = $redirect_url_raw !== '' ? $redirect_url_raw : $default_redirect;
-		if ( function_exists( '\\wp_validate_redirect' ) ) {
-			$redirect_url = wp_validate_redirect( $redirect_url, $default_redirect );
-		}
+		$redirect_url = $this->get_redirect_url_from_settings( $settings );
 
 		$error = isset( $_GET[ 'passwp_error' ] )
 			? sanitize_text_field( wp_unslash( $_GET[ 'passwp_error' ] ) )
@@ -145,24 +137,23 @@ final class Shortcodes {
 	}
 
 	/**
-	 * Get the redirect URL from shortcode attributes.
+	 * Get the redirect URL from plugin settings.
 	 *
-	 * @param array<string, mixed>|string $atts Shortcode attributes.
+	 * @param array<string, mixed> $settings Plugin settings.
 	 */
-	private function get_redirect_url( array|string $atts = [] ): string {
-		$redirect_attr = '';
-		if ( is_array( $atts ) && isset( $atts[ 'redirect' ] ) ) {
-			$redirect_attr = (string) $atts[ 'redirect' ];
+	private function get_redirect_url_from_settings( array $settings ): string {
+		$redirect_page = (int) ( $settings[ 'redirect_page' ] ?? 0 );
+
+		if ( $redirect_page <= 0 ) {
+			return home_url( '/' );
 		}
 
-		if ( $redirect_attr === '' ) {
-			return '';
+		$redirect_url = get_permalink( $redirect_page );
+		if ( $redirect_url === false ) {
+			return home_url( '/' );
 		}
 
 		$default_redirect = home_url( '/' );
-		$redirect_url_raw = esc_url_raw( $redirect_attr );
-		$redirect_url     = $redirect_url_raw !== '' ? $redirect_url_raw : $default_redirect;
-
 		if ( function_exists( '\\wp_validate_redirect' ) ) {
 			$redirect_url = wp_validate_redirect( $redirect_url, $default_redirect );
 		}
