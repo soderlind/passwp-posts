@@ -121,11 +121,42 @@
 	}
 
 	/**
+	 * Initialize auto-redirect toggle.
+	 */
+	function initAutoRedirectToggle() {
+		var $autoRedirect = $('#passwp_posts_auto_redirect');
+		var $redirectWrapper = $('#passwp-redirect-page-wrapper');
+
+		if (!$autoRedirect.length || !$redirectWrapper.length) {
+			return;
+		}
+
+		// Get the parent table row for the redirect page field
+		var $redirectRow = $redirectWrapper.closest('tr');
+
+		// Set initial visibility based on current state
+		if ($autoRedirect.is(':checked')) {
+			$redirectRow.show();
+		} else {
+			$redirectRow.hide();
+		}
+
+		$autoRedirect.on('change', function () {
+			if ($(this).is(':checked')) {
+				$redirectRow.show();
+			} else {
+				$redirectRow.hide();
+			}
+		});
+	}
+
+	/**
 	 * Document ready.
 	 */
 	$(document).ready(function () {
 		initSelect2();
 		initPasswordToggle();
 		initProtectionModeToggle();
+		initAutoRedirectToggle();
 	});
 })(jQuery);

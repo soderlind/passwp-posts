@@ -169,6 +169,15 @@ final class AdminSettings {
 			page: self::PAGE_SLUG,
 			section: 'passwp_posts_main_section'
 		);
+
+		// Redirect page field.
+		add_settings_field(
+			id: 'passwp_posts_redirect_page',
+			title: __( 'Redirect Page', 'passwp-posts' ),
+			callback: $this->render_redirect_page_field( ... ),
+			page: self::PAGE_SLUG,
+			section: 'passwp_posts_main_section'
+		);
 	}
 
 	/**
@@ -185,6 +194,7 @@ final class AdminSettings {
 			'protected_posts'    => [],
 			'enabled'            => false,
 			'auto_redirect'      => true,
+			'redirect_page'      => 0,
 			'customize'          => self::CUSTOMIZE_DEFAULTS,
 		];
 	}
@@ -810,12 +820,43 @@ final class AdminSettings {
 		$auto_redirect = (bool) ( $settings[ 'auto_redirect' ] ?? true );
 		?>
 		<label>
-			<input type="checkbox" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[auto_redirect]" value="1" <?php checked( $auto_redirect ); ?> />
+			<input type="checkbox" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[auto_redirect]"
+				id="passwp_posts_auto_redirect" value="1" <?php checked( $auto_redirect ); ?> />
 			<?php esc_html_e( 'Auto-redirect authenticated users', 'passwp-posts' ); ?>
 		</label>
 		<p class="description">
-			<?php esc_html_e( 'When enabled, users who have already authenticated will be automatically redirected to the redirect page when returning to the login shortcode.', 'passwp-posts' ); ?>
+			<?php esc_html_e( 'When enabled, users who have already authenticated will be automatically redirected to the selected redirect page.', 'passwp-posts' ); ?>
 		</p>
+		<?php
+	}
+
+	/**
+	 * Render redirect page field with Select2 (single select).
+	 */
+	public function render_redirect_page_field(): void {
+		$settings      = get_option( self::OPTION_NAME, [] );
+		$redirect_page = (int) ( $settings[ 'redirect_page' ] ?? 0 );
+
+		// Get the currently selected post for display.
+		$selected_post = null;
+		if ( $redirect_page > 0 ) {
+			$selected_post = get_post( $redirect_page );
+		}
+		?>
+		<div id="passwp-redirect-page-wrapper">
+			<select name="<?php echo esc_attr( self::OPTION_NAME ); ?>[redirect_page]" id="passwp_posts_redirect_page"
+				class="passwp-posts-select2" style="width: 100%; max-width: 400px;">
+				<option value=""><?php esc_html_e( 'Select a page or post...', 'passwp-posts' ); ?></option>
+				<?php if ( $selected_post instanceof \WP_Post ) : ?>
+					<option value="<?php echo esc_attr( (string) $selected_post->ID ); ?>" selected>
+						<?php echo esc_html( $selected_post->post_title . ' (' . ucfirst( $selected_post->post_type ) . ')' ); ?>
+					</option>
+				<?php endif; ?>
+			</select>
+			<p class="description">
+				<?php esc_html_e( 'The page or post where authenticated users will be redirected after login.', 'passwp-posts' ); ?>
+			</p>
+		</div>
 		<?php
 	}
 
@@ -1013,6 +1054,9 @@ final class AdminSettings {
 			);
 		}
 
+		// Sanitize redirect page.
+		$sanitized[ 'redirect_page' ] = absint( $input[ 'redirect_page' ] ?? 0 );
+
 		// Sanitize customize settings.
 		if ( isset( $input[ '_customize_tab' ] ) || isset( $input[ 'customize' ] ) ) {
 			$sanitized[ 'customize' ] = $this->sanitize_customize_settings( $input[ 'customize' ] ?? [] );
@@ -1021,6 +1065,7 @@ final class AdminSettings {
 			if ( isset( $input[ '_customize_tab' ] ) ) {
 				$sanitized[ 'enabled' ]            = $existing[ 'enabled' ] ?? false;
 				$sanitized[ 'auto_redirect' ]      = $existing[ 'auto_redirect' ] ?? true;
+				$sanitized[ 'redirect_page' ]      = $existing[ 'redirect_page' ] ?? 0;
 				$sanitized[ 'password_hash' ]      = $existing[ 'password_hash' ] ?? '';
 				$sanitized[ 'cookie_expiry_days' ] = $existing[ 'cookie_expiry_days' ] ?? 30;
 				$sanitized[ 'protection_mode' ]    = $existing[ 'protection_mode' ] ?? 'all';

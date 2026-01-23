@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PassWP Posts 1.0.1\n"
+"Project-Id-Version: PassWP Posts 1.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/passwp-posts\n"
 "Last-Translator: Per Soderlind <per@soderlind.no>\n"
 "Language-Team: Norwegian Bokmål\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-12-11T22:48:24+00:00\n"
-"PO-Revision-Date: 2025-12-11 23:50+0100\n"
+"POT-Creation-Date: 2026-01-23T12:00:00+00:00\n"
+"PO-Revision-Date: 2026-01-23 12:00+0100\n"
 "Language: nb_NO\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: passwp-posts\n"
@@ -53,7 +53,7 @@ msgid "Enable Protection"
 msgstr "Aktiver beskyttelse"
 
 #: includes/AdminSettings.php:122
-#: includes/Shortcodes.php:107
+#: includes/Shortcodes.php:116
 #: templates/password-form.php:161
 msgid "Password"
 msgstr "Passord"
@@ -74,84 +74,84 @@ msgstr "Ekskluderte sider/innlegg"
 msgid "Protected Pages/Posts"
 msgstr "Beskyttede sider/innlegg"
 
-#: includes/AdminSettings.php:261
+#: includes/AdminSettings.php:281
 msgid "Search for pages or posts..."
 msgstr "Søk etter sider eller innlegg..."
 
-#: includes/AdminSettings.php:262
+#: includes/AdminSettings.php:282
 msgid "Show password"
 msgstr "Vis passord"
 
-#: includes/AdminSettings.php:263
+#: includes/AdminSettings.php:283
 msgid "Hide password"
 msgstr "Skjul passord"
 
-#: includes/AdminSettings.php:358
-#: includes/AdminSettings.php:668
+#: includes/AdminSettings.php:378
+#: includes/AdminSettings.php:689
 msgid "Save Settings"
 msgstr "Lagre innstillinger"
 
-#: includes/AdminSettings.php:775
+#: includes/AdminSettings.php:795
 msgid "Configure password protection for your site. The front page is always public. Logged-in users bypass the password."
 msgstr "Konfigurer passordbeskyttelse for nettstedet ditt. Forsiden er alltid offentlig. Innloggede brukere omgår passordet."
 
-#: includes/AdminSettings.php:787
+#: includes/AdminSettings.php:807
 msgid "Enable password protection"
 msgstr "Aktiver passordbeskyttelse"
 
-#: includes/AdminSettings.php:790
+#: includes/AdminSettings.php:810
 msgid "When enabled, visitors must enter a password to view protected content."
 msgstr "Når aktivert, må besøkende taste inn et passord for å se beskyttet innhold."
 
-#: includes/AdminSettings.php:805
+#: includes/AdminSettings.php:873
 msgid "Leave blank to keep current password"
 msgstr "La stå tomt for å beholde nåværende passord"
 
-#: includes/AdminSettings.php:614
-#: includes/AdminSettings.php:694
-#: includes/AdminSettings.php:805
-#: includes/Shortcodes.php:61
+#: includes/AdminSettings.php:635
+#: includes/AdminSettings.php:715
+#: includes/AdminSettings.php:873
+#: includes/Shortcodes.php:82
 #: templates/password-form.php:23
 msgid "Enter password"
 msgstr "Skriv inn passord"
 
-#: includes/AdminSettings.php:808
+#: includes/AdminSettings.php:876
 msgid "Toggle password visibility"
 msgstr "Veksle passordsynlighet"
 
-#: includes/AdminSettings.php:814
+#: includes/AdminSettings.php:882
 msgid "A password is currently set. Enter a new password to change it, or leave blank to keep the current password."
 msgstr "Et passord er allerede satt. Skriv inn et nytt passord for å endre det, eller la stå tomt for å beholde nåværende passord."
 
-#: includes/AdminSettings.php:818
+#: includes/AdminSettings.php:886
 msgid "Enter the password visitors will use to access protected content."
 msgstr "Skriv inn passordet besøkende skal bruke for å få tilgang til beskyttet innhold."
 
-#: includes/AdminSettings.php:834
+#: includes/AdminSettings.php:902
 msgid "days"
 msgstr "dager"
 
-#: includes/AdminSettings.php:836
+#: includes/AdminSettings.php:904
 msgid "How long visitors stay authenticated after entering the password."
 msgstr "Hvor lenge besøkende forblir autentisert etter å ha tastet inn passordet."
 
-#: includes/AdminSettings.php:851
+#: includes/AdminSettings.php:919
 msgid "Protect all pages and posts (except front page)"
 msgstr "Beskytt alle sider og innlegg (unntatt forsiden)"
 
-#: includes/AdminSettings.php:856
+#: includes/AdminSettings.php:924
 msgid "Protect only selected pages and posts"
 msgstr "Beskytt kun valgte sider og innlegg"
 
-#: includes/AdminSettings.php:891
+#: includes/AdminSettings.php:959
 msgid "These pages and posts will not require a password."
 msgstr "Disse sidene og innleggene vil ikke kreve passord."
 
-#: includes/AdminSettings.php:926
+#: includes/AdminSettings.php:994
 msgid "Only these pages and posts will require a password."
 msgstr "Kun disse sidene og innleggene vil kreve passord."
 
-#: includes/AdminSettings.php:1116
+#: includes/AdminSettings.php:1192
 msgid "Permission denied."
 msgstr "Tilgang nektet."
 
@@ -159,12 +159,12 @@ msgstr "Tilgang nektet."
 msgid "Security check failed."
 msgstr "Sikkerhetssjekk mislyktes."
 
-#: includes/Shortcodes.php:86
+#: includes/Shortcodes.php:95
 #: templates/password-form.php:31
 msgid "Incorrect password. Please try again."
 msgstr "Feil passord. Vennligst prøv igjen."
 
-#: includes/Shortcodes.php:87
+#: includes/Shortcodes.php:96
 #: templates/password-form.php:32
 msgid "No password has been configured. Please contact the site administrator."
 msgstr "Ingen passord er konfigurert. Vennligst kontakt nettstedets administrator."
@@ -183,215 +183,239 @@ msgstr "Passord påkrevd"
 msgid "This content is protected. Please enter the password to continue."
 msgstr "Dette innholdet er beskyttet. Vennligst skriv inn passordet for å fortsette."
 
-#: includes/AdminSettings.php:740
-#: includes/Shortcodes.php:116
+#: includes/AdminSettings.php:760
+#: includes/Shortcodes.php:125
 #: templates/password-form.php:171
 msgid "Remember me"
 msgstr "Husk meg"
 
-#: includes/AdminSettings.php:762
+#: includes/AdminSettings.php:782
 #: templates/password-form.php:191
 msgid "Back to home"
 msgstr "Tilbake til forsiden"
 
-#: includes/AdminSettings.php:300
+#: includes/AdminSettings.php:320
 msgid "Are you sure you want to reset all customize settings to defaults?"
 msgstr "Er du sikker på at du vil tilbakestille alle tilpasningsinnstillinger til standard?"
 
-#: includes/AdminSettings.php:301
-#: includes/AdminSettings.php:435
-#: includes/AdminSettings.php:494
+#: includes/AdminSettings.php:321
+#: includes/AdminSettings.php:455
+#: includes/AdminSettings.php:514
 msgid "Select Image"
 msgstr "Velg bilde"
 
-#: includes/AdminSettings.php:302
+#: includes/AdminSettings.php:322
 msgid "Use this image"
 msgstr "Bruk dette bildet"
 
-#: includes/AdminSettings.php:303
-#: includes/AdminSettings.php:436
-#: includes/AdminSettings.php:495
+#: includes/AdminSettings.php:323
+#: includes/AdminSettings.php:456
+#: includes/AdminSettings.php:515
 msgid "Remove"
 msgstr "Fjern"
 
-#: includes/AdminSettings.php:330
+#: includes/AdminSettings.php:350
 msgid "General"
 msgstr "Generelt"
 
-#: includes/AdminSettings.php:334
+#: includes/AdminSettings.php:354
 msgid "Customize"
 msgstr "Tilpass"
 
-#: includes/AdminSettings.php:378
+#: includes/AdminSettings.php:398
 msgid "Preset Themes"
 msgstr "Forhåndsdefinerte temaer"
 
-#: includes/AdminSettings.php:383
+#: includes/AdminSettings.php:403
 msgid "Default Purple"
 msgstr "Standard lilla"
 
-#: includes/AdminSettings.php:388
+#: includes/AdminSettings.php:408
 msgid "Business Blue"
 msgstr "Profesjonell blå"
 
-#: includes/AdminSettings.php:392
+#: includes/AdminSettings.php:412
 msgid "Dark Mode"
 msgstr "Mørk modus"
 
-#: includes/AdminSettings.php:400
+#: includes/AdminSettings.php:420
 msgid "Background"
 msgstr "Bakgrunn"
 
-#: includes/AdminSettings.php:403
+#: includes/AdminSettings.php:423
 msgid "Background Color"
 msgstr "Bakgrunnsfarge"
 
-#: includes/AdminSettings.php:412
+#: includes/AdminSettings.php:432
 msgid "Gradient End Color"
 msgstr "Gradient sluttfarge"
 
-#: includes/AdminSettings.php:419
+#: includes/AdminSettings.php:439
 msgid "Leave empty for solid color background."
 msgstr "La stå tom for ensfarget bakgrunn."
 
-#: includes/AdminSettings.php:424
+#: includes/AdminSettings.php:444
 msgid "Background Image"
 msgstr "Bakgrunnsbilde"
 
-#: includes/AdminSettings.php:443
+#: includes/AdminSettings.php:463
 msgid "Card Styling"
 msgstr "Kortstil"
 
-#: includes/AdminSettings.php:447
+#: includes/AdminSettings.php:467
 msgid "Card Background Color"
 msgstr "Kortets bakgrunnsfarge"
 
-#: includes/AdminSettings.php:456
+#: includes/AdminSettings.php:476
 msgid "Card Border Radius"
 msgstr "Kortets hjørneradius"
 
-#: includes/AdminSettings.php:468
+#: includes/AdminSettings.php:488
 msgid "Card Shadow"
 msgstr "Kortskygge"
 
-#: includes/AdminSettings.php:480
+#: includes/AdminSettings.php:500
 msgid "Logo"
 msgstr "Logo"
 
-#: includes/AdminSettings.php:483
+#: includes/AdminSettings.php:503
 msgid "Logo Image"
 msgstr "Logobilde"
 
-#: includes/AdminSettings.php:500
+#: includes/AdminSettings.php:520
 msgid "Logo Width"
 msgstr "Logobredde"
 
-#: includes/AdminSettings.php:514
+#: includes/AdminSettings.php:534
 msgid "Typography"
 msgstr "Typografi"
 
-#: includes/AdminSettings.php:517
+#: includes/AdminSettings.php:537
 msgid "Heading Text"
 msgstr "Overskriftstekst"
 
-#: includes/AdminSettings.php:525
+#: includes/AdminSettings.php:545
 msgid "Heading Color"
 msgstr "Overskriftsfarge"
 
-#: includes/AdminSettings.php:533
+#: includes/AdminSettings.php:553
 msgid "Text Color"
 msgstr "Tekstfarge"
 
-#: includes/AdminSettings.php:541
+#: includes/AdminSettings.php:561
 msgid "Font Family"
 msgstr "Skrifttype"
 
-#: includes/AdminSettings.php:545
+#: includes/AdminSettings.php:565
 msgid "System Default"
 msgstr "Systemstandard"
 
-#: includes/AdminSettings.php:548
+#: includes/AdminSettings.php:568
 msgid "Segoe UI"
 msgstr "Segoe UI"
 
-#: includes/AdminSettings.php:551
+#: includes/AdminSettings.php:571
 msgid "Georgia"
 msgstr "Georgia"
 
-#: includes/AdminSettings.php:554
+#: includes/AdminSettings.php:574
 msgid "Courier New"
 msgstr "Courier New"
 
-#: includes/AdminSettings.php:562
+#: includes/AdminSettings.php:582
 msgid "Button"
 msgstr "Knapp"
 
-#: includes/AdminSettings.php:565
+#: includes/AdminSettings.php:585
 msgid "Button Text"
 msgstr "Knappetekst"
 
-#: includes/AdminSettings.php:573
+#: includes/AdminSettings.php:593
 msgid "Button Background Color"
 msgstr "Knappens bakgrunnsfarge"
 
-#: includes/AdminSettings.php:583
+#: includes/AdminSettings.php:603
 msgid "Button Text Color"
 msgstr "Knappens tekstfarge"
 
-#: includes/AdminSettings.php:593
+#: includes/AdminSettings.php:613
 msgid "Button Border Radius"
 msgstr "Knappens hjørneradius"
 
-#: includes/AdminSettings.php:607
+#: includes/AdminSettings.php:627
 msgid "Form Options"
 msgstr "Skjemavalg"
 
-#: includes/AdminSettings.php:610
+#: includes/AdminSettings.php:631
 msgid "Password Placeholder"
 msgstr "Plassholder for passord"
 
-#: includes/AdminSettings.php:616
+#: includes/AdminSettings.php:637
 msgid "Leave empty to use the default text."
 msgstr "La stå tomt for å bruke standardteksten."
 
-#: includes/AdminSettings.php:622
+#: includes/AdminSettings.php:643
 msgid "Show Remember Me"
 msgstr "Vis «Husk meg»"
 
-#: includes/AdminSettings.php:633
+#: includes/AdminSettings.php:654
 msgid "Input Border Radius"
 msgstr "Inntastingsfeltets hjørneradius"
 
-#: includes/AdminSettings.php:647
+#: includes/AdminSettings.php:668
 msgid "Footer"
 msgstr "Bunntekst"
 
-#: includes/AdminSettings.php:650
+#: includes/AdminSettings.php:671
 msgid "Footer Text"
 msgstr "Bunntekst"
 
-#: includes/AdminSettings.php:658
+#: includes/AdminSettings.php:679
 msgid "Footer Link URL"
 msgstr "Bunntekst lenke-URL"
 
-#: includes/AdminSettings.php:670
+#: includes/AdminSettings.php:691
 msgid "Reset to Defaults"
 msgstr "Tilbakestill til standard"
 
-#: includes/AdminSettings.php:676
+#: includes/AdminSettings.php:697
 msgid "Live Preview"
 msgstr "Direktevisning"
 
-#: includes/AdminSettings.php:724
+#: includes/AdminSettings.php:745
 msgid "Password Protected"
 msgstr "Passordbeskyttet"
 
-#: includes/AdminSettings.php:728
+#: includes/AdminSettings.php:749
 msgid "Enter the password to access this content."
 msgstr "Skriv inn passordet for å få tilgang til dette innholdet."
 
-#: includes/AdminSettings.php:696
-#: includes/Shortcodes.php:65
+#: includes/AdminSettings.php:717
+#: includes/Shortcodes.php:86
 #: templates/password-form.php:26
 msgid "Login"
 msgstr "Logg inn"
+
+#: includes/AdminSettings.php:167
+msgid "Auto-redirect"
+msgstr "Automatisk omdirigering"
+
+#: includes/AdminSettings.php:176
+msgid "Redirect Page"
+msgstr "Omdirigeringsside"
+
+#: includes/AdminSettings.php:825
+msgid "Auto-redirect authenticated users"
+msgstr "Omdiriger autentiserte brukere automatisk"
+
+#: includes/AdminSettings.php:828
+msgid "When enabled, users who have already authenticated will be automatically redirected to the selected redirect page."
+msgstr "Når aktivert, vil brukere som allerede er autentisert, automatisk bli omdirigert til den valgte omdirigeringssiden."
+
+#: includes/AdminSettings.php:849
+msgid "Select a page or post..."
+msgstr "Velg en side eller et innlegg..."
+
+#: includes/AdminSettings.php:857
+msgid "The page or post where authenticated users will be redirected after login."
+msgstr "Siden eller innlegget der autentiserte brukere blir omdirigert etter innlogging."

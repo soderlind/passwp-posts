@@ -4,7 +4,7 @@ Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.3.4
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +114,13 @@ You may need to exclude protected pages from caching or configure your caching p
 3. Select2 dropdown for excluding posts
 
 == Changelog ==
+
+= 1.4.0 =
+* Added new "Redirect Page" setting to configure where authenticated users are redirected
+* Redirect page selector uses Select2 for easy page/post search
+* Removed `redirect` attribute from shortcode (now uses global setting)
+* Auto-redirect now uses meta refresh instead of JavaScript for CSP compatibility
+* Fixed Content Security Policy violation when using inline JavaScript for redirects
 
 = 1.3.4 =
 * Fixed fatal error on remote activation caused by Composer autoloader including dev dependencies
