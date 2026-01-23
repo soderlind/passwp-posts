@@ -4,7 +4,7 @@ Tags: password, protection, privacy, security, access control
 Requires at least: 6.8
 Tested up to: 6.9
 Requires PHP: 8.3
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +114,9 @@ You may need to exclude protected pages from caching or configure your caching p
 3. Select2 dropdown for excluding posts
 
 == Changelog ==
+
+= 1.4.1 =
+* Housekeeping
 
 = 1.4.0 =
 * Added new "Redirect Page" setting to configure where authenticated users are redirected
