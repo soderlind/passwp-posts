@@ -820,7 +820,8 @@ final class AdminSettings {
 		$auto_redirect = (bool) ( $settings[ 'auto_redirect' ] ?? true );
 		?>
 		<label>
-			<input type="checkbox" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[auto_redirect]" id="passwp_posts_auto_redirect" value="1" <?php checked( $auto_redirect ); ?> />
+			<input type="checkbox" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[auto_redirect]"
+				id="passwp_posts_auto_redirect" value="1" <?php checked( $auto_redirect ); ?> />
 			<?php esc_html_e( 'Auto-redirect authenticated users', 'passwp-posts' ); ?>
 		</label>
 		<p class="description">
