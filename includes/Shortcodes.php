@@ -24,6 +24,67 @@ final class Shortcodes {
 		private readonly CookieHandler $cookie_handler = new CookieHandler(),
 	) {
 		add_action( 'init', $this->register_shortcodes( ... ) );
+		add_action( 'template_redirect', $this->maybe_redirect_authenticated_user( ... ) );
+	}
+
+	/**
+	 * Redirect authenticated users away from the login shortcode page.
+	 *
+	 * Runs on template_redirect so we can do a proper HTTP redirect
+	 * before any output is sent.
+	 */
+	public function maybe_redirect_authenticated_user(): void {
+		// Only run on singular pages/posts.
+		if ( ! is_singular() ) {
+			return;
+		}
+
+		$post = get_queried_object();
+		if ( ! $post instanceof \WP_Post ) {
+			return;
+		}
+
+		// Check if this page contains the passwp_login shortcode.
+		if ( ! has_shortcode( $post->post_content, 'passwp_login' ) ) {
+			return;
+		}
+
+		$settings = get_option( 'passwp_posts_settings', [] );
+
+		if ( empty( $settings[ 'enabled' ] ) || empty( $settings[ 'password_hash' ] ) ) {
+			return;
+		}
+
+		if ( is_user_logged_in() ) {
+			return;
+		}
+
+		$password_hash = (string) $settings[ 'password_hash' ];
+		if ( ! $this->cookie_handler->is_valid_cookie( $password_hash ) ) {
+			return;
+		}
+
+		// User is authenticated - check if auto-redirect is enabled.
+		$auto_redirect = (bool) ( $settings[ 'auto_redirect' ] ?? true );
+		if ( ! $auto_redirect ) {
+			return;
+		}
+
+		$redirect_url = $this->get_redirect_url_from_settings( $settings );
+		if ( $redirect_url === '' ) {
+			return;
+		}
+
+		// Don't redirect if we're already on the redirect page.
+		$redirect_page = (int) ( $settings[ 'redirect_page' ] ?? 0 );
+		if ( $redirect_page > 0 && get_queried_object_id() === $redirect_page ) {
+			return;
+		}
+
+		// Send no-cache headers and redirect.
+		nocache_headers();
+		wp_safe_redirect( $redirect_url );
+		exit;
 	}
 
 	/**
@@ -62,16 +123,8 @@ final class Shortcodes {
 
 		$password_hash = (string) $settings[ 'password_hash' ];
 		if ( $this->cookie_handler->is_valid_cookie( $password_hash ) ) {
-			// User already authenticated - redirect to the redirect page if auto-redirect is enabled.
-			$auto_redirect = (bool) ( $settings[ 'auto_redirect' ] ?? true );
-			if ( $auto_redirect ) {
-				$redirect_url = $this->get_redirect_url_from_settings( $settings );
-				if ( $redirect_url !== '' ) {
-					// Use meta refresh since headers are already sent during shortcode rendering.
-					// This is CSP-safe and works without JavaScript.
-					return '<meta http-equiv="refresh" content="0;url=' . esc_url( $redirect_url ) . '">';
-				}
-			}
+			// User already authenticated - redirect is handled by template_redirect hook.
+			// Return empty if we somehow reach here (e.g., AJAX context).
 			return '';
 		}
 

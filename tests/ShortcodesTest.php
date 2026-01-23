@@ -71,7 +71,7 @@ class ShortcodesTest extends PassWP_Posts_TestCase {
 		$this->assertStringContainsString( 'name="passwp_remember" value="1"', $html );
 	}
 
-	public function test_shortcode_returns_meta_refresh_when_cookie_is_valid_and_auto_redirect_enabled(): void {
+	public function test_shortcode_returns_empty_when_cookie_is_valid_and_auto_redirect_enabled(): void {
 		Functions\when( 'get_option' )->justReturn(
 			array(
 				'enabled'       => true,
@@ -98,8 +98,8 @@ class ShortcodesTest extends PassWP_Posts_TestCase {
 
 		$shortcodes = new Shortcodes();
 		$html       = $shortcodes->render_passwp_login();
-		$this->assertStringContainsString( '<meta http-equiv="refresh"', $html );
-		$this->assertStringContainsString( 'url=https://example.com/members-only', $html );
+		// Redirect is now handled via template_redirect hook, so shortcode returns empty.
+		$this->assertEmpty( $html );
 	}
 
 	public function test_shortcode_returns_empty_when_cookie_is_valid_and_auto_redirect_disabled(): void {

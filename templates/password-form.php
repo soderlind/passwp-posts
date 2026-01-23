@@ -13,6 +13,9 @@
 // Prevent direct access.
 defined( 'ABSPATH' ) || exit;
 
+// Send no-cache headers to prevent browser from caching this page.
+nocache_headers();
+
 // Get site info.
 $site_name = get_bloginfo( 'name' );
 $site_url  = home_url();

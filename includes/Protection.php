@@ -189,11 +189,13 @@ final class Protection {
 		$settings = get_option( 'passwp_posts_settings', [] );
 
 		if ( empty( $settings[ 'password_hash' ] ) ) {
+			nocache_headers();
 			wp_safe_redirect( add_query_arg( 'passwp_error', 'no_password', $redirect_url ) );
 			exit;
 		}
 
 		if ( ! wp_check_password( $password, $settings[ 'password_hash' ] ) ) {
+			nocache_headers();
 			wp_safe_redirect( add_query_arg( 'passwp_error', 'invalid', $redirect_url ) );
 			exit;
 		}
@@ -207,6 +209,9 @@ final class Protection {
 			// Session cookie (expires when browser closes).
 			$this->cookie_handler->set_cookie( $settings[ 'password_hash' ], 0 );
 		}
+
+		// Send no-cache headers to prevent browser from caching the redirect.
+		nocache_headers();
 
 		// Redirect back to original page.
 		wp_safe_redirect( $redirect_url );
